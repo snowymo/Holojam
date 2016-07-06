@@ -2,12 +2,12 @@
 //Created by Aaron C Gaudette on 22.06.16
 
 using UnityEngine;
+using Holojam.Server;
 
 namespace Holojam{
 	[ExecuteInEditMode]
 	public class ActorManager : MonoBehaviour{
 		public TrackedHeadset viewer; //VR camera for target device
-		public GameObject shell; //Visual representation of other actors
 		public LiveObjectTag buildTag = LiveObjectTag.HEADSET1; //Target device
 		public bool runtimeIndexing = false;
 		
@@ -21,16 +21,21 @@ namespace Holojam{
 			if(ba==null && (!Application.isPlaying || runtimeIndexing))Index(true);
 			return ba;
 		}}
-		[HideInInspector] public TrackedHeadset viewerReference;
 		
-		//Color actors
 		void Start(){
-			foreach(Actor a in actors)a.ApplyMotif();
+			Index(true); //Force index because the TrackedObject class is not currently serializable
+			//foreach(Actor a in actors)a.ApplyMotif();
+			//Instantiate viewer
+			if(Application.isPlaying){
+				GameObject v = Instantiate(viewer.gameObject,Vector3.zero,Quaternion.identity) as GameObject;
+				v.name="Viewer";
+				v.GetComponent<TrackedHeadset>().liveObjectTag=buildTag;
+			}
 		}
 		
 		public void Update(){
+			//Force index in case prefabs are updated (will increase logging!)
 			if(!Application.isPlaying || runtimeIndexing)
-				//Force index in case prefabs are updated (will increase logging!)
 				Index(Application.isEditor && !Application.isPlaying);
 		}
 		
@@ -55,8 +60,8 @@ namespace Holojam{
 				if(Application.isPlaying)Debug.LogWarning("ActorManager: No actors in hierarchy!");
 				return Result.ERROR;
 			}
-			if(viewer==null || shell==null){
-				Debug.LogWarning("ActorManager: Viewer/Shell prefab reference is null");
+			if(viewer==null){
+				Debug.LogWarning("ActorManager: Viewer prefab reference is null");
 				return Result.ERROR;
 			}
 			
@@ -66,45 +71,27 @@ namespace Holojam{
 				a.transform.position=Vector3.zero;
 				a.transform.rotation=Quaternion.identity;
 				
-				//Flush shell
-				foreach(Transform child in a.transform)
-					if(child.name=="Shell")
-						if(Application.isEditor && !Application.isPlaying)
-							DestroyImmediate(child.gameObject);
-						else Destroy(child.gameObject);
-				
 				//Is this the build actor?
 				bool isBuild = a.index==(int)buildTag;
 				if(isBuild && setBuild){
 					Debug.LogWarning("ActorManager: Duplicate build actor!");
 					isBuild=false;
 				} else if(isBuild)ba=a; //Assign reference
-				a.gameObject.name="Actor "+((int)a.index+1)+(isBuild?" (Build)":"");
+				a.gameObject.name=a.name+(isBuild?" (Build)":"");
 				
-				//Create shell
-				if(!isBuild){
-					GameObject s = Instantiate(shell,a.transform.position,a.transform.rotation) as GameObject;
-					s.transform.parent=a.transform;
-					s.name="Shell";
-				}
+				//Activate mask
+				if(a.mask!=null)a.mask.SetActive(!isBuild);
+				else Debug.Log("ActorManager: No mask found for Actor "+(a.index+1)); //No warning
+				
 				setBuild=setBuild || isBuild;
 				
-				//Color actors (shells)
+				//Color actors (geometry)
 				a.ApplyMotif();
 			}
 			if(!setBuild){
 				Debug.LogWarning("ActorManager: No actor found with matching build tag!");
 				return Result.NOVIEW;
 			}
-			//Flush viewer
-			if(viewerReference!=null && Application.isEditor && !Application.isPlaying)
-				DestroyImmediate(viewerReference.gameObject);
-			else if(viewerReference!=null)Destroy(viewerReference.gameObject);
-			//Instantiate viewer
-			GameObject v = Instantiate(viewer.gameObject,Vector3.zero,Quaternion.identity) as GameObject;
-			v.name="Viewer";
-			v.GetComponent<TrackedHeadset>().liveObjectTag=buildTag;
-			viewerReference=v.GetComponent<TrackedHeadset>();
 			
 			return Result.INDEXED;
 		}

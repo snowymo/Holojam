@@ -1,7 +1,9 @@
 ﻿using System;
 using UnityEngine;
+using Holojam.Server;
+
 namespace Holojam {
-     public class TrackedObject : MonoBehaviour {
+	public class TrackedObject : MonoBehaviour {
 
           public LiveObjectTag liveObjectTag;
 
