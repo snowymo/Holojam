@@ -68,10 +68,10 @@ public class CarCtrl : MonoBehaviour {
 		return false;
 
 	}
-	// Update is called once per frame
+
 	Vector3 vLast = new Vector3();
-
-
+	Vector3 vCur;
+	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Q))
 			testKey = true;
@@ -79,14 +79,15 @@ public class CarCtrl : MonoBehaviour {
 			file.Close ();
 			Application.Quit();
 		}
-		Vector3 vCur = transform.rotation * Vector3.forward;
+
+		vCur = transform.rotation * Vector3.forward;
 		file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
 		vLast = vCur;
+
 		if(isReadyToMove){
 			// move according to invisible tracked objects
 			if(!lastRefPosition.Equals(new Vector3(0,0,0))){
-				// test rotation
-				drawRays();
+				drawRays();			// test rotation
 				// move as reference move
 				if (testKey) {
 					// do it every 10 frames
@@ -97,7 +98,7 @@ public class CarCtrl : MonoBehaviour {
 					count = 0;
 					testKey = true;
 
-					 vCur = transform.rotation * Vector3.forward;
+					vCur = transform.rotation * Vector3.forward;
 					print ("update:\tvCur:\t" + vCur.ToString ("F4") );
 					print ("update:\tangle:\t" + Vector3.Angle (vLast, vCur));
 					// write to the file

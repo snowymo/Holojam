@@ -27,7 +27,7 @@ public class Match : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!trackedCar.GetComponent<TrackedCar> ().isReadyToMove) {
-			if (checkMatchStart ()) {
+			if (checkMatchV2 ()) {
 				trackedCar.GetComponent<TrackedCar> ().isReadyToMove = true;
 				if(trackedCar.GetComponent<CarCtrl> () != null)
 					trackedCar.GetComponent<CarCtrl> ().isReadyToMove = true;
@@ -63,6 +63,20 @@ public class Match : MonoBehaviour {
 		// 
 		if ((temp1-temp2).magnitude < disError && ((transform.position.y-trackedCar.transform.position.y) < yError)
 			&& (Mathf.Abs(Mathf.Abs(matching)-1.0f) < rotateError))
+			return true;
+		else
+			return false;
+	}
+
+	// do not care about the rotation
+	bool checkMatchV2(){
+		Vector3 thisXOZ = new Vector3(this.transform.position.x,0,this.transform.position.z);
+		Vector3 carXOZ = new Vector3(trackedCar.transform.position.x,0,trackedCar.transform.position.z);
+		print((thisXOZ-carXOZ).magnitude);
+
+		print("checkMatchStart:\t" + (transform.position.y-trackedCar.transform.position.y));
+		// 
+		if ((thisXOZ-carXOZ).magnitude < disError && ((transform.position.y-trackedCar.transform.position.y) < yError))
 			return true;
 		else
 			return false;
