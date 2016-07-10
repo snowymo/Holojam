@@ -3,7 +3,8 @@
 //Optional tool for easy setup and rapid prototyping
 
 using UnityEngine;
-using Holojam.Server;
+using Holojam.Network;
+using System;
 
 namespace Holojam{
 	[ExecuteInEditMode]
@@ -12,11 +13,11 @@ namespace Holojam{
 		public Actor actor;
 		public int amount = 4;
 		
-		string[] names = {
-			"Red One",
-			"Green Two",
-			"Blue Three",
-			"Yellow Four"
+		string[] handles = {
+			"Red",
+			"Green",
+			"Blue",
+			"Yellow"
 		};
 		Color[] colors = {
 			Color.red,
@@ -25,9 +26,6 @@ namespace Holojam{
 			Color.yellow
 		};
 		
-		void Update(){
-			amount=Mathf.Max(amount,1);
-		}
 		public void Add(){
 			if(actor==null){
 				Debug.LogWarning("ActorInstantiator: Actor reference is null!");
@@ -37,8 +35,9 @@ namespace Holojam{
 				Actor a = (Instantiate(actor.gameObject,Vector3.zero,Quaternion.identity) as GameObject).GetComponent<Actor>();
 				a.transform.parent=transform;
 				//Set tag and color automatically
-				a.liveObjectTag=(LiveObjectTag)GetComponent<ActorManager>().actors.Length+i;
-				a.name=names[i%names.Length];
+				int index = (i+GetComponent<ActorManager>().actors.Length)%Motive.tagCount;
+				a.trackingTag=(Motive.Tag)index;
+				a.handle=handles[i%handles.Length];
 				a.motif=colors[i%colors.Length];
 			}
 			GetComponent<ActorManager>().Update();
@@ -49,9 +48,6 @@ namespace Holojam{
 				if(Application.isEditor && !Application.isPlaying)
 					DestroyImmediate(a.gameObject);
 				else Destroy(a.gameObject);
-			GameObject v = GameObject.Find("Viewer");
-			if(v!=null && Application.isEditor && !Application.isPlaying)
-				DestroyImmediate(v); else if(v!=null)Destroy(v);
 		}
 	}
 }

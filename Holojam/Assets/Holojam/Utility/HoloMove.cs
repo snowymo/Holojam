@@ -14,9 +14,9 @@ namespace Holojam {
 
           // Update is called once per frame
           void Update() {
-               if (!view.isMine) {
-                    this.transform.position = view.rawPosition;
-                    this.transform.rotation = view.rawRotation;
+               if (!view.IsMine) {
+                    this.transform.position = view.RawPosition;
+                    this.transform.rotation = view.RawRotation;
                }
           }
      }

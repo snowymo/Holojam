@@ -32,7 +32,7 @@ namespace Holojam{
 					sphere=(Instantiate(pairingSphere,Vector3.zero,Quaternion.identity) as GameObject).transform;
 				sphere.GetComponent<Renderer>().enabled=false; //Assume the sphere will not be activated
 			}
-			else{
+			else if(pairingSphere==null){
 				Debug.LogWarning("PairableManager: Pairing sphere not set!");
 				return;
 			}
@@ -94,9 +94,9 @@ namespace Holojam{
 			g.ClearTargets();
 			g.lastPaired=Time.time;
 			Debug.Log(a!=null?
-				"PairableManager: Pairable "+g.GetComponent<TrackedObject>().liveObjectTag+
-					" paired with "+a.name+" ("+(a.index+1)+")":
-				"PairableManager: Pairable "+g.GetComponent<TrackedObject>().liveObjectTag+" unpaired"
+				"PairableManager: Pairable "+g.trackingTag+
+					" paired with \""+a.gameObject.name+"\"":
+				"PairableManager: Pairable "+g.trackingTag+" unpaired"
 			);
 		}
 		

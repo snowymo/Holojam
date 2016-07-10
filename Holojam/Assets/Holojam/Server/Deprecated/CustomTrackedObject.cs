@@ -1,11 +1,11 @@
-﻿using System;
-using UnityEngine;
-using Holojam.Server;
+﻿using UnityEngine;
+using System.Collections;
+using Holojam.Network;
 
 namespace Holojam {
-	public class TrackedObject : MonoBehaviour {
+     public class CustomTrackedObject : MonoBehaviour {
 
-          public LiveObjectTag liveObjectTag;
+          public string customTag;
 
 
           protected MasterStream masterStream;
@@ -26,8 +26,8 @@ namespace Holojam {
           protected virtual void Update() {
                this.UpdateTracking();
                if (this.isTracked) {
-				this.transform.position = trackedPosition;
-				this.transform.rotation = trackedRotation;
+                    this.transform.localPosition = trackedPosition;
+                    this.transform.localRotation = trackedRotation;
                }
           }
 
@@ -35,12 +35,10 @@ namespace Holojam {
                Vector3 position;
                Quaternion rotation;
 
-               if (masterStream.GetPosition(liveObjectTag, out position) && masterStream.GetRotation(liveObjectTag, out rotation)) {
+               if (masterStream.GetPosition(customTag, out position) && masterStream.GetRotation(customTag, out rotation)) {
                     this.isTracked = true;
                     this.trackedPosition = position;
                     this.trackedRotation = rotation;
-
-					//Debug.Log (liveObjectTag + " " + trackedPosition + " " + trackedRotation);
 
                } else {
                     this.isTracked = false;
@@ -48,3 +46,4 @@ namespace Holojam {
           }
      }
 }
+

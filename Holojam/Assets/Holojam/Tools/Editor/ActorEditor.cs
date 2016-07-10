@@ -3,26 +3,61 @@
 
 using UnityEngine;
 using UnityEditor;
+using Holojam.Network;
 
 namespace Holojam{
-	[CustomEditor(typeof(Actor))]
+	[CustomEditor(typeof(Actor)), CanEditMultipleObjects]
 	public class ActorEditor : Editor{
+		//Override these functions if you desire a custom inspector
+		protected virtual void EnableDerived(){}
+		protected virtual void DrawDerived(){}
+		
+		SerializedProperty handle, motif, trackingTag, mask;
+		void OnEnable(){
+			handle=serializedObject.FindProperty("handle");
+			motif=serializedObject.FindProperty("motif");
+			trackingTag=serializedObject.FindProperty("trackingTag");
+			mask=serializedObject.FindProperty("mask");
+			
+			EnableDerived();
+		}
 		public override void OnInspectorGUI(){
-			Actor a = (Actor)target;
+			serializedObject.Update();
 			
 			EditorGUILayout.BeginHorizontal();
-				a.name=EditorGUILayout.TextField(a.name);
-				a.motif=EditorGUILayout.ColorField(a.motif);
+				//Unity has no proper window width accessor, so this will offset marginally when scrolling
+				handle.stringValue=
+					EditorGUILayout.TextField(handle.stringValue,GUILayout.Width(EditorGUIUtility.labelWidth-4));
+				trackingTag.enumValueIndex=(int)(Motive.Tag)
+					EditorGUILayout.EnumPopup((Motive.Tag)trackingTag.enumValueIndex);
+				motif.colorValue=EditorGUILayout.ColorField(motif.colorValue,GUILayout.Width(48));
 			EditorGUILayout.EndHorizontal();
 			
-			a.liveObjectTag=(Holojam.Server.LiveObjectTag)EditorGUILayout.EnumPopup("Headset",a.liveObjectTag);
+			mask.objectReferenceValue=
+				EditorGUILayout.ObjectField("Mask",mask.objectReferenceValue,typeof(GameObject),true);
 			
-			a.mask=EditorGUILayout.ObjectField("Mask",a.mask,typeof(GameObject),true) as GameObject;
+			DrawDerived();
 			
-			EditorStyles.label.wordWrap = true;
-			EditorGUILayout.LabelField(
-				"Actor "+(a.index+1)+" ("+(a.managed?"Managed/":"Unmanaged/")+(a.tracking?"Tracked)":"Untracked)")
-			);
+			if(!serializedObject.isEditingMultipleObjects){
+				Actor a = serializedObject.targetObject as Actor;
+				
+				GUIStyle style = new GUIStyle(EditorStyles.boldLabel);
+				if(Application.isPlaying)
+					style.normal.textColor=a.managed?new Color(0.5f,1,0.5f):new Color(1,0.5f,0.5f);
+				
+				EditorGUILayout.LabelField("Status",
+					(a.managed?"Managed":"Unmanaged"),
+					style
+				);
+				
+				if(a.managed && !a.manager.runtimeIndexing && Application.isPlaying)
+					EditorGUILayout.LabelField(
+						"Runtime indexing is OFF. Actor will not reflect changes under manager during playmode.",
+						new GUIStyle(EditorStyles.wordWrappedMiniLabel)
+					);
+			}
+			
+			serializedObject.ApplyModifiedProperties();
 		}
 	}
 }

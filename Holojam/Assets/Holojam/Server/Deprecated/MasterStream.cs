@@ -1,3 +1,5 @@
+#pragma warning disable 0618
+
 using UnityEngine;
 using System.Collections;
 using System;
@@ -12,12 +14,8 @@ using ProtoBuf;
 using update_protocol_v3;
 using System.Threading;
 
-namespace Holojam.Server {
-     public enum LiveObjectTag {
-          HEADSET1, HEADSET2, HEADSET3, HEADSET4, WAND1, WAND2, WAND3, WAND4, BOX1, BOX2, SPHERE1,
-          LEFTHAND1, RIGHTHAND1, LEFTFOOT1, RIGHTFOOT1, LEFTHAND2, RIGHTHAND2, LEFTFOOT2, RIGHTFOOT2, LEFTHAND3, RIGHTHAND3, LEFTFOOT3, RIGHTFOOT3,
-          LAPTOP, TABLE
-     }
+namespace Holojam.Network {
+
 
      public class MasterStream : Singleton<MasterStream> {
 
@@ -75,7 +73,7 @@ namespace Holojam.Server {
           // API functions
           //
 
-          public bool IsLiveObject(LiveObjectTag tag) {
+          public bool IsLiveObject(Motive.Tag tag) {
                return liveObjects.ContainsKey(Motive.GetName(tag));
           }
 
@@ -83,7 +81,7 @@ namespace Holojam.Server {
                return liveObjects.ContainsKey(label);
           }
 
-          public bool GetPosition(LiveObjectTag tag, out Vector3 position) {
+          public bool GetPosition(Motive.Tag tag, out Vector3 position) {
                LiveObjectStorage storage;
                lock (lockObject) {
                     if (!liveObjects.TryGetValue(Motive.GetName(tag), out storage)) {
@@ -117,7 +115,7 @@ namespace Holojam.Server {
                }
           }
 
-          public bool GetRotation(LiveObjectTag tag, out Quaternion rotation) {
+          public bool GetRotation(Motive.Tag tag, out Quaternion rotation) {
                LiveObjectStorage storage;
                lock (lockObject) {
                     if (!liveObjects.TryGetValue(Motive.GetName(tag), out storage)) {
@@ -152,7 +150,7 @@ namespace Holojam.Server {
                }
           }
 
-          public bool GetButtonBits(LiveObjectTag tag, out int bits) {
+          public bool GetButtonBits(Motive.Tag tag, out int bits) {
                LiveObjectStorage storage;
                lock (lockObject) {
                     if (!liveObjects.TryGetValue(Motive.GetName(tag), out storage)) {

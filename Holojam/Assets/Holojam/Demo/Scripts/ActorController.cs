@@ -7,6 +7,22 @@ using UnityEngine;
 public class ActorController : Holojam.Actor{
 	public Transform head;
 	
+	void Start(){ApplyMotif();}
+	
+	protected override void UpdateTracking(){
+		if(!Application.isPlaying)return;
+		
+		if(view.IsTracked){
+			transform.position=view.RawPosition;
+			
+			//This example uses a separate transform for rotation instead of itself
+			if(head!=null){
+				head.localPosition=Vector3.zero;
+				head.rotation=view.RawRotation;
+			}
+			else Debug.LogWarning("ActorController: No head found for "+gameObject.name);
+		}
+	}
 	public override Vector3 eyes{
 		get{return transform.position;}
 	}
@@ -14,19 +30,8 @@ public class ActorController : Holojam.Actor{
 		get{return head!=null?head.rotation:Quaternion.identity;}
 	}
 	
-	public override void ApplyTracking(){
-		if(tracking){
-			transform.position=trackedPosition;
-			if(head!=null){
-				head.localPosition=Vector3.zero;
-				head.rotation=trackedRotation;
-			}
-			else Debug.LogWarning("ActorController: No head found for "+name+" ("+(index+1)+")");
-		}
-	}
-	
 	//Assign color of geometry with Motif tag
-	public override void ApplyMotif(){
+	void ApplyMotif(){
 		if(Application.isPlaying)
 			foreach(Renderer r in GetComponentsInChildren<Renderer>())
 				if(r.gameObject.tag=="Motif")r.material.color=motif;

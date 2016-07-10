@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0618
+
+using UnityEngine;
 using System.Collections;
 using System.Threading;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-namespace Holojam.Server {
+namespace Holojam.Network {
      public class MasterServer : Singleton<MasterServer> {
 
           public bool isMaster;
@@ -22,7 +24,7 @@ namespace Holojam.Server {
           private Dictionary<string, LiveObjectStorage> liveObjects = new Dictionary<string, LiveObjectStorage>();
           private update_protocol_v3.Update update;
           //Primitives
-          private int packetCount = 0;
+          //private int packetCount = 0;
           private bool sendingPackets = true;
 
           private int lastLoadedFrame;
@@ -99,7 +101,8 @@ namespace Holojam.Server {
                }
           }
 
-          private void OnDestroy() {
+          protected override void OnDestroy() {
+               base.OnDestroy();
                sendingPackets = false;
           }
      }

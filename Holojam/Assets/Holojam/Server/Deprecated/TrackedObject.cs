@@ -1,17 +1,20 @@
-﻿using UnityEngine;
-using System.Collections;
-using Holojam.Server;
+﻿using System;
+using UnityEngine;
+using Holojam.Network;
 
 namespace Holojam {
-     public class CustomTrackedObject : MonoBehaviour {
+	[Obsolete("MasterStream is deprecated. Please use HolojamNetwork.")]
+	public class TrackedObject : MonoBehaviour {
 
-          public string customTag;
+          public Motive.Tag liveObjectTag;
 
 
           protected MasterStream masterStream;
           protected bool isTracked;
           protected Vector3 trackedPosition;
           protected Quaternion trackedRotation;
+
+
 
           public bool IsTracked {
                get {
@@ -26,8 +29,8 @@ namespace Holojam {
           protected virtual void Update() {
                this.UpdateTracking();
                if (this.isTracked) {
-                    this.transform.localPosition = trackedPosition;
-                    this.transform.localRotation = trackedRotation;
+				this.transform.position = trackedPosition;
+				this.transform.rotation = trackedRotation;
                }
           }
 
@@ -35,15 +38,13 @@ namespace Holojam {
                Vector3 position;
                Quaternion rotation;
 
-               if (masterStream.GetPosition(customTag, out position) && masterStream.GetRotation(customTag, out rotation)) {
+               if (masterStream.GetPosition(liveObjectTag, out position) && masterStream.GetRotation(liveObjectTag, out rotation)) {
                     this.isTracked = true;
                     this.trackedPosition = position;
                     this.trackedRotation = rotation;
-
                } else {
                     this.isTracked = false;
                }
           }
      }
 }
-
