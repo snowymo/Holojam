@@ -1078,10 +1078,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241747101}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1243905371 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100028, guid: 1c323b5ab7a8e4efdb6a634a17d5795e, type: 3}
-  m_PrefabInternal: {fileID: 1661907523}
 --- !u!1 &1325031093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTimeToShow: 0
   isRandom: 0
-  obj: {fileID: 1243905371}
+  obj: {fileID: 1970979784}
   speed: 0.2
   R: 0.1
   finalPos: {x: 0, y: 0, z: 0}
