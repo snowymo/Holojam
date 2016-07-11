@@ -1078,6 +1078,10 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241747101}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1243905371 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100028, guid: 1c323b5ab7a8e4efdb6a634a17d5795e, type: 3}
+  m_PrefabInternal: {fileID: 1661907523}
 --- !u!1 &1325031093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,6 +1401,51 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75cea994391f94450b45575d83f8d6d9, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1581091909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1581091911}
+  - 114: {fileID: 1581091910}
+  m_Layer: 0
+  m_Name: RandomAnimation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1581091910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1581091909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56241f7d3154a49e586a56e9555ceaf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTimeToShow: 0
+  isRandom: 0
+  obj: {fileID: 1243905371}
+  speed: 0.2
+  R: 0.1
+  finalPos: {x: 0, y: 0, z: 0}
+--- !u!4 &1581091911
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1581091909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.401124, y: 9.117666, z: 11.485554}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
 --- !u!1001 &1661907523
 Prefab:
   m_ObjectHideFlags: 0
@@ -1697,6 +1746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReadyToMove: 0
+  refObj: {fileID: 970614663}
 --- !u!1 &2074503889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1765,7 +1815,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cf08f960a62827488e0675775eb2041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  liveObjectTag: 1
 --- !u!4 &2130576520
 Transform:
   m_ObjectHideFlags: 0
