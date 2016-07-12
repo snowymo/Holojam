@@ -40,11 +40,13 @@ public class TrackedCar : MonoBehaviour {
 
 		float angle = Quaternion.Dot(transform.rotation, refObj.transform.rotation);
 		float dis = Vector3.Distance (new Vector3 (transform.position.x, 0, transform.position.z), new Vector3 (refObj.transform.position.x, 0, refObj.transform.position.z));
-		if (dis < disError && (Mathf.Abs (Mathf.Abs (angle) - 1.0f) < rotateError)) {
+		if (dis < disError
+		//	&& (Mathf.Abs (Mathf.Abs (angle) - 1.0f) < rotateError)
+		) {
 			_ra.disappear(transform.position);	
 		} else {
-			_ra.appear ();
-		//	gameObject.SetActive (false);
+			_ra.appear (gameObject.GetComponent<CarCtrl>().isReadyToMove);
+			gameObject.SetActive (false);
 		}
 
 		if (_ra.isTimeToShow == 0)

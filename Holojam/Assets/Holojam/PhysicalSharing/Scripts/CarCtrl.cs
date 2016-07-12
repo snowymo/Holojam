@@ -42,7 +42,7 @@ public class CarCtrl : MonoBehaviour {
 		lastRefRotation = lastRotation = Quaternion.identity;
 		serialCtrl = StepperCommunication.getInstance();
 		serialCtrl.open ();
-		testKey = false;
+		testKey = true;
 		isLastRound = false;
 		step = 0;
 		count = 0;
@@ -81,7 +81,7 @@ public class CarCtrl : MonoBehaviour {
 		}
 
 		vCur = transform.rotation * Vector3.forward;
-		file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
+		//file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
 		vLast = vCur;
 
 		if(isReadyToMove){
