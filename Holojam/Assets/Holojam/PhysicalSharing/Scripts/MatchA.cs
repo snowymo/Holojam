@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Match : MonoBehaviour {
+public class MatchA : MonoBehaviour {
 
 	public GameObject trackedCar;
 
@@ -12,12 +12,6 @@ public class Match : MonoBehaviour {
 	public GameObject car;
 
 	public GameObject frame;
-
-	public float disError;
-
-	public float rotateError;
-
-	public float yError;
 
 	TrackedCar tc_tc;
 	CarCtrl tc_cc;
@@ -40,13 +34,13 @@ public class Match : MonoBehaviour {
 				//this.enabled = false;
 				//this.gameObject.SetActive (false);
 				//GetComponent(MeshRenderer) = false;
-				if(car != null)
-					car.gameObject.SetActive(false);
+
+				car.gameObject.SetActive(false);
 				frame.gameObject.SetActive(false);
 
 			}
 		}
-		// place the start ball where reference plus offset is
+		// place the start ball where reference plus offset is all the time
 		this.transform.rotation = referenceCar.transform.rotation;
 		this.transform.position = referenceCar.transform.position + offset;
 	}

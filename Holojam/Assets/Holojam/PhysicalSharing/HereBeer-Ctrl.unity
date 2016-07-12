@@ -1816,9 +1816,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2130576518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cf08f960a62827488e0675775eb2041, type: 3}
+  m_Script: {fileID: 11500000, guid: bcae31b7928ef4321841b9ac89c385b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  liveObjectTag: 1
+  trackingType: 2
 --- !u!4 &2130576520
 Transform:
   m_ObjectHideFlags: 0
