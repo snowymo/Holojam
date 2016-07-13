@@ -13,13 +13,13 @@ public class MatchA : MonoBehaviour {
 
 	public GameObject frame;
 
-	TrackedCar tc_tc;
-	CarCtrl tc_cc;
+	TrackedCarA tc_tc;
+	//CarCtrl tc_cc;
 
 	// Use this for initialization
 	void Start () {
-		tc_tc = trackedCar.GetComponent<TrackedCar> ();
-		tc_cc = trackedCar.GetComponent<CarCtrl> ();
+		tc_tc = trackedCar.GetComponent<TrackedCarA> ();
+		//tc_cc = trackedCar.GetComponent<CarCtrl> ();
 	}
 
 	// Update is called once per frame
@@ -27,8 +27,8 @@ public class MatchA : MonoBehaviour {
 		if (!tc_tc.isReadyToMove) {
 			if (Utility.getInst().checkMatchV2 (this.transform.position, trackedCar.transform.position)) {
 				tc_tc.isReadyToMove = true;
-				if(tc_cc!= null)
-					tc_cc.isReadyToMove = true;
+				//if(tc_cc!= null)
+				//	tc_cc.isReadyToMove = true;
 				print ("match finished");
 				// for test now so that I won't hide the start ball
 				//this.enabled = false;

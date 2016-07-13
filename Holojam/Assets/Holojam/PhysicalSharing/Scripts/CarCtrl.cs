@@ -35,9 +35,11 @@ public class CarCtrl : MonoBehaviour {
 
 	System.IO.StreamWriter file;
 
+	TrackedCarC tc;
+
 	// Use this for initialization
 	void Start () {
-
+		tc = gameObject.GetComponent<TrackedCarC> ();
 		lastRefPosition = lastPosition = new Vector3 (0, 0, 0);
 		lastRefRotation = lastRotation = Quaternion.identity;
 		serialCtrl = StepperCommunication.getInstance();
@@ -46,12 +48,17 @@ public class CarCtrl : MonoBehaviour {
 		isLastRound = false;
 		step = 0;
 		count = 0;
+
+
+
 		//serialCtrl.median ();
-		System.IO.FileStream fs;
-		if(!System.IO.File.Exists(@"TestCarAngle.txt"))
-			fs = System.IO.File.Create(@"TestCarAngle.txt");
-		file = 
-			System.IO.File.AppendText(@"TestCarAngle.txt");
+//		System.IO.FileStream fs;
+//		if(!System.IO.File.Exists(@"TestCarAngle.txt"))
+//			fs = System.IO.File.Create(@"TestCarAngle.txt");
+//		file = 
+//			System.IO.File.AppendText(@"TestCarAngle.txt");
+
+
 	}
 
 	void testRefPosRot(){
@@ -83,8 +90,7 @@ public class CarCtrl : MonoBehaviour {
 		vCur = transform.rotation * Vector3.forward;
 		//file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
 		vLast = vCur;
-
-		if(isReadyToMove){
+		if(tc.isReadyToMove){
 			// move according to invisible tracked objects
 			if(!lastRefPosition.Equals(new Vector3(0,0,0))){
 				drawRays();			// test rotation
@@ -103,7 +109,7 @@ public class CarCtrl : MonoBehaviour {
 					print ("update:\tangle:\t" + Vector3.Angle (vLast, vCur));
 					// write to the file
 					//file.WriteLine("cur angle:\t" + Vector3.Angle (vLast, vCur));
-					file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
+					//file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
 					vLast = vCur;
 
 					switch (step) {
@@ -198,9 +204,9 @@ public class CarCtrl : MonoBehaviour {
 			if (angle % 360.0f > 6.0f) {
 				print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
 				if (vUp.y > 0.005)
-					serialCtrl.right ((int)(angle * 0.33));
+					serialCtrl.right ((int)(angle * 0.15));
 				else if (vUp.y < -0.005)
-					serialCtrl.left ((int)(angle * 0.33));
+					serialCtrl.left ((int)(angle * 0.15));
 				else
 					return true;
 				lastAngle = angle;
@@ -224,11 +230,11 @@ public class CarCtrl : MonoBehaviour {
 			Vector3 vCur = transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (dis, vCur);
 			print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
-			file.WriteLine ("dis:\t" + dis.magnitude);
+			//file.WriteLine ("dis:\t" + dis.magnitude);
 			if ((vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0))
-				serialCtrl.forward ((int)(dis.magnitude * 300));
+				serialCtrl.forward ((int)(dis.magnitude * 150));
 			else
-				serialCtrl.backward ((int)(dis.magnitude * 300));
+				serialCtrl.backward ((int)(dis.magnitude * 150));
 			return false;
 		} else
 			return true;
@@ -263,9 +269,9 @@ public class CarCtrl : MonoBehaviour {
 		//file.WriteLine ("angle:\t" + angle);
 		if (angle > angleError) {
 			if (vUp.y > 0)
-				serialCtrl.right ((int)(angle * 0.33));
+				serialCtrl.right ((int)(angle * 0.15));
 			else
-				serialCtrl.left ((int)(angle * 0.33));
+				serialCtrl.left ((int)(angle * 0.15));
 			print ("rot in turn back:\t" + transform.rotation);
 			return false;
 		} else

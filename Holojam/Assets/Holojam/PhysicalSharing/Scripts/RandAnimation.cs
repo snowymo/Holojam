@@ -38,6 +38,7 @@ public class RandAnimation : MonoBehaviour
 		// create an game object as OBJ is.
 		if (_obj == null)
 			_obj = (GameObject)GameObject.Instantiate (obj, obj.transform.position, obj.transform.rotation);
+		_obj.SetActive (true);
 	}
 	
 	// Update is called once per frame
@@ -118,7 +119,7 @@ public class RandAnimation : MonoBehaviour
 		Quaternion rotation = Quaternion.Euler (angle_x, angle_y, 0);
 		Matrix4x4 m = Matrix4x4.TRS (translation, rotation, new Vector3 (1, 1, 1));
 		destination = m.MultiplyPoint3x4 (_obj.transform.position);
-		print ("dest:\t" + destination);
+		//print ("dest:\t" + destination);
 	}
 
 	void moving ()

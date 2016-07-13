@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TrackedCarB : MonoBehaviour {
+public class TrackedCarC : MonoBehaviour {
 
 	public bool isReadyToMove = false;
 
@@ -29,7 +29,7 @@ public class TrackedCarB : MonoBehaviour {
 			_ra.disappear(transform.position);	
 		} else {
 			_ra.appear (isReadyToMove);
-			carGeo.SetActive (false);
+			//carGeo.SetActive (false);
 		}
 
 		if (_ra.isTimeToShow == 0)

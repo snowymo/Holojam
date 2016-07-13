@@ -680,6 +680,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 829540164}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &907727793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 907727795}
+  - 114: {fileID: 907727794}
+  m_Layer: 0
+  m_Name: Utility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &907727794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 907727793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ec20e5b58ac47409548bcd5d33ed1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disError: 0.02
+  rotateError: 0.02
+  yError: 0.008
+--- !u!4 &907727795
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 907727793}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
 --- !u!1 &970614663
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,17 +746,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 970614663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40dafaae17e5e4ee48ec5ffd9cbba1f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e272d3a79c574b56bb510d9dd85a2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackedCar: {fileID: 1970979784}
+  offset: {x: 0.09, y: 0.04, z: 0.18}
   referenceCar: {fileID: 1955514422}
-  offset: {x: 0.23, y: -0.07, z: -0.15}
-  car: {fileID: 1230673815}
-  frame: {fileID: 487203909}
-  disError: 0.018
-  rotateError: 0.01
-  yError: 0.01
+  trackedCar: {fileID: 1970979784}
 --- !u!4 &970614665
 Transform:
   m_ObjectHideFlags: 0
@@ -972,10 +1009,6 @@ Prefab:
 --- !u!4 &1230673814 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400028, guid: 1c323b5ab7a8e4efdb6a634a17d5795e, type: 3}
-  m_PrefabInternal: {fileID: 1230673813}
---- !u!1 &1230673815 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100028, guid: 1c323b5ab7a8e4efdb6a634a17d5795e, type: 3}
   m_PrefabInternal: {fileID: 1230673813}
 --- !u!1 &1241747101
 GameObject:
@@ -1699,8 +1732,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1970979785}
-  - 114: {fileID: 1970979786}
   - 114: {fileID: 1970979787}
+  - 114: {fileID: 1970979786}
   m_Layer: 0
   m_Name: RealCar
   m_TagString: Untagged
@@ -1729,11 +1762,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1970979784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 459e5555253724f8d8f086002601449d, type: 3}
+  m_Script: {fileID: 11500000, guid: ab70e101ba2c34dcf999a1f63bf5de95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isReadyToMove: 0
   refObj: {fileID: 970614663}
+  carGeo: {fileID: 1142508977}
 --- !u!114 &1970979787
 MonoBehaviour:
   m_ObjectHideFlags: 0

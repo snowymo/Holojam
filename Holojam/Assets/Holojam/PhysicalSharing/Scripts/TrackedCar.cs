@@ -7,16 +7,13 @@ public class TrackedCar : MonoBehaviour {
 
 	public GameObject refObj;
 
-	float disError;
-
-	float rotateError;
+	public float disError;
 
 	RandAnimation _ra;
 
 	// Use this for initialization
 	void Start () {
-		disError = GameObject.Find ("Start").GetComponent<Match> ().disError;
-		rotateError = GameObject.Find ("Start").GetComponent<Match> ().rotateError;
+		
 		_ra = GameObject.Find ("RandomAnimation").GetComponent<RandAnimation> ();
 	}
 	
