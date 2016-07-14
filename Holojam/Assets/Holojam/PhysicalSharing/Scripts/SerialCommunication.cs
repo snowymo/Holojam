@@ -11,27 +11,26 @@ public class SerialCommunication {
 	}
 
 	public void open(){
-		stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ",57600);
-		stream.Open ();
+		if(stream == null)
+			stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ",57600);
+		if(!stream.IsOpen)
+			stream.Open ();
 		median ();
 	}
 
 	public void forward(){
-		if(!stream.IsOpen)
-			open ();
+		open ();
 		stream.Write ("f");
 		//stream.Write ("f");
 	}
 
 	public void backward(){
-		if(!stream.IsOpen)
-			open ();
+		open ();
 		stream.Write ("b");
 	}
 
 	public void left(){
-		if(!stream.IsOpen)
-			open ();
+		open ();
 		stream.Write ("z");
 		//stream.Write ("z");
 	}
@@ -42,8 +41,6 @@ public class SerialCommunication {
 	}
 
 	public void median(){
-		if(!stream.IsOpen)
-			open ();
 		stream.Write ("m");
 	}
 

@@ -22,7 +22,7 @@ public class MatchB : MonoBehaviour {
 		if (!tc_tc.isReadyToMove) {
 			if (Utility.getInst().checkMatchV2 (this.transform.position, trackedCar.transform.position)) {
 				tc_tc.isReadyToMove = true;
-				print ("match finished");
+				Debug.LogWarning ("match finished");
 			}
 		}
 		// place the start ball where reference plus offset is

@@ -27,7 +27,9 @@ public class TrackedCarB : MonoBehaviour {
 		//	&& (Mathf.Abs (Mathf.Abs (angle) - 1.0f) < rotateError)
 		) {
 			_ra.disappear(transform.position);	
+			Debug.LogWarning ("disappear");
 		} else {
+			
 			_ra.appear (isReadyToMove);
 			carGeo.SetActive (false);
 		}

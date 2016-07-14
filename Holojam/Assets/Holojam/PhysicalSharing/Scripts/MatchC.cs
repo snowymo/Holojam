@@ -9,6 +9,8 @@ public class MatchC : MonoBehaviour {
 
 	public GameObject trackedCar;
 
+	public GameObject flag;
+
 	TrackedCarC tc_tc;
 	CarCtrl tc_cc;
 
@@ -24,6 +26,7 @@ public class MatchC : MonoBehaviour {
 			if (Utility.getInst().checkMatchV2 (this.transform.position, trackedCar.transform.position)) {
 				tc_tc.isReadyToMove = true;
 				print ("match finished");
+				flag.SetActive (false);
 			}
 		}
 		// place the start ball where reference plus offset is

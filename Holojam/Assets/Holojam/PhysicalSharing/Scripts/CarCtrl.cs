@@ -195,6 +195,7 @@ public class CarCtrl : MonoBehaviour {
 			Quaternion facing = Quaternion.identity;
 			facing.SetFromToRotation (transform.rotation * Vector3.forward, referenceObj.transform.position - transform.position);
 			Vector3 vFacing = referenceObj.transform.position-this.transform.position;
+			// todo
 			Vector3 vCur = transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
 
@@ -205,8 +206,10 @@ public class CarCtrl : MonoBehaviour {
 				print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
 				if (vUp.y > 0.005)
 					serialCtrl.right ((int)(angle * 0.15));
+					//serialCtrl.right ();
 				else if (vUp.y < -0.005)
 					serialCtrl.left ((int)(angle * 0.15));
+					//serialCtrl.left ();
 				else
 					return true;
 				lastAngle = angle;
@@ -233,8 +236,11 @@ public class CarCtrl : MonoBehaviour {
 			//file.WriteLine ("dis:\t" + dis.magnitude);
 			if ((vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0))
 				serialCtrl.forward ((int)(dis.magnitude * 150));
+				//serialCtrl.forward ();
 			else
 				serialCtrl.backward ((int)(dis.magnitude * 150));
+				//serialCtrl.backward ();
+
 			return false;
 		} else
 			return true;
@@ -269,9 +275,9 @@ public class CarCtrl : MonoBehaviour {
 		//file.WriteLine ("angle:\t" + angle);
 		if (angle > angleError) {
 			if (vUp.y > 0)
-				serialCtrl.right ((int)(angle * 0.15));
+				serialCtrl.right ((int)(angle * 0.33));
 			else
-				serialCtrl.left ((int)(angle * 0.15));
+				serialCtrl.left ((int)(angle * 0.33));
 			print ("rot in turn back:\t" + transform.rotation);
 			return false;
 		} else

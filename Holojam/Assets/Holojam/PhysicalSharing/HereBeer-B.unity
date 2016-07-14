@@ -246,7 +246,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400386, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11466086, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11470404, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11408864, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11468786, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11457858, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11493390, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11432298, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11471666, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11499568, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11415488, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
+    - {fileID: 11436138, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: cc9c0202a549d47c6a654ff136222d43, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &450786003 stripped
@@ -327,48 +339,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!1 &703454445
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 703454447}
-  - 114: {fileID: 703454446}
-  m_Layer: 0
-  m_Name: Utility
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &703454446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 703454445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88ec20e5b58ac47409548bcd5d33ed1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disError: 0.02
-  rotateError: 0.02
-  yError: 0.008
---- !u!4 &703454447
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 703454445}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.401124, y: 9.117666, z: 11.485554}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
 --- !u!1 &970614663
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9993220795cb342059b3efe585ed75ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0.09, y: 0.04, z: 0.18}
+  offset: {x: -0.36, y: 0.04, z: 0}
   referenceCar: {fileID: 1955514422}
   trackedCar: {fileID: 1970979784}
 --- !u!4 &970614665
@@ -566,7 +536,7 @@ MonoBehaviour:
   isTimeToShow: 0
   isRandom: 0
   obj: {fileID: 1781313288}
-  speed: 0.2
+  speed: 0.01
   R: 0.1
   finalPos: {x: 0, y: 0, z: 0}
 --- !u!4 &1581091911
@@ -1028,5 +998,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcae31b7928ef4321841b9ac89c385b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  liveObjectTag: 1
+  liveObjectTag: 3
   trackingType: 2

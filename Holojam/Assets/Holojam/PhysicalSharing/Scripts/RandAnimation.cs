@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RandAnimation : MonoBehaviour
 {
@@ -14,31 +15,44 @@ public class RandAnimation : MonoBehaviour
 
 	public float R;
 
-	GameObject _obj;
+	List<GameObject> _objs;
 
-	Vector3 destination;
+	List<Vector3> destination;
 
-	Vector3 startPos;
+	List<Vector3> startPos;
 
-	float journey;
+	List<float> journey;
 
 	public Vector3 finalPos;
 
 	float curDis;
 
+	int randNum;
+
 	// Use this for initialization
 	void Start ()
 	{
-		_obj = null;	
 		isRandom = false;
+		_objs = new List<GameObject> ();
+		destination = new List<Vector3> ();
+		startPos = new List<Vector3> ();
+		journey = new List<float> ();
 	}
 
-	void createObj ()
+	void initialRands ()
 	{
 		// create an game object as OBJ is.
-		if (_obj == null)
-			_obj = (GameObject)GameObject.Instantiate (obj, obj.transform.position, obj.transform.rotation);
-		_obj.SetActive (true);
+		if (_objs.Count == 0){
+			randNum = Random.Range (10, 20);
+			for (int i = 0; i < randNum; i++) {
+				_objs.Add ((GameObject)GameObject.Instantiate (obj, obj.transform.position, obj.transform.rotation));
+				_objs[i].SetActive (true);
+				startPos.Add (_objs[i].transform.position);
+				Vector3 dest = generateDestination (_objs[i].transform.position);
+				destination.Add (dest);
+				journey.Add (Vector3.Distance (startPos[i], dest));
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -48,45 +62,54 @@ public class RandAnimation : MonoBehaviour
 		switch (isTimeToShow) {
 		case 1:
 				// show and assign position
-			createObj ();
-
-			startPos = _obj.transform.position;
-			generateDestination ();
-			journey = Vector3.Distance (startPos, destination);
+			initialRands ();
 
 			isTimeToShow = 2;
 			break;
 
 		case 2:
-
-			curDis = Vector3.Distance (_obj.transform.position, destination);
-			if (curDis < 0.01) {
-				generateDestination ();
-				startPos = _obj.transform.position;
-				journey = Vector3.Distance (startPos, destination);
-				curDis = Vector3.Distance (_obj.transform.position, destination);
+			for (int i = 0; i < randNum; i++) {
+				curDis = Vector3.Distance (_objs[i].transform.position, destination[i]);
+				if (curDis < 0.01) {
+					Vector3 dest = generateDestination (_objs[i].transform.position);
+					startPos[i] = _objs[i].transform.position;
+					destination [i] = dest;
+					journey[i] = Vector3.Distance (startPos[i], destination[i]);
+					curDis = Vector3.Distance (_objs[i].transform.position, destination[i]);
+				}
+				if (journey[i] != 0)
+					_objs[i].transform.position = Vector3.Lerp (startPos[i], destination[i], 1 - curDis / journey[i] + speed);
 			}
-			if (journey != 0)
-				_obj.transform.position = Vector3.Lerp (startPos, destination, 1 - curDis / journey + speed);
+
 			break;
 		case 3:
-			moving ();
-			curDis = Vector3.Distance (_obj.transform.position, destination);
-			if (journey != 0)
-				_obj.transform.position = Vector3.Lerp (startPos, destination, 1 - curDis / journey + speed * 2);
+			for (int i = 0; i < randNum; i++) {
+				destination[i] = finalPos;
+				startPos[i] = _objs[i].transform.position;
+				journey[i] = Vector3.Distance (startPos[i], destination[i]);
+				curDis = Vector3.Distance (_objs[i].transform.position, destination[i]);
+				if (journey[i] != 0)
+					_objs[i].transform.position = Vector3.Lerp (startPos[i], destination[i], 1 - curDis / journey[i] + speed * 2);
+			}
 			isTimeToShow = 4;
 			break;
 
 		case 4:
-			curDis = Vector3.Distance (_obj.transform.position, destination);
-			if (curDis < 0.01) {
-				_obj.SetActive (false);
-				_obj = null;
+			bool alldone = true;
+			for (int i = 0; i < randNum; i++) {
+				curDis = Vector3.Distance (_objs [i].transform.position, destination[i]);
+
+				if (curDis >= 0.01) {
+					_objs [i].transform.position = Vector3.Lerp (startPos[i], destination[i], 1 - curDis / journey[i] + speed * 2);
+					alldone = false;
+				}
+			}
+				
+			if (alldone) {
+				_objs.Clear ();
 				isTimeToShow = 0;
 			}
 
-			if (curDis >= 0.01)
-				_obj.transform.position = Vector3.Lerp (startPos, destination, 1 - curDis / journey + speed * 2);
 			break;
 
 		default:
@@ -105,12 +128,14 @@ public class RandAnimation : MonoBehaviour
 
 	public void appear (bool isrdtomv)
 	{
-		if (isrdtomv && isTimeToShow != 2)
+		if (isrdtomv && (isTimeToShow != 2)) {
 			isTimeToShow = 1;
+			Debug.LogWarning ("appear");
+		}
 
 	}
 
-	void generateDestination ()
+	Vector3 generateDestination (Vector3 pos)
 	{
 		float dis = Random.Range (0, R);
 		float angle_x = Random.Range (-90, 90);
@@ -118,14 +143,15 @@ public class RandAnimation : MonoBehaviour
 		Vector3 translation = new Vector3 (0, 0, dis);
 		Quaternion rotation = Quaternion.Euler (angle_x, angle_y, 0);
 		Matrix4x4 m = Matrix4x4.TRS (translation, rotation, new Vector3 (1, 1, 1));
-		destination = m.MultiplyPoint3x4 (_obj.transform.position);
+		Vector3 dest = m.MultiplyPoint3x4 (pos);
+		return dest;
 		//print ("dest:\t" + destination);
 	}
 
-	void moving ()
-	{
-		destination = finalPos;
-		startPos = _obj.transform.position;
-		journey = Vector3.Distance (startPos, destination);
-	}
+//	void moving ()
+//	{
+//		destination = finalPos;
+//		startPos = _obj.transform.position;
+//		journey = Vector3.Distance (startPos, destination);
+//	}
 }
