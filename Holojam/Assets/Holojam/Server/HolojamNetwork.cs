@@ -31,7 +31,8 @@ namespace Holojam.Network {
 			sendThread = new HolojamSendThread(BLACK_BOX_SERVER_PORT);
 			receiveThread = new HolojamRecieveThread(BLACK_BOX_CLIENT_PORT);
 
-			//sendThread.Start();
+
+			sendThread.Start();
 			receiveThread.Start();
 
 			StartCoroutine(DisplayPacketsPerSecond());
@@ -42,6 +43,7 @@ namespace Holojam.Network {
 
 			foreach (HolojamView view in HolojamView.instances) {
 				if (view.IsMine) {
+					view.IsTracked = true;
 					viewsToSend.Add(view);
 				} else {
 					if (string.IsNullOrEmpty(view.Label)) {
@@ -55,9 +57,11 @@ namespace Holojam.Network {
 						view.RawRotation = o.rotation;
 						view.Bits = o.bits;
 						view.Blob = o.blob;
-						view.IsTracked = true;
+						view.IsTracked = o.isTracked;
+						view.InObjectPool = true;
 					} else {
 						view.IsTracked = false;
+						view.InObjectPool = false;
 					}
 				}
 			}
@@ -83,9 +87,15 @@ namespace Holojam.Network {
 			}
 		}
 
-		public bool IsTracked(string label) {
+		public bool IsInObjectPool(string label) {
 			HolojamObject o;
 			return receiveThread.GetObject(label, out o);
+		}
+
+		protected override void OnDestroy () {
+			base.OnDestroy();
+			sendThread.Stop ();
+			receiveThread.Stop ();
 		}
 	}
 
@@ -210,11 +220,10 @@ namespace Holojam.Network {
 							}
 							ho.bits = or.button_bits;
 
+							ho.isTracked = or.is_tracked;
+
 							//Get blob if it's there. Inefficient
-							if (or.extra_data.Count > 0) {
-								ExtraData data = or.extra_data[0];
-								ho.blob = data.string_val;
-							}
+							ho.blob=or.extra_data;
 						}
 					}
 				}
@@ -245,7 +254,7 @@ namespace Holojam.Network {
 		public void Send() {
 			Debug.Log("Attempting to open send thread with ip/port: " + ip.ToString() + " " + port);
 			Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-			IPEndPoint ipEndPoint = new IPEndPoint(ip, 0);
+			IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
 			IPEndPoint send_ipEndPoint = new IPEndPoint(ip, port);
 
 			try {
@@ -256,23 +265,21 @@ namespace Holojam.Network {
 			}
 
 			while (isRunning) {
-				System.Threading.Thread.Sleep(100);
+				System.Threading.Thread.Sleep(10);
 				if (managedObjects.Values.Count == 0)
 					continue;
-
 				lock (lockObject) {
 
 					update = new update_protocol_v3.Update();
-					update.label = "SendThread - " + SystemInfo.deviceUniqueIdentifier;
+					update.label = "SendData";
 					update.mod_version = lastLoadedFrame;
 					update.lhs_frame = false;
 					lastLoadedFrame++;
-
 					foreach (KeyValuePair<string, HolojamObject> entry in managedObjects) {
 						LiveObject o = entry.Value.ToLiveObject();
 						update.live_objects.Add(o);
-					}
 
+					}
 					using (MemoryStream stream = new MemoryStream()) {
 						packetCount++;
 						Serializer.Serialize<Update>(stream, update);
@@ -289,9 +296,8 @@ namespace Holojam.Network {
 		}
 
 		public void UpdateManagedObjects(HolojamView[] views) {
-			managedObjects.Clear();
-
 			lock (lockObject) {
+				managedObjects.Clear();
 				foreach (HolojamView view in views) {
 					HolojamObject o = HolojamObject.FromView(view);
 					managedObjects[o.label] = o;
@@ -309,6 +315,7 @@ namespace Holojam.Network {
 		public Quaternion rotation = DEFAULT_ROTATION;
 		public int bits = 0;
 		public string blob = "";
+		public bool isTracked = false;
 
 		public HolojamObject(string label) {
 			this.label = label;
@@ -328,13 +335,10 @@ namespace Holojam.Network {
 			o.qw = rotation.w;
 
 			o.button_bits = bits;
+			o.is_tracked = isTracked;
 
 			if (!string.IsNullOrEmpty(blob)) {
-				ExtraData data = new ExtraData();
-				data.label = "blob";
-				data.string_val = blob;
-
-				o.extra_data.Add(data);
+				o.extra_data=blob;
 			}
 
 			return o;
