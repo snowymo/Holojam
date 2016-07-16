@@ -15,7 +15,7 @@ public class SerialCommunication {
 			stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ",57600);
 		if(!stream.IsOpen)
 			stream.Open ();
-		median ();
+		high ();
 	}
 
 	public void forward(){

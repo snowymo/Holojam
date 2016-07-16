@@ -70,7 +70,7 @@ public class CarCtrlSerial : MonoBehaviour {
 		Vector3 thispos = new Vector3(this.transform.position.x,0,this.transform.position.z);
 		Vector3 refpos = new Vector3(referenceObj.transform.position.x,0,referenceObj.transform.position.z);
 		//print("isCloseEnough:\tdis:\t" + ((thispos - refpos).magnitude));
-		if ((thispos - refpos).magnitude < disError)
+		if ((thispos - refpos).magnitude < Utility.getInst().disError)
 			return true;
 		return false;
 
@@ -87,7 +87,7 @@ public class CarCtrlSerial : MonoBehaviour {
 			Application.Quit();
 		}
 
-		vCur = transform.rotation * Vector3.back;
+		vCur = transform.rotation * Vector3.forward;
 		//file.WriteLine("cur dis:\t" + Vector3.Distance (vLast, vCur));
 		vLast = vCur;
 		if(tc.isReadyToMove){
@@ -104,7 +104,7 @@ public class CarCtrlSerial : MonoBehaviour {
 					count = 0;
 					testKey = true;
 
-					vCur = transform.rotation * Vector3.back;
+					vCur = transform.rotation * Vector3.forward;
 					print ("update:\tvCur:\t" + vCur.ToString ("F4") );
 					print ("update:\tangle:\t" + Vector3.Angle (vLast, vCur));
 					// write to the file
@@ -174,9 +174,9 @@ public class CarCtrlSerial : MonoBehaviour {
 	// test my rotation ctrl
 	void drawRays(){
 		Quaternion facing = Quaternion.identity;
-		facing.SetFromToRotation (transform.rotation * Vector3.back, referenceObj.transform.position - transform.position);
-		Vector3 vFacing = facing * Vector3.back;
-		Vector3 vCur = transform.rotation * Vector3.back;
+		facing.SetFromToRotation (transform.rotation * Vector3.forward, referenceObj.transform.position - transform.position);
+		Vector3 vFacing = facing * Vector3.forward;
+		Vector3 vCur = transform.rotation * Vector3.forward;
 		// test if these two vectors are correct
 		Debug.DrawRay(this.transform.position,vCur,Color.green);
 		Debug.DrawRay(this.transform.position,referenceObj.transform.position-this.transform.position,Color.magenta);
@@ -193,10 +193,10 @@ public class CarCtrlSerial : MonoBehaviour {
 			return false;
 		else{
 			Quaternion facing = Quaternion.identity;
-			facing.SetFromToRotation (transform.rotation * Vector3.back, referenceObj.transform.position - transform.position);
+			facing.SetFromToRotation (transform.rotation * Vector3.forward, referenceObj.transform.position - transform.position);
 			Vector3 vFacing = referenceObj.transform.position-this.transform.position;
 			// todo
-			Vector3 vCur = transform.rotation * Vector3.back;
+			Vector3 vCur = transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
 
 			float angle = Vector3.Angle(vCur, vFacing);
@@ -229,8 +229,8 @@ public class CarCtrlSerial : MonoBehaviour {
 		//serialCtrl.median ();
 		Vector3 dis = referenceObj.transform.position - transform.position;
 		print ("goStraight\tdis:\t" + dis.ToString("F3") + "\tref:\t" + referenceObj.transform.position.ToString("F3") + "\tcur:\t" + transform.position.ToString("F3") + "\tlastDis:\t" + lastDis.ToString("F2"));
-		if (dis.magnitude > disError) {
-			Vector3 vCur = transform.rotation * Vector3.back;
+		if (dis.magnitude > Utility.getInst().disError) {
+			Vector3 vCur = transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (dis, vCur);
 			print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
 			//file.WriteLine ("dis:\t" + dis.magnitude);
@@ -249,8 +249,8 @@ public class CarCtrlSerial : MonoBehaviour {
 	bool lastBack = false;
 	void turnBack(){
 		if (!lastBack || !lastRotation.Equals (transform.rotation)) {
-			Vector3 vCur = transform.rotation * Vector3.back;
-			Vector3 vDes = referenceObj.transform.rotation * Vector3.back;
+			Vector3 vCur = transform.rotation * Vector3.forward;
+			Vector3 vDes = referenceObj.transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (vCur, vDes);
 			float angle = Vector3.Angle (vCur, vDes);
 			if (angle > angleError) {
@@ -267,8 +267,8 @@ public class CarCtrlSerial : MonoBehaviour {
 
 	float lastAngle2 = 180;
 	bool turnFace(){
-		Vector3 vCur = transform.rotation * Vector3.back;
-		Vector3 vDes = referenceObj.transform.rotation * Vector3.back;
+		Vector3 vCur = transform.rotation * Vector3.forward;
+		Vector3 vDes = referenceObj.transform.rotation * Vector3.forward;
 		Vector3 vUp = Vector3.Cross (vCur, vDes);
 		float angle = Vector3.Angle (vCur, vDes);
 		print ("turnFace:\tangle:\t" + angle);

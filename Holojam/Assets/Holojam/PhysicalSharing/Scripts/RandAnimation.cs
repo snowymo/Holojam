@@ -106,6 +106,8 @@ public class RandAnimation : MonoBehaviour
 			}
 				
 			if (alldone) {
+				foreach (GameObject obj in _objs)
+					obj.SetActive (false);
 				_objs.Clear ();
 				isTimeToShow = 0;
 			}

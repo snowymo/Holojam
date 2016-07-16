@@ -21,7 +21,7 @@ PlayerSettings:
   defaultScreenHeightWeb: 600
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  m_ActiveColorSpace: 0
+  m_ActiveColorSpace: 1
   m_MTRendering: 1
   m_MobileMTRendering: 0
   m_Stereoscopic3D: 0
@@ -95,7 +95,7 @@ PlayerSettings:
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
-  virtualRealitySupported: 1
+  virtualRealitySupported: 0
   productGUID: 7991ff30f54a74f179fbca48371ffbb2
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9
