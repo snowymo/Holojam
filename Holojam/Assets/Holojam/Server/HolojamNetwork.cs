@@ -182,6 +182,7 @@ namespace Holojam.Network {
 			int nBytesReceived = 0;
 			while (isRunning) {
 				nBytesReceived = socket.Receive(currentPacket.bytes);
+				//Debug.Log ("isRunning:\t" + nBytesReceived);
 				currentPacket.stream.Position = 0;
 
 				update = Serializer.Deserialize<update_protocol_v3.Update>(new MemoryStream(currentPacket.bytes, 0, nBytesReceived));

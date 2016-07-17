@@ -10,12 +10,33 @@ public class SerialCommunication {
 		
 	}
 
+	static SerialCommunication m_Instance = null;
+
+	static public SerialCommunication getInstance(){
+		if (m_Instance == null) {
+			m_Instance = new SerialCommunication ();
+		}
+		return m_Instance;
+	}
+
 	public void open(){
 		if(stream == null)
 			stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ",57600);
-		if(!stream.IsOpen)
+		if (!stream.IsOpen) {
 			stream.Open ();
-		high ();
+		}
+	}
+
+	public void forward(float dis){
+		open ();
+		if (dis > 0.05)
+			stream.Write ("h");
+		else if (dis > 0.025)
+			stream.Write ("m");
+		else
+			stream.Write ("l");
+		stream.Write ("f");
+		//stream.Write ("f");
 	}
 
 	public void forward(){
@@ -29,13 +50,32 @@ public class SerialCommunication {
 		stream.Write ("b");
 	}
 
+	public void left(float angle){
+		open ();
+		if (angle > 15)
+			stream.Write ("h");
+		else if (angle > 6)
+			stream.Write ("m");
+		else
+			stream.Write ("l");
+		stream.Write ("z");
+		//stream.Write ("z");
+	}
+
 	public void left(){
 		open ();
 		stream.Write ("z");
 		//stream.Write ("z");
 	}
 
-	public void right(){
+	public void right(float angle){
+		open ();
+		if (angle > 15)
+			stream.Write ("h");
+		else if (angle > 6)
+			stream.Write ("m");
+		else
+			stream.Write ("l");
 		stream.Write ("y");
 		//stream.Write ("y");
 	}

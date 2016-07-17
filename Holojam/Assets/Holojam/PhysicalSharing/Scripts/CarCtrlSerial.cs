@@ -21,7 +21,7 @@ public class CarCtrlSerial : MonoBehaviour {
 
 	private int count;
 
-	StepperCommunication serialCtrl;
+	SerialCommunication serialCtrl;
 
 	public bool isReadyToMove;
 
@@ -42,7 +42,7 @@ public class CarCtrlSerial : MonoBehaviour {
 		tc = gameObject.GetComponent<TrackedCarC> ();
 		lastRefPosition = lastPosition = new Vector3 (0, 0, 0);
 		lastRefRotation = lastRotation = Quaternion.identity;
-		serialCtrl = StepperCommunication.getInstance();
+		serialCtrl = SerialCommunication.getInstance();
 		serialCtrl.open ();
 		testKey = true;
 		isLastRound = false;
@@ -132,13 +132,15 @@ public class CarCtrlSerial : MonoBehaviour {
 						break;
 					case 2:
 						if (isCloseEnough ()) {
-							step = 4;
+							// do not need to turn to the right face
+							step = 0;
 						} 
 						break;
 					case 3:
 						turnBack ();
 						if(isCloseEnough())
-							step = 4;
+							// do not need to turn to the right face
+							step = 0;
 						break;
 					case 4:
 						if (turnFace ()) {
@@ -157,17 +159,6 @@ public class CarCtrlSerial : MonoBehaviour {
 			lastRotation = transform.rotation;
 			//print ("pos:\t" + transform.position);
 			//testKey = false;
-		}
-	}
-
-	bool isLastLeft = true;
-	void turnRobot(bool change){
-		if (isLastLeft ^ change) {
-			serialCtrl.right ();
-			isLastLeft = true;
-		} else {
-			serialCtrl.left ();
-			isLastLeft = false;
 		}
 	}
 
@@ -205,10 +196,10 @@ public class CarCtrlSerial : MonoBehaviour {
 			if (angle % 360.0f > 6.0f) {
 				print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
 				if (vUp.y > 0.005)
-					serialCtrl.right ();
+					serialCtrl.right (Mathf.Abs(angle));
 					//serialCtrl.right ();
 				else if (vUp.y < -0.005)
-					serialCtrl.left ();
+					serialCtrl.left (Mathf.Abs(angle));
 					//serialCtrl.left ();
 				else
 					return true;
@@ -235,7 +226,7 @@ public class CarCtrlSerial : MonoBehaviour {
 			print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
 			//file.WriteLine ("dis:\t" + dis.magnitude);
 			if ((vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0))
-				serialCtrl.forward ();
+				serialCtrl.forward (dis.magnitude);
 				//serialCtrl.forward ();
 			else
 				serialCtrl.backward ();
@@ -255,9 +246,9 @@ public class CarCtrlSerial : MonoBehaviour {
 			float angle = Vector3.Angle (vCur, vDes);
 			if (angle > angleError) {
 				if (vUp.y >= 0)
-					serialCtrl.right ();
+					serialCtrl.right (Mathf.Abs(angle));
 				else
-					serialCtrl.left ();
+					serialCtrl.left (Mathf.Abs(angle));
 				print ("rot in turn back:\t" + transform.rotation);
 				lastBack = true;
 			} else
@@ -275,9 +266,9 @@ public class CarCtrlSerial : MonoBehaviour {
 		//file.WriteLine ("angle:\t" + angle);
 		if (angle > angleError) {
 			if (vUp.y > 0)
-				serialCtrl.right ();
+				serialCtrl.right (Mathf.Abs(angle));
 			else
-				serialCtrl.left ();
+				serialCtrl.left (Mathf.Abs(angle));
 			print ("rot in turn back:\t" + transform.rotation);
 			return false;
 		} else

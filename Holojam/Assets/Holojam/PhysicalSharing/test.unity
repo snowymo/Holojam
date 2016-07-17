@@ -1424,6 +1424,47 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!1 &721450453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 721450455}
+  - 114: {fileID: 721450454}
+  m_Layer: 0
+  m_Name: MasterStream
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &721450454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 721450453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29809aabb873b4fc2950601ce55de6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warningThreshold: 48
+  packetsPerSecond: 0
+--- !u!4 &721450455
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 721450453}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12916061, y: 1.5197096, z: -0.31705308}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
 --- !u!1 &816408669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,7 +1598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e272d3a79c574b56bb510d9dd85a2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: -1.2, y: 0.026, z: 0}
+  offset: {x: -0.36, y: 0.026, z: 0}
   referenceCar: {fileID: 1955514422}
   trackedCar: {fileID: 1970979784}
   flag: {fileID: 399474478}
@@ -2868,7 +2909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1827844596
 MonoBehaviour:
   m_ObjectHideFlags: 0

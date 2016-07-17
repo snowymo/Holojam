@@ -757,7 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackedCar: {fileID: 1970979784}
   referenceCar: {fileID: 1955514422}
-  offset: {x: 0.36, y: -0.026, z: 0}
+  offset: {x: 1.2, y: -0.026, z: 0}
   car: {fileID: 34916091}
   frame: {fileID: 601417066}
 --- !u!4 &970614665
@@ -774,7 +774,7 @@ Transform:
   - {fileID: 1230673814}
   - {fileID: 34916092}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!1 &1008545990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,7 +1406,7 @@ Transform:
   m_Children:
   - {fileID: 1970979785}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!114 &1775899930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1565,7 +1565,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &1955514425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ Transform:
   m_Children:
   - {fileID: 685455568}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!114 &2130576522
 MonoBehaviour:
   m_ObjectHideFlags: 0
