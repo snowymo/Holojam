@@ -9,7 +9,7 @@ public class DataCollection : MonoBehaviour {
 
 	Vector3 pos;
 
-	public int round;
+	public int roundTest;
 
 	// Use this for initialization
 	void Start () {
@@ -25,14 +25,17 @@ public class DataCollection : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.F)) {
-			m_inst.forward ();
-			Debug.Log (round);
+			m_inst.forwardTest (roundTest);
+			Debug.Log (roundTest);
+
 			Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
+			Debug.Log("rot:" + Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
+			rot = this.transform.rotation;
 			pos = this.transform.position;
 		}
 		if (Input.GetKeyDown (KeyCode.Z)) {
 			m_inst.left ();
-			Debug.Log (round);
+			Debug.Log (roundTest);
 			//Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
 			Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
 			pos = this.transform.position;

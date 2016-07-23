@@ -27,9 +27,9 @@ public class CarCtrlSerial : MonoBehaviour {
 
 	bool testKey;
 
-	public int debugCount = 5;
+	public int debugCount = 120;
 
-	public float disError;
+
 
 	public float angleError;
 
@@ -115,7 +115,7 @@ public class CarCtrlSerial : MonoBehaviour {
 					switch (step) {
 					case 0:
 						if (isCloseEnough ())
-							step = 4;
+							step = 0;
 						else {
 							if (turnRound ()) {
 								++step;

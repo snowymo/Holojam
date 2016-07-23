@@ -29,19 +29,43 @@ public class SerialCommunication {
 
 	public void forward(float dis){
 		open ();
-		if (dis > 0.05)
-			stream.Write ("h");
-		else if (dis > 0.025)
-			stream.Write ("m");
-		else
-			stream.Write ("l");
-		stream.Write ("f");
+		int round = (int)(dis / 0.07);
+		string command = "h";
+		for (int r = 0; r < round; r++) {
+			command += "f";
+			if (r % 3 == 0)
+				command += "my";
+		}
+		float left = dis - round * 0.07f;
+		if (left > 0.035) {
+			command += "mf";
+			left -= 0.035f;
+		}
+		if (left > 0)
+			command += "lf";
+		stream.Write (command);
+//		if (dis > 0.05)
+//			stream.Write ("h");
+//		else if (dis > 0.025)
+//			stream.Write ("m");
+//		else
+//			stream.Write ("l");
+//		stream.Write ("f");
 		//stream.Write ("f");
 	}
 
 	public void forward(){
 		open ();
 		stream.Write ("f");
+		//stream.Write ("f");
+	}
+
+	public void forwardTest(int round){
+		open ();
+		string command = "";
+		for (int r = 0; r < round; r++)
+			command += "f";
+		stream.Write (command);
 		//stream.Write ("f");
 	}
 

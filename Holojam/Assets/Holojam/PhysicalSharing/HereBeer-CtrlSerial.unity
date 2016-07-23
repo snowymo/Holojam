@@ -3157,8 +3157,7 @@ MonoBehaviour:
   referenceObj: {fileID: 970614663}
   thescale: 1
   isReadyToMove: 0
-  debugCount: 80
-  disError: 0.03
+  debugCount: 40
   angleError: 4.5
 --- !u!1 &2051818388
 GameObject:
