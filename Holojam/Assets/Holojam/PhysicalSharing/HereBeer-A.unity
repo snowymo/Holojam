@@ -757,7 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackedCar: {fileID: 1970979784}
   referenceCar: {fileID: 1955514422}
-  offset: {x: 1.2, y: -0.026, z: 0}
+  offset: {x: 1.2, y: -0.04, z: 0}
   car: {fileID: 34916091}
   frame: {fileID: 601417066}
 --- !u!4 &970614665

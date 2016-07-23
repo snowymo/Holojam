@@ -742,7 +742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9993220795cb342059b3efe585ed75ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: -1.2, y: 0.026, z: 0}
+  offset: {x: -1.2, y: 0.04, z: 0}
   referenceCar: {fileID: 1955514422}
   trackedCar: {fileID: 1970979784}
 --- !u!4 &970614665
