@@ -26,7 +26,7 @@ public class Utility {
 		Vector3 carXOZ = new Vector3(refPos.x,0,refPos.z);
 		//Debug.Log("checkMatchV2:\tdis:" + (thisXOZ-carXOZ).magnitude);
 
-		Debug.Log("checkMatchV2:\ty:" + (pos.y-refPos.y));
+		//Debug.Log("checkMatchV2:\ty:" + (pos.y-refPos.y));
 		// 
 		if ((thisXOZ-carXOZ).magnitude < disError && ((pos-refPos).y < yError))
 			return true;

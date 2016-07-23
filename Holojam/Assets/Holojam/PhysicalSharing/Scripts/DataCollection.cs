@@ -33,8 +33,25 @@ public class DataCollection : MonoBehaviour {
 			rot = this.transform.rotation;
 			pos = this.transform.position;
 		}
+		if (Input.GetKeyDown (KeyCode.B)) {
+			m_inst.backwardTest (roundTest);
+			Debug.Log (roundTest);
+
+			Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
+			Debug.Log("rot:" + Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
+			rot = this.transform.rotation;
+			pos = this.transform.position;
+		}
 		if (Input.GetKeyDown (KeyCode.Z)) {
 			m_inst.left ();
+			Debug.Log (roundTest);
+			//Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
+			Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
+			pos = this.transform.position;
+			rot = this.transform.rotation;
+		}
+		if (Input.GetKeyDown (KeyCode.Y)) {
+			m_inst.right ();
 			Debug.Log (roundTest);
 			//Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
 			Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));

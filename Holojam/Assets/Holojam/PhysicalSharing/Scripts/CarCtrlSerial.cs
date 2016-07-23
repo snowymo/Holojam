@@ -15,6 +15,8 @@ public class CarCtrlSerial : MonoBehaviour {
 
 	private bool isLastRound;
 
+	bool isLastStraight;
+
 	public float thescale;
 
 	private int step;
@@ -46,6 +48,7 @@ public class CarCtrlSerial : MonoBehaviour {
 		serialCtrl.open ();
 		testKey = true;
 		isLastRound = false;
+		isLastStraight = false;
 		step = 0;
 		count = 0;
 
@@ -179,27 +182,31 @@ public class CarCtrlSerial : MonoBehaviour {
 	//step 0: facing the destination
 	float lastAngle = 180;
 	bool turnRound(){
-		//serialCtrl.median ();
-		if(isLastRound && (transform.position.Equals(lastPosition)))
+		Debug.LogWarning ("islastround:\t" + isLastRound + "\tdis:\t" + Vector3.Distance (transform.position, lastPosition)
+		+ "\trot:\t" + Quaternion.Angle (transform.rotation, lastRotation));
+		if(isLastRound && (Vector3.Distance(transform.position,lastPosition) < 0.0001f) 
+			&& (Quaternion.Angle(transform.rotation,lastRotation) < 1))
 			return false;
 		else{
 			Quaternion facing = Quaternion.identity;
 			facing.SetFromToRotation (transform.rotation * Vector3.forward, referenceObj.transform.position - transform.position);
 			Vector3 vFacing = referenceObj.transform.position-this.transform.position;
-			// todo
 			Vector3 vCur = transform.rotation * Vector3.forward;
+			float angle = Vector3.Angle(vCur, vFacing);
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
 
-			float angle = Vector3.Angle(vCur, vFacing);
 			print ("turnRound:\tvCur:\t" + vCur.ToString ("F2") + "\tvFacing:\t" + vFacing.ToString ("F2"));
 			print ("turnRound:\tangle:\t" + angle);
-			if (angle % 360.0f > 6.0f) {
-				print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
+
+			if(angle > 90.0f)
+				angle = angle - 180.0f;
+			if (angle % 180.0f > 6.0f) {
+				//print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
 				if (vUp.y > 0.005)
-					serialCtrl.right (Mathf.Abs(angle));
+					serialCtrl.right (angle);
 					//serialCtrl.right ();
 				else if (vUp.y < -0.005)
-					serialCtrl.left (Mathf.Abs(angle));
+					serialCtrl.left (angle);
 					//serialCtrl.left ();
 				else
 					return true;
@@ -216,30 +223,40 @@ public class CarCtrlSerial : MonoBehaviour {
 
 	// step 1: go to the destination
 	float lastDis = 180;
+
 	bool goStraight(){
 		//serialCtrl.median ();
+		if (isLastStraight && (Vector3.Distance (transform.position, lastPosition) < 0.0001f)
+		   && (Quaternion.Angle (transform.rotation, lastRotation) < 1)) {
+			isLastStraight = false;
+			return false;
+		}
 		Vector3 dis = referenceObj.transform.position - transform.position;
 		print ("goStraight\tdis:\t" + dis.ToString("F3") + "\tref:\t" + referenceObj.transform.position.ToString("F3") + "\tcur:\t" + transform.position.ToString("F3") + "\tlastDis:\t" + lastDis.ToString("F2"));
-		if (dis.magnitude > Utility.getInst().disError) {
+		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (dis, vCur);
 			print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
-			//file.WriteLine ("dis:\t" + dis.magnitude);
 			if ((vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0))
 				serialCtrl.forward (dis.magnitude);
 				//serialCtrl.forward ();
 			else
-				serialCtrl.backward ();
-				//serialCtrl.backward ();
-
+				serialCtrl.backward (dis.magnitude);
+			//serialCtrl.backward ();
+			isLastStraight = true;
 			return false;
-		} else
+		} else {
+			isLastStraight = false;
 			return true;
+		}
 	}
 
 	bool lastBack = false;
 	void turnBack(){
-		if (!lastBack || !lastRotation.Equals (transform.rotation)) {
+		if(!lastBack || (Vector3.Distance(transform.position,lastPosition) >= 0.0001f) 
+			&& (Quaternion.Angle(transform.rotation,lastRotation) >= 1))
+		//if (!lastBack || !lastRotation.Equals (transform.rotation)) 
+		{
 			Vector3 vCur = transform.rotation * Vector3.forward;
 			Vector3 vDes = referenceObj.transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (vCur, vDes);
