@@ -28,7 +28,9 @@ public class Utility {
 
 		//Debug.Log("checkMatchV2:\ty:" + (pos.y-refPos.y));
 		// 
-		if ((thisXOZ-carXOZ).magnitude < disError && ((pos-refPos).y < yError))
+		if ((thisXOZ-carXOZ).magnitude < disError 
+		//	&& ((pos-refPos).y < yError)
+		)
 			return true;
 		else
 			return false;
@@ -48,7 +50,9 @@ public class Utility {
 		Debug.Log ("checkMatchStart:\tQuaternion dot:\t" + (Mathf.Abs(Mathf.Abs(matching)-1.0f)));//
 		Debug.Log("checkMatchStart:\t" + (tfm.position.y-refTfm.position.y));
 		// 
-		if ((temp1-temp2).magnitude < disError && ((tfm.position.y-refTfm.position.y) < yError)
+		if ((temp1-temp2).magnitude < disError 
+			//&&((tfm.position.y-refTfm.position.y) < yError)
+		
 			&& (Mathf.Abs(Mathf.Abs(matching)-1.0f) < rotateError))
 			return true;
 		else
