@@ -1,73 +1,69 @@
 ﻿//Actor.cs
 //Created by Aaron C Gaudette on 23.06.16
-//Umbrella class for accessing player (headset user) data in a generic manner
+//Umbrella class for accessing player (headset user) data in a generic manner,
+//decoupled from the build process and VR camera setup.
+//This barebones base-class implementation is sufficient for tracking a head--
+//extend for more complex use-cases.
 
 using UnityEngine;
-using Holojam.Server;
+using Holojam.Network;
 
 namespace Holojam{
-	public class Actor : TrackedObject{
-		public string name = "Actor";
+	public class Actor : Trackable{
+		public string handle = "Actor";
 		public Color motif = Color.white; //Useful color identifier, optional for rendering
+		void Reset(){trackingTag=Motive.Tag.HEADSET1;}
 		public GameObject mask; //This object is disabled for build actors by the manager
 		
-		protected override void Update(){
-			UpdateTracking();
-			ApplyTracking();
-		}
+		public int index{get{return (int)trackingTag;}}
+		public bool managed{get{
+			return transform.parent!=null && transform.parent.GetComponent<ActorManager>()!=null;
+		}}
+		public ActorManager manager{get{return managed?transform.parent.GetComponent<ActorManager>():null;}}
 		
 		//Override these in derived classes for custom unique implementation
+		
+		protected override void Update(){
+			base.Update(); //See Trackable.cs for details
+		}
+		protected override void UpdateTracking(){
+			base.UpdateTracking(); //See Trackable.cs for details
+		}
+		//These generic accessors enable reliable Actor information to be obtained from outside the class.
+		//They should always reference assigned data (e.g. transform.position), not source (raw) data
 		public virtual Vector3 eyes{
 			get{return transform.position;}
 		}
 		public virtual Quaternion orientation{
 			get{return transform.rotation;}
 		}
-		public virtual void ApplyTracking(){ //Assign tracking data
-			if(tracking){
-				transform.position=trackedPosition;
-				transform.rotation=trackedRotation;
-			}
+		//This accessor dictates where each user is looking in their headset. Override for unique
+		//edge cases--when you are manually augmenting the actor rotation or when you want
+		//the user's look direction to differ from what the actor is broadcasting (not recommended)
+		public virtual Quaternion rawOrientation{
+			//Be careful not to map rotation to anything other than the raw data
+			//(the user's actual head movement) unless you absolutely know what you're doing.
+			//The Viewer (VR camera) uses a custom tracking algorithm and relies on the
+			//orientation accessor below to provide absolute truth.
+			//Alternatively, use the Viewer's OPTICAL tracking type if you want the headset's
+			//rotation to match this value exactly
+			get{return view.RawRotation;}
 		}
-		public virtual void ApplyMotif(){} //Do something with the motif (color)
 		
 		//Useful derived accessors
 		public Vector3 look{get{return orientation*Vector3.forward;}}
 		public Vector3 up{get{return orientation*Vector3.up;}}
 		public Vector3 left{get{return orientation*Vector3.left;}}
 		
-		public int index{get{return (int)liveObjectTag;}}
-		public bool tracking{get{return isTracked;}}
-		public bool managed{get{
-			return transform.parent!=null && transform.parent.GetComponent<ActorManager>()!=null;
-		}}
-		
 		//Useful (goggles) visualization for edge of GearVR headset
 		void OnDrawGizmos(){
 			Gizmos.color=motif;
 			Vector3 offset = eyes+look*0.015f;
-			DrawCircle(offset+left*0.035f,look,up,0.03f);
-			DrawCircle(offset-left*0.035f,look,up,0.03f);
+			Drawer.Circle(offset+left*0.035f,look,up,0.03f);
+			Drawer.Circle(offset-left*0.035f,look,up,0.03f);
 			//Reference forward vector
 			Gizmos.DrawRay(offset,look);
 		}
-		
-		private const int circleResFactor = 128; //Quality factor for drawing circles
-		//Gizmo circle-drawing tool
-		void DrawCircle(Vector3 position, Vector3 direction, Vector3 up, float radius = 0.1f){
-			Vector3.Normalize(direction); Vector3.Normalize(up);
-			int res = (int)(circleResFactor*Mathf.Sqrt(radius)); //Approximate resolution based on radius
-			
-			float theta = 2*Mathf.PI/res;
-			Vector3 cache = Vector3.zero;
-			for(int i=0;i<=res;++i){
-				Vector3 point=
-					up*radius*Mathf.Sin(theta*i)+
-					Vector3.Cross(direction,up)*radius*Mathf.Cos(theta*i)+ 
-					position;
-				if(i>0)Gizmos.DrawLine(cache,point);
-				cache=point;
-			}
-		}
+		void OnDrawGizmosSelected(){}
 	}
 }

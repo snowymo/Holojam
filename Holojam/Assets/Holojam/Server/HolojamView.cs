@@ -1,42 +1,102 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 namespace Holojam.Network {
-	public class HolojamView : MonoBehaviour {
+  public class HolojamView : MonoBehaviour {
+    public static List<HolojamView> instances = new List<HolojamView>();
 
-		public static List<HolojamView> instances = new List<HolojamView>();
+    [SerializeField]
+    private string label;
+    [SerializeField]
+    private bool isMine;
 
-		public bool isMine;
+    private Vector3 rawPosition;
+    private Quaternion rawRotation;
+    private int bits;
+    private string blob;
+    private bool isTracked = false;
+    private bool inObjectPool = false;
 
-		public string label;
+    public string Label {
+      get {
+        return label;
+      }
+      set {
+        label = value;
+      }
+    }
 
-		[HideInInspector]
-		public Vector3 rawPosition;
-		[HideInInspector]
-		public Quaternion rawRotation;
-		[HideInInspector]
-		public int bits = 0;
-		[HideInInspector]
-		public string blob = "";
+    public bool IsMine {
+      get {
+        return isMine;
+      }
+      set {
+        isMine = value;
+      }
+    }
 
-		private bool isTracked = false;
+    public Vector3 RawPosition {
+      get {
+        return rawPosition;
+      }
+      set {
+        rawPosition = value;
+      }
+    }
 
-		public bool IsTracked {
-			get {
-				return isMine || isTracked;
-			}
-			set {
-				isTracked = value;
-			}
-		}
+    public Quaternion RawRotation {
+      get {
+        return rawRotation;
+      }
+      set {
+        rawRotation = value;
+      }
+    }
 
-		private void OnEnable() {
-			instances.Add(this);
-		}
+    public int Bits {
+      get {
+        return bits;
+      }
+      set {
+        bits = value;
+      }
+    }
 
-		private void OnDisable() {
-			instances.Remove(this);
-		}
-	}
+    public string Blob {
+      get {
+        return blob;
+      }
+      set {
+        blob = value;
+      }
+    }
+
+    public bool IsTracked {
+      get {
+        return Application.isPlaying && (isTracked || isMine);
+      }
+      set {
+        isTracked = value;
+      }
+    }
+
+    public bool InObjectPool {
+      get {
+        return inObjectPool;
+      }
+      set {
+        inObjectPool = value;
+      }
+    }
+
+    private void OnEnable() {
+      instances.Add(this);
+    }
+
+    private void OnDisable() {
+      instances.Remove(this);
+    }
+  }
 }
 

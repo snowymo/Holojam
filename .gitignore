@@ -16,8 +16,10 @@ obj/
 *.sln
 *.csproj
 *.unitypackage
+*.apk
 
 *.pidb.meta
+.#*
 sysinfo.txt
 
 .DS_Store

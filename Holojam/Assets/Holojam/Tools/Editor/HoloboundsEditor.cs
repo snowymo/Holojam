@@ -3,42 +3,60 @@
 
 using UnityEngine;
 using UnityEditor;
+using Holojam.Network;
 
 namespace Holojam{
 	[CustomEditor(typeof(Holobounds))]
 	public class HoloboundsEditor : Editor{
-		bool fold = false;
+		static bool fold = true;
+		
+		SerializedProperty calibrator, bounds, floor, ceiling;
+		void OnEnable(){
+			calibrator=serializedObject.FindProperty("calibrator");
+			bounds=serializedObject.FindProperty("bounds");
+			floor=serializedObject.FindProperty("floor");
+			ceiling=serializedObject.FindProperty("ceiling");
+		}
+		
 		public override void OnInspectorGUI(){
-			Holobounds h = (Holobounds)target;
+			serializedObject.Update();
 			
-			h.calibrator=EditorGUILayout.ObjectField(
-				"Calibrator",h.calibrator,typeof(TrackedObject),true
-			) as TrackedObject;
+			EditorGUILayout.PropertyField(calibrator);
+			
+			Holobounds h = (Holobounds)serializedObject.targetObject;
 			
 			fold=EditorGUILayout.Foldout(fold,"Corners");
 			if(fold){
 				for(int i=0;i<4;++i){
+					string title = i==0?"Front-Left":i==1?"Front-Right":i==2?"Back-Right":"Back-Left";
+					EditorGUILayout.LabelField(title);
 					EditorGUILayout.BeginHorizontal();
-						h.bounds[i]=EditorGUILayout.Vector2Field("",h.bounds[i]);
+						EditorGUILayout.PropertyField(
+							bounds.GetArrayElementAtIndex(i),
+							new GUIContent(""),GUILayout.Height(16)
+						);
 						if(GUILayout.Button("C"))h.Calibrate(i);
 					EditorGUILayout.EndHorizontal();
 				}
+				EditorGUILayout.Space();
 			}
+			
 			EditorGUILayout.BeginHorizontal();
-				h.floor=EditorGUILayout.FloatField("Floor",h.floor);
+				EditorGUILayout.PropertyField(floor);
 				if(GUILayout.Button("C"))h.Calibrate(4);
 			EditorGUILayout.EndHorizontal();
+			
 			EditorGUILayout.BeginHorizontal();
-				h.ceiling=EditorGUILayout.FloatField("Ceiling",h.ceiling);
+				EditorGUILayout.PropertyField(ceiling);
 				if(GUILayout.Button("C"))h.Calibrate(5);
 			EditorGUILayout.EndHorizontal();
 			
-			EditorGUILayout.LabelField("Play area:",0.01f*Mathf.Round(100*h.area)+" square meters");
-			EditorGUILayout.Space();
-			EditorStyles.label.wordWrap = true;
 			EditorGUILayout.LabelField(
-				"Calibrate in play mode, then copy/paste entire component when desired values are found."
+				"Tracked Space",0.01f*Mathf.Round(100*h.area)+" m²",new GUIStyle(EditorStyles.boldLabel)
 			);
+			
+			EditorUtility.SetDirty(serializedObject.targetObject);
+			serializedObject.ApplyModifiedProperties();
 		}
 	}
 }
