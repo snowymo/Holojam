@@ -1420,7 +1420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &599340475
 Transform:
   m_ObjectHideFlags: 0
@@ -2528,7 +2528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &994207074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2964,9 +2964,16 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1177200645}
+<<<<<<< HEAD
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+=======
+  m_LocalRotation: {x: 0.20107602, y: 0.43611917, z: -0.72542655, w: 0.49307698}
+  m_LocalPosition: {x: -0.94341284, y: 0.74519867, z: -0.4813012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 56.2054, y: 14.402499, z: -103.8715}
+>>>>>>> nyu-vr-research/master
   m_Children:
   - {fileID: 601704764}
   m_Father: {fileID: 678062395}
@@ -3309,46 +3316,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 401340, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.25657234
-      objectReference: {fileID: 0}
-    - target: {fileID: 401340, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.023485482
-      objectReference: {fileID: 0}
     - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[0].x
-      value: -1.6668637
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[0].y
-      value: -1.6123174
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[1].x
-      value: -1.205076
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[1].y
-      value: 1.5660653
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[2].x
-      value: 1.0014106
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[2].y
-      value: 1.5086738
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[3].x
-      value: 0.8442397
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
-      propertyPath: bounds.Array.data[3].y
-      value: -1.3684797
-      objectReference: {fileID: 0}
+      propertyPath: calibrator
+      value: 
+      objectReference: {fileID: 1171453259}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0, type: 2}
   m_IsPrefabParent: 0
@@ -3421,7 +3392,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 069909995b48c4221a6250f3e2a0f6f7, type: 2}
     - target: {fileID: 166982, guid: 7bd07c9f79f6142b0b97936cb2838f29, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11409610, guid: 7bd07c9f79f6142b0b97936cb2838f29, type: 2}
       propertyPath: trackingTag
@@ -4079,6 +4050,7 @@ MonoBehaviour:
   sentWarning: 32
   receivedWarning: 48
   sentPPS: 0
+<<<<<<< HEAD
   receivedPPS: 0
 --- !u!1 &1820043116
 GameObject:
@@ -4095,6 +4067,9 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+=======
+  receivedPPS: 
+>>>>>>> nyu-vr-research/master
 --- !u!1001 &1839278464
 Prefab:
   m_ObjectHideFlags: 0
