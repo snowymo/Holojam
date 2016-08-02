@@ -1,3 +1,8 @@
+Videos/
+*.mp4
+*.mov
+*.MOV
+
 Temp/
 Library/
 Library.meta
