@@ -15,6 +15,7 @@ namespace Holojam.Network {
 		public int sentWarning = -1, receivedWarning = 48;
 		public int sentPPS;
 		public List<int> receivedPPS;
+		public List<string> threadData;
 
 		[System.NonSerialized]
 		public int sentPacketsPerSecond;
@@ -22,21 +23,19 @@ namespace Holojam.Network {
 		public List<int> receivedPacketsPerSecond;
 
 		//Constant and Read-only
-		public const int HOLOJAM_MOTIVE_PORT = 1611; //Port for receiving motive information
-		public const int HOLOJAM_NONMOTIVE_PORT = 1612; // Port for receiving non-motive information
-		public const int BLACK_BOX_SERVER_PORT = 1615; //Port for sending information
+		public const int PORT = 1611;
 
 		private HolojamSendThread sendThread;
-		private List<HolojamRecieveThread> receiveThreads;
+		private List<HolojamReceiveThread> receiveThreads;
 
 		void Start() {
 			receivedPacketsPerSecond = new List<int> ();
 			
-			sendThread = new HolojamSendThread(BLACK_BOX_SERVER_PORT);
-			receiveThreads = new List<HolojamRecieveThread> ();
+			sendThread = new HolojamSendThread(PORT);
+			receiveThreads = new List<HolojamReceiveThread> ();
 			receivedPPS = new List<int> ();
-			AddReceiveThread(HOLOJAM_MOTIVE_PORT);
-			AddReceiveThread(HOLOJAM_NONMOTIVE_PORT);
+			AddReceiveThread(PORT);
+			//AddReceiveThread(HOLOJAM_NONMOTIVE_PORT);
 
 			sendThread.Start();
 			foreach (HolojamThread thread in receiveThreads) {
@@ -47,13 +46,16 @@ namespace Holojam.Network {
 		}
 
 		void AddReceiveThread(int port) {
-			receiveThreads.Add(new HolojamRecieveThread(port));
+			receiveThreads.Add(new HolojamReceiveThread(port));
 			receivedPacketsPerSecond.Add (0);
 			receivedPPS.Add (0);
 		}
 
 		void FixedUpdate() {
 			List<HolojamView> viewsToSend = new List<HolojamView>();
+			
+			//Update timers on the receive threads (regardless if there are views)
+			foreach(HolojamReceiveThread thread in receiveThreads)thread.Update(Time.deltaTime);
 
 			foreach (HolojamView view in HolojamView.instances) {
 				if (view.IsMine) {
@@ -63,7 +65,7 @@ namespace Holojam.Network {
 						Debug.LogWarning("Warning: No HolojamView label on object: " + view.name);
 						continue;
 					}
-
+					
 					HolojamObject o;
 					foreach (HolojamThread thread in receiveThreads) {
 						if (thread.GetObject (view.Label, out o)) {
@@ -71,11 +73,10 @@ namespace Holojam.Network {
 							view.RawRotation = o.rotation;
 							view.Bits = o.bits;
 							view.Blob = o.blob;
-							view.IsTracked = true;
+							view.IsTracked = o.isTracked;
 							break;
-						} else {
-							view.IsTracked = false;
 						}
+						else view.IsTracked = false;
 					}
 				}
 			}
@@ -90,6 +91,9 @@ namespace Holojam.Network {
 			}
 			while (running) {
 				yield return new WaitForSeconds(1f);
+				
+				threadData.Clear();
+				threadData.Add(sendThread.ToString());
 
 				sentPacketsPerSecond = sendThread.PacketCount;
 				sendThread.PacketCount = 0;
@@ -97,26 +101,27 @@ namespace Holojam.Network {
 
 				if (Time.frameCount > 0 && sentPPS <= sentWarning) {
 					Debug.LogWarning (
-						" HolojamNetwork: Sent Packets - " + sentPacketsPerSecond
+						"HolojamNetwork: Sent Packets - " + sentPPS
 					);
 				}
 				int threadIndex = 0;
 				foreach (HolojamThread receiveThread in receiveThreads) {
+					threadData.Add(receiveThread.ToString());
+					
 					receivedPacketsPerSecond[threadIndex] = receiveThread.PacketCount;
 					receiveThread.PacketCount = 0;
 					receivedPPS[threadIndex] = receivedPacketsPerSecond[threadIndex];
+					
+					if (Time.frameCount > 0 && receivedPPS[threadIndex] <= receivedWarning) {
+						Debug.LogWarning (
+							"HolojamNetwork: Received Packets (Thread " +
+							(threadIndex+1) + ") - " + receivedPPS[threadIndex]
+						);
+					}
+					
 					threadIndex++;
 				}
 			}
-		}
-
-		public bool IsTracked(string label) {
-			HolojamObject o;
-			bool tracked = false;
-			foreach (HolojamThread thread in receiveThreads) {
-				tracked = thread.GetObject (label, out o) || tracked;
-			}
-			return tracked;
 		}
 
 		protected override void OnDestroy () {
@@ -138,7 +143,7 @@ namespace Holojam.Network {
 		protected UnityEngine.Object lockObject = new UnityEngine.Object();
 		protected int packetCount = 0;
 		protected bool isRunning = false;
-
+		
 		protected abstract ThreadStart ThreadStart {
 			get;
 		}
@@ -159,7 +164,7 @@ namespace Holojam.Network {
 
 		public void Start() {
 			if (this.isRunning) {
-				Debug.LogWarning("Thread already started!");
+				Debug.LogWarning("HolojamNetwork: Thread already started!");
 				return;
 			}
 
@@ -186,14 +191,45 @@ namespace Holojam.Network {
 				}
 			}
 		}
+		
+		public override string ToString() {
+			lock(lockObject){
+				string s = "Port "+port+":";
+				
+				if(managedObjects.Count==0)s+="\n  (Empty)";
+				else foreach(string k in managedObjects.Keys)
+					s+="\n  "+k;
+				
+				return s;
+			}
+		}
 	}
 
-	internal class HolojamRecieveThread : HolojamThread {
+	internal class HolojamReceiveThread : HolojamThread {
+		//Persistent dictionary for testing object timeout
+		protected Dictionary<string, float> objectTimers = new Dictionary<string, float>();
+		protected const float objectTimeout = 0.4f; //Seconds until removal
 
 		private PacketBuffer previousPacket = new PacketBuffer(PacketBuffer.PACKET_SIZE);
 		private PacketBuffer currentPacket = new PacketBuffer(PacketBuffer.PACKET_SIZE);
 		private PacketBuffer tempPacket = new PacketBuffer(PacketBuffer.PACKET_SIZE);
 		private update_protocol_v3.Update update;
+		
+		//Update the timers
+		public void Update(float delta){
+			lock(lockObject){
+				//Safe list for iteration
+				List<string> keys = new List<string>(objectTimers.Keys);
+				foreach(string key in keys){
+					objectTimers[key]+=delta; //Increment timer
+					//Remove object from both dictionaries on timeout
+					if(objectTimers[key]>objectTimeout){
+						objectTimers.Remove(key);
+						managedObjects.Remove(key);
+					}
+				}
+			}
+		}
 
 		protected override ThreadStart ThreadStart {
 			get {
@@ -201,10 +237,11 @@ namespace Holojam.Network {
 			}
 		}
 
-		public HolojamRecieveThread(int port) : base(port) { }
+		public HolojamReceiveThread(int port) : base(port) { }
 
 		public void Receive() {
 			Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			socket.SetSocketOption (SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
 			socket.Bind(new IPEndPoint(IPAddress.Any, port));
 			socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, 
 								   new MulticastOption(IPAddress.Parse("224.1.1.1")));
@@ -218,53 +255,56 @@ namespace Holojam.Network {
 							new MemoryStream(currentPacket.bytes, 0, nBytesReceived)
 							);
 
-				currentPacket.frame = update.mod_version;
-				if (currentPacket.frame > previousPacket.frame) {
-					packetCount++;
+				//currentPacket.frame = update.mod_version;
+				//if(currentPacket.frame>previousPacket.frame){
+				
+				packetCount++;
+				
+				previousPacket.stream.Position = 0;
+				currentPacket.stream.Position = 0;
+				tempPacket.copyFrom(previousPacket);
+				previousPacket.copyFrom(currentPacket);
+				currentPacket.copyFrom(tempPacket);
+				lock (lockObject) {
+					//managedObjects.Clear();
+					
+					for (int j = 0; j < update.live_objects.Count; j++) {
+						LiveObject or = update.live_objects[j];
+						string label = or.label;
+						
+						objectTimers[label]=0; //Reset timer--we received data for this object
 
-					previousPacket.stream.Position = 0;
-					currentPacket.stream.Position = 0;
-					tempPacket.copyFrom(previousPacket);
-					previousPacket.copyFrom(currentPacket);
-					currentPacket.copyFrom(tempPacket);
-					lock (lockObject) {
-						managedObjects.Clear();
-						for (int j = 0; j < update.live_objects.Count; j++) {
-							LiveObject or = update.live_objects[j];
-							string label = or.label;
+						HolojamObject ho;
 
+						//Reform managedObjects every frame.
+						//Inefficient for now, but will allow us to determine
+						//if an object is registered.
 
-							HolojamObject ho;
+						ho = new HolojamObject(label);
+						managedObjects[label] = ho;
 
-							//Reform managedObjects every frame.
-							//Inefficient for now, but will allow us to determine
-							//if an object is registered or not.
-
-
-							ho = new HolojamObject(label);
-							managedObjects[label] = ho;
-
-							if (update.lhs_frame) {
-								ho.position = new Vector3(-(float)or.x, (float)or.y, (float)or.z);
-								ho.rotation = new Quaternion(-(float)or.qx,
-															  (float)or.qy, 
-															  (float)or.qz, 
-															 -(float)or.qw);
-							} else {
-								ho.position = new Vector3((float)or.x, (float)or.y, (float)or.z);
-								ho.rotation = new Quaternion((float)or.qx, 
-															 (float)or.qy, 
-									       					 (float)or.qz, 
-															 (float)or.qw);
-							}
-							ho.bits = or.button_bits;
-
-							//Get blob if it's there. Inefficient
-							ho.blob = or.extra_data;
+						if (update.lhs_frame) {
+							ho.position = new Vector3(-(float)or.x, (float)or.y, (float)or.z);
+							ho.rotation = new Quaternion(-(float)or.qx,
+														  (float)or.qy, 
+														  (float)or.qz, 
+														 -(float)or.qw);
+						} else {
+							ho.position = new Vector3((float)or.x, (float)or.y, (float)or.z);
+							ho.rotation = new Quaternion((float)or.qx, 
+														 (float)or.qy, 
+								       					 (float)or.qz, 
+														 (float)or.qw);
 						}
+						ho.bits = or.button_bits;
+
+						//Get blob if it's there. Inefficient
+						ho.blob = or.extra_data;
+						
+						ho.isTracked = or.is_tracked;
 					}
 				}
-
+				
 				if (!isRunning) {
 					socket.Close();
 					break;
@@ -289,15 +329,17 @@ namespace Holojam.Network {
 		public HolojamSendThread(int port) : base(port) { }
 
 		public void Send() {
-			Debug.Log("Attempting to open send thread with ip/port: " + ip.ToString() + " " + port);
+			//Debug.Log("Attempting to open send thread with ip/port: " + ip.ToString() + " " + port);
 			Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			socket.SetSocketOption (SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+
 			IPEndPoint ipEndPoint = new IPEndPoint(ip, 0);
 			IPEndPoint send_ipEndPoint = new IPEndPoint(IPAddress.Parse("192.168.1.44"), port);
 
 			try {
 				socket.Bind(ipEndPoint);
 			} catch (SocketException e) {
-				Debug.Log("Error binding socket: " + ip.ToString() + " " + port + " " + e.ToString());
+				Debug.LogWarning("Error binding socket: " + ip.ToString() + " " + port + " " + e.ToString());
 				isRunning = false;
 			}
 
@@ -312,10 +354,10 @@ namespace Holojam.Network {
 					update.mod_version = lastLoadedFrame;
 					update.lhs_frame = false;
 					lastLoadedFrame++;
+					
 					foreach (KeyValuePair<string, HolojamObject> entry in managedObjects) {
-						LiveObject o = entry.Value.ToLiveObject();	
+						LiveObject o = entry.Value.ToLiveObject();
 						update.live_objects.Add(o);
-
 					}
 					using (MemoryStream stream = new MemoryStream()) {
 						packetCount++;
@@ -353,6 +395,7 @@ namespace Holojam.Network {
 		public Quaternion rotation = DEFAULT_ROTATION;
 		public int bits = 0;
 		public string blob = "";
+		public bool isTracked = false;
 
 		public HolojamObject(string label) {
 			this.label = label;
@@ -376,6 +419,8 @@ namespace Holojam.Network {
 			if (!string.IsNullOrEmpty(blob)) {
 				o.extra_data = blob;
 			}
+			
+			o.is_tracked = isTracked;
 
 			return o;
 		}
@@ -387,6 +432,7 @@ namespace Holojam.Network {
 			o.rotation = view.RawRotation;
 			o.bits = view.Bits;
 			o.blob = view.Blob;
+			o.isTracked = view.IsTracked;
 
 			return o;
 		}
