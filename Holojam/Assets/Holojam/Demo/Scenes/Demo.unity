@@ -476,6 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTag: 0
+  smooth: 1
   handle: Blue
   motif: {r: 0, g: 1, b: 1, a: 1}
   mask: {fileID: 782223718}
@@ -929,6 +930,7 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 456790079}
@@ -941,6 +943,18 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &456790079
 Transform:
+=======
+  m_GameObject: {fileID: 482184425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackingTag: 24
+  smooth: 1
+--- !u!114 &482184428
+MonoBehaviour:
+>>>>>>> nyu-vr-research/master
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -3537,6 +3551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTag: 2
+  smooth: 1
   handle: Red
   motif: {r: 1, g: 0, b: 0, a: 1}
   mask: {fileID: 408168082}
@@ -3584,6 +3599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTag: 23
+  smooth: 1
 --- !u!4 &1177200647
 Transform:
   m_ObjectHideFlags: 0
@@ -4179,6 +4195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTag: 3
+  smooth: 1
   handle: Yellow
   motif: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   mask: {fileID: 846457367}
@@ -4637,6 +4654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTag: 8
+  smooth: 1
 --- !u!23 &1707563173
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4869,6 +4887,10 @@ GameObject:
   m_IsActive: 1
 =======
   receivedPPS: 
+<<<<<<< HEAD
+>>>>>>> nyu-vr-research/master
+=======
+  threadData: []
 >>>>>>> nyu-vr-research/master
 --- !u!1001 &1839278464
 Prefab:
@@ -5095,6 +5117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTag: 1
+  smooth: 1
   handle: Green
   motif: {r: 0, g: 1, b: 0, a: 1}
   mask: {fileID: 27169721}
