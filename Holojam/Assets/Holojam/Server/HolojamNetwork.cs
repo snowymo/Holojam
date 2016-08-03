@@ -249,14 +249,6 @@ namespace Holojam.Network {
 			int nBytesReceived = 0;
 			while (isRunning) {
 				nBytesReceived = socket.Receive(currentPacket.bytes);
-<<<<<<< HEAD
-<<<<<<< HEAD
-				//Debug.Log ("isRunning:\t" + nBytesReceived);
-=======
-				timer = 0; //Reset packet timer--we received packets!
->>>>>>> nyu-vr-research/master
-=======
->>>>>>> nyu-vr-research/master
 				currentPacket.stream.Position = 0;
 
 				update = Serializer.Deserialize<update_protocol_v3.Update>(
