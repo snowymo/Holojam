@@ -9,11 +9,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-<<<<<<< HEAD
   companyName: DefaultCompany
-=======
-  companyName: FRL
->>>>>>> nyu-vr-research/master
   productName: Holojam
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -93,24 +89,14 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-<<<<<<< HEAD
   bundleIdentifier: com.Company.ProductName
   bundleVersion: 1.0
-=======
-  bundleIdentifier: com.FRL.Holojam
-  bundleVersion: 0.1
->>>>>>> nyu-vr-research/master
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
-<<<<<<< HEAD
   virtualRealitySupported: 0
-  productGUID: ffe871319958848359423fe3c10cefc3
-=======
-  virtualRealitySupported: 1
-  productGUID: 7991ff30f54a74f179fbca48371ffbb2
->>>>>>> nyu-vr-research/master
+  productGUID: 3959ef794ac0c470c85dfac1525f7378
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
@@ -276,7 +262,7 @@ PlayerSettings:
   ps4ApplicationParam4: 0
   ps4DownloadDataSize: 0
   ps4GarlicHeapSize: 2048
-  ps4Passcode: 5PN2qmWqBlQ9wQj99nsQzldVI5ZuGXbE
+  ps4Passcode: 5xr84P2R391UXaLHbavJvFZGfO47XWS2
   ps4pnSessions: 1
   ps4pnPresence: 1
   ps4pnFriends: 1
@@ -313,7 +299,7 @@ PlayerSettings:
   psp2LiveAreaTrialPath: 
   psp2PatchChangeInfoPath: 
   psp2PatchOriginalPackage: 
-  psp2PackagePassword: WRK5RhRXdCdG5nG5azdNMK66MuCV6GXi
+  psp2PackagePassword: qVOw5lxuBEBNue7b9PZS0hoI6pgabi9U
   psp2KeystoneFile: 
   psp2MemoryExpansionMode: 0
   psp2DRMType: 0

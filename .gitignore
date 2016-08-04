@@ -4,6 +4,7 @@ Videos/
 *.MOV
 
 Holojam/ProjectSettings/ProjectSettings.asset
+Holojam/ProjectSettings/EditorBuildSettings.asset
 
 Temp/
 Library/

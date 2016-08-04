@@ -4,14 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 0
-    path: Assets/Holojam/Demo/Scenes/Demo.unity
-  - enabled: 1
-<<<<<<< HEAD
-    path: Assets/Holojam/PhysicalSharing/HereBeer-B.unity
-  - enabled: 0
-    path: Assets/Holojam/PhysicalSharing/HereBeer-A.unity
-=======
-    path: Assets/_Ignore/Misc/Demo-local.unity
->>>>>>> nyu-vr-research/master
+  m_Scenes: []
