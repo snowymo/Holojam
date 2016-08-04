@@ -9,7 +9,11 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
+<<<<<<< HEAD
   companyName: DefaultCompany
+=======
+  companyName: FRL
+>>>>>>> nyu-vr-research/master
   productName: Holojam
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -89,14 +93,24 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
+<<<<<<< HEAD
   bundleIdentifier: com.Company.ProductName
   bundleVersion: 1.0
+=======
+  bundleIdentifier: com.FRL.Holojam
+  bundleVersion: 0.1
+>>>>>>> nyu-vr-research/master
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
+<<<<<<< HEAD
   virtualRealitySupported: 0
   productGUID: ffe871319958848359423fe3c10cefc3
+=======
+  virtualRealitySupported: 1
+  productGUID: 7991ff30f54a74f179fbca48371ffbb2
+>>>>>>> nyu-vr-research/master
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
