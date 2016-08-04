@@ -3,6 +3,8 @@ Videos/
 *.mov
 *.MOV
 
+Holojam/ProjectSettings/ProjectSettings.asset
+
 Temp/
 Library/
 Library.meta
