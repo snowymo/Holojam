@@ -18,12 +18,12 @@ public class StepperCommunication : SerialCommunication {
 	}
 		
 
-	public void open(){
-		if (stream == null) {
-			stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ", 57600);
-			stream.Open ();
-		}
-	}
+//	public void open(){
+//		if (stream == null) {
+//			stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ", 57600);
+//			stream.Open ();
+//		}
+//	}
 
 	string encode(int left, int right){
 		char chl = (char)('A' + left);

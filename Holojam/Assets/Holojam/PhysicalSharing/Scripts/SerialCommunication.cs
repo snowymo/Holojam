@@ -54,7 +54,7 @@ public class SerialCommunication {
 		//stream.Write ("f");
 	}
 
-	public void forward(){
+	public virtual void forward(){
 		open ();
 		stream.Write ("f");
 		//stream.Write ("f");
@@ -78,7 +78,7 @@ public class SerialCommunication {
 		//stream.Write ("f");
 	}
 
-	public void backward(){
+	public virtual void backward(){
 		open ();
 		stream.Write ("b");
 	}
@@ -129,17 +129,24 @@ public class SerialCommunication {
 		//stream.Write ("z");
 	}
 
-	public void left(){
+	public virtual void left(){
 		open ();
 		stream.Write ("z");
 		//stream.Write ("z");
 	}
 
-	public void right(){
+	public virtual void right(){
 		open ();
 		stream.Write ("y");
 		//stream.Write ("z");
 	}
+
+	public virtual void stop(){
+	}
+
+	public virtual void setSpeed(float f){}
+
+	public virtual  void setWaitTime(float f){}
 
 	public void right(float angle){
 		if (angle < 0)
