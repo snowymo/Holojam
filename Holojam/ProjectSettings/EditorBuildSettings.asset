@@ -4,10 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-<<<<<<< HEAD
   m_Scenes: []
-=======
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Holojam/Demo/Scenes/Demo.unity
->>>>>>> nyu-vr-research/master
