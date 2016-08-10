@@ -10,7 +10,7 @@ public class StepperCommunication : SerialCommunication {
 		
 	}
 
-	public static StepperCommunication getInstance(){
+	public static new StepperCommunication getInstance(){
 		if (m_Instance == null) {
 			m_Instance = new StepperCommunication ();
 		}

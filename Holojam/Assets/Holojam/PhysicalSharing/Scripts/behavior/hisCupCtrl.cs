@@ -5,6 +5,8 @@ public class hisCupCtrl : MonoBehaviour {
 
 	Vector3 offsetPos;
 
+	public GameObject trackedObj;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -14,6 +16,6 @@ public class hisCupCtrl : MonoBehaviour {
 	void Update () {
 		// update the position with offset all the time
 		offsetPos = Offset.getInst().getOffset();
-		this.transform.position += offsetPos;
+		this.transform.position = offsetPos + trackedObj.transform.position;
 	}
 }

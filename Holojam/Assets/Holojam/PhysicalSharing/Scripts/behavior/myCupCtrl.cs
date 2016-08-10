@@ -3,6 +3,8 @@ using System.Collections;
 
 public class myCupCtrl : MonoBehaviour {
 
+	public GameObject trackedObj;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -10,6 +12,6 @@ public class myCupCtrl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		//transform.position = trackedObj.transform.position + Offset.getInst ().getOffset ();
 	}
 }

@@ -311,7 +311,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1421362028}
   - 114: {fileID: 1421362027}
-  - 114: {fileID: 1421362029}
   - 114: {fileID: 1421362031}
   - 114: {fileID: 1421362030}
   m_Layer: 0
@@ -348,18 +347,6 @@ Transform:
   - {fileID: 1309289237}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &1421362029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1421362026}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd2d8bcf5ea75c14295c88ecd4a33028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customTag: car
 --- !u!114 &1421362030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 30
+  trackingTag: 31
   localSpace: 0
 --- !u!114 &1421362031
 MonoBehaviour:
@@ -384,5 +371,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: m3pi
+  label: PS_B2
   isMine: 0

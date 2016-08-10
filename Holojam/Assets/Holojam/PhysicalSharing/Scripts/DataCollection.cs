@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DataCollection : MonoBehaviour {
 
-	SerialCommunication m_inst;
+	m3piComm m_inst;
 
 	Quaternion rot;
 

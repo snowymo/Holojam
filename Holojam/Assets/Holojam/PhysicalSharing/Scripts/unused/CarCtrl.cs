@@ -175,7 +175,7 @@ public class CarCtrl : MonoBehaviour {
 	void drawRays(){
 		Quaternion facing = Quaternion.identity;
 		facing.SetFromToRotation (transform.rotation * Vector3.forward, referenceObj.transform.position - transform.position);
-		Vector3 vFacing = facing * Vector3.forward;
+		//Vector3 vFacing = facing * Vector3.forward;
 		Vector3 vCur = transform.rotation * Vector3.forward;
 		// test if these two vectors are correct
 		Debug.DrawRay(this.transform.position,vCur,Color.green);

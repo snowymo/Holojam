@@ -27,9 +27,9 @@ public class ctrlC : MonoBehaviour
 	void Update ()
 	{
 		// update them with offset
-		updateOffset ();
+		//updateOffset ();
 		// synchoronize A1 with B1 and sync A2 with B2 all the time
-		sync (carB1, carA1);
+		//sync (carB1, carA1);
 		sync (carB2, carA2);
 
 	}
@@ -49,7 +49,7 @@ public class ctrlC : MonoBehaviour
 	{
 		Quaternion facing = Quaternion.identity;
 		facing.SetFromToRotation (localTrans.rotation * Vector3.forward, remoteTrans.position - localTrans.position);
-		Vector3 vFacing = facing * Vector3.forward;
+		//Vector3 vFacing = facing * Vector3.forward;
 
 		Vector3 vCur = localTrans.rotation * Vector3.forward;
 

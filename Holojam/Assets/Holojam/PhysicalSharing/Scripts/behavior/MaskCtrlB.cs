@@ -3,6 +3,10 @@ using System.Collections;
 
 public class MaskCtrlB : MonoBehaviour {
 
+	public GameObject trackedObj;
+
+	public GameObject trackedRotation;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -11,6 +15,7 @@ public class MaskCtrlB : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// apply offset
-		transform.position -= Offset.getInst().getOffset();
+		transform.position = trackedObj.transform.position - Offset.getInst().getOffset();
+		transform.rotation = trackedRotation.transform.rotation;
 	}
 }
