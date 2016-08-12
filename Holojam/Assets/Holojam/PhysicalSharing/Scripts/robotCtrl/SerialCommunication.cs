@@ -144,9 +144,9 @@ public class SerialCommunication {
 	public virtual void stop(){
 	}
 
-	public virtual void setSpeed(float f){}
+	public virtual void setSpeed(int f){}
 
-	public virtual  void setWaitTime(float f){}
+	public virtual  void setWaitTime(int f){}
 
 	public void right(float angle){
 		if (angle < 0)

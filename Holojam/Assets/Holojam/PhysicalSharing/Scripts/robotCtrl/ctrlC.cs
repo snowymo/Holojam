@@ -17,10 +17,13 @@ public class ctrlC : MonoBehaviour
 
 	private m3piComm m3piCtrl;
 
+	private int count;
+
 	// Use this for initialization
 	void Start ()
 	{
 		m3piCtrl = new m3piComm ();
+		count = 0;
 	}
 	
 	// Update is called once per frame
@@ -81,12 +84,13 @@ public class ctrlC : MonoBehaviour
 
 			if(angle > 90.0f)
 				angle = angle - 180.0f;
+			
 			if (angle % 180.0f > 6.0f) {
 				//print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
 				if (vUp.y > 0.005)
-					m3piCtrl.right ();
+					setAngle (false, angle);
 				else if (vUp.y < -0.005)
-					m3piCtrl.left ();
+					setAngle (true, angle);
 				else
 					return true;
 				isLastRound = true;
@@ -96,6 +100,81 @@ public class ctrlC : MonoBehaviour
 				return true;
 			}
 		}
+	}
+
+	void setSpeedWait(float dis, bool fw){
+		while (dis > 0.21) {
+			m3piCtrl.setSpeed (7);
+			m3piCtrl.setWaitTime (9);
+			if (fw)
+				m3piCtrl.forward ();
+			else
+				m3piCtrl.backward ();
+			dis -= 0.21f;
+		}
+		while (dis > 0.12) {
+			m3piCtrl.setSpeed (6);
+			m3piCtrl.setWaitTime (6);
+			if (fw)
+				m3piCtrl.forward ();
+			else
+				m3piCtrl.backward ();
+			dis -= 0.12f;
+		}
+		while (dis > 0.06) {
+			m3piCtrl.setSpeed (4);
+			m3piCtrl.setWaitTime (4);
+			if (fw)
+				m3piCtrl.forward ();
+			else
+				m3piCtrl.backward ();
+			dis -= 0.06f;
+		}
+		while (dis > 0.02) {
+			m3piCtrl.setSpeed (3);
+			m3piCtrl.setWaitTime (2);
+			if (fw)
+				m3piCtrl.forward ();
+			else
+				m3piCtrl.backward ();
+			dis -= 0.02f;
+		}
+		m3piCtrl.run ();
+	}
+
+	void setAngle(bool lft, float angle){
+		if (angle < 0)
+			lft = !lft;
+		angle = Mathf.Abs (angle);
+
+		while (angle > 20.0f) {
+			m3piCtrl.setSpeed (6);
+			m3piCtrl.setWaitTime (1);
+			if (lft)
+				m3piCtrl.left ();
+			else
+				m3piCtrl.right ();
+			angle -= 20.0f;
+		}
+		while (angle > 10.0f) {
+			m3piCtrl.setSpeed (4);
+			m3piCtrl.setWaitTime (1);
+			if (lft)
+				m3piCtrl.left ();
+			else
+				m3piCtrl.right ();
+			angle -= 10.0f;
+		}
+		while (angle > 6.0f) {
+			m3piCtrl.setSpeed (1);
+			m3piCtrl.setWaitTime (1);
+			if (lft)
+				m3piCtrl.left ();
+			else
+				m3piCtrl.right ();
+			angle -= 6.0f;
+		}
+		m3piCtrl.run ();
 	}
 
 	bool goStraight(GameObject local, GameObject remote, ref Vector3 lastPosition ){
@@ -111,10 +190,8 @@ public class ctrlC : MonoBehaviour
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (dis, vCur);
 			print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
-			if ((vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0))
-				m3piCtrl.forward ();
-			else
-				m3piCtrl.backward ();
+			bool isForward = (vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0);
+			setSpeedWait (dis.magnitude, isForward);
 			isLastStraight = true;
 			return false;
 		} else {
@@ -135,6 +212,10 @@ public class ctrlC : MonoBehaviour
 		Vector3 lastPos = new Vector3();
 		Quaternion lastRot = Quaternion.identity;
 
+		if (count++ != 20)
+			return;
+		count = 0;
+
 		while (step != 0) {
 			switch (step) {
 			case 0:
@@ -144,6 +225,7 @@ public class ctrlC : MonoBehaviour
 				// check distance first
 				if (isClose (local.transform.position, remote.transform.position)) {
 					step = 0;
+					m3piCtrl.stop ();
 				} else {
 					++step;
 				}

@@ -12,6 +12,6 @@ public class hisCupCtrlB : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = trackedObject.transform.position - Offset.getInst ().getOffset ();
+		transform.position = trackedObject.transform.position - Offset.getInst ().getOffset () - new Vector3(0,0.14f,0);
 	}
 }

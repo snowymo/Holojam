@@ -5,6 +5,8 @@ public class myCupCtrl : MonoBehaviour {
 
 	public GameObject trackedObj;
 
+	public Vector3 remoteOffset;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -12,6 +14,6 @@ public class myCupCtrl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//transform.position = trackedObj.transform.position + Offset.getInst ().getOffset ();
+		transform.position = trackedObj.transform.position + remoteOffset;
 	}
 }

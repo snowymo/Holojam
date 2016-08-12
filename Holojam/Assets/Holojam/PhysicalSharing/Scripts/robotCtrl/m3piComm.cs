@@ -4,16 +4,18 @@ using System.IO.Ports;
 
 public class m3piComm : SerialCommunication
 {
-	float m_speed;
+	int m_speed;
 
-	float m_waitTime;
+	int m_waitTime;
+
+	string m_command;
 
 	//protected SerialPort stream;
 
 	public m3piComm ()
 	{
-		m_speed = 0.2f;
-		m_waitTime = 0.5f;
+		//m_speed = 0.2f;
+		//m_waitTime = 0.5f;
 	}
 
 	static private m3piComm m_inst = null;
@@ -25,42 +27,51 @@ public class m3piComm : SerialCommunication
 		return m_inst;
 	}
 
-	public override void setSpeed(float sp){
+	public override void setSpeed(int sp){
 		m_speed = sp;
 
 	}
 
-	public override void setWaitTime(float wt){
+	public override void setWaitTime(int wt){
 		m_waitTime = wt;
 	}
 
 	public override void forward ()
 	{
 		open ();
-		stream.Write ("f" + (m_speed * 10.0f).ToString () + (m_waitTime * 10.0f).ToString () + "e");
+		m_command += "Af" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
+	}
+
+	public void clear(){
+		m_command = "";
+	}
+
+	public void run(){
+		stream.Write (m_command);
+		m_command = "";
 	}
 
 	public override void backward ()
 	{
 		open ();
-		stream.Write ("b" + (m_speed * 10.0f).ToString () + (m_waitTime * 10.0f).ToString () + "e");
+		m_command += "Ab" + (m_speed ).ToString () + (m_waitTime ).ToString () + "e";
 	}
 
 	public override void left ()
 	{
 		open ();
-		stream.Write ("l" + (m_speed * 10.0f).ToString () + (m_waitTime * 10.0f).ToString () + "e");
+		m_command +="Al" + (m_speed ).ToString () + (m_waitTime).ToString () + "e";
 	}
 
 	public override void right ()
 	{
 		open ();
-		stream.Write ("r" + (m_speed * 10.0f).ToString () + (m_waitTime * 10.0f).ToString () + "e");
+		m_command +="Ar" + (m_speed ).ToString () + (m_waitTime ).ToString () + "e";
 	}
 
 	public override void stop ()
 	{
 		open ();
-		stream.Write ("se");
+		m_command +="Ase";
 	}
 }

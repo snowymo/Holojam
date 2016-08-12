@@ -11,9 +11,9 @@ public class DataCollection : MonoBehaviour {
 
 	public int roundTest;
 
-	public float speed;
+	public int speed;
 
-	public float waitTime;
+	public int waitTime;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +33,7 @@ public class DataCollection : MonoBehaviour {
 			m_inst.setSpeed(speed);
 			m_inst.setWaitTime (waitTime);
 			m_inst.forward();
+			m_inst.run ();
 			Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 
 			Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
@@ -46,6 +47,7 @@ public class DataCollection : MonoBehaviour {
 			m_inst.setSpeed(speed);
 			m_inst.setWaitTime (waitTime);
 			m_inst.backward();
+			m_inst.run ();
 			Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 
 			Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
@@ -57,6 +59,7 @@ public class DataCollection : MonoBehaviour {
 			m_inst.setSpeed(speed);
 			m_inst.setWaitTime (waitTime);
 			m_inst.left ();
+			m_inst.run ();
 			Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 			Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
 			pos = this.transform.position;
@@ -66,6 +69,7 @@ public class DataCollection : MonoBehaviour {
 			m_inst.setSpeed(speed);
 			m_inst.setWaitTime (waitTime);
 			m_inst.right ();
+			m_inst.run ();
 			Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 			Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
 			pos = this.transform.position;
@@ -73,6 +77,7 @@ public class DataCollection : MonoBehaviour {
 		}
 		if (Input.GetKeyDown (KeyCode.S)) {
 			m_inst.stop ();
+			m_inst.run ();
 			//Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 			//Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
 			//pos = this.transform.position;
