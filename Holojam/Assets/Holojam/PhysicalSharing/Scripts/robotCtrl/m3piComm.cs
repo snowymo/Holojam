@@ -52,9 +52,12 @@ public class m3piComm : SerialCommunication
 	}
 		
 	public void run(){
-		stream.Write (m_command);
-		m_command = "";
-		m_returnMsg = stream.ReadLine();
+		if (stream.IsOpen) {
+			stream.Write (m_command);
+			m_command = "";
+			// if robot is not power on then it will die
+			//m_returnMsg = stream.ReadLine();
+		}
 	}
 
 	public override void backward ()

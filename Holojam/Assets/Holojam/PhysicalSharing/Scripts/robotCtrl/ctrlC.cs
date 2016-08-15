@@ -6,14 +6,16 @@ public class ctrlC : MonoBehaviour
 {
 
 	public GameObject carA1;
-	public GameObject carA2;
+	public GameObject carA2ref;
 	public GameObject carB1;
 	public GameObject carB2;
+	public GameObject carB2ref;
+	public GameObject carA2;
 
 	private Vector2 vLocal;
 	private Vector2 vRemote;
 
-	private bool isLastRound,isLastStraight;
+	private bool isLastRound, isLastStraight;
 
 	private m3piComm m3piCtrlB;
 
@@ -25,6 +27,9 @@ public class ctrlC : MonoBehaviour
 	Quaternion lastRot;
 
 	public string m_returnMsg;
+
+	Vector3 defaultRBTB;
+	float yThreshold;
 
 	// Use this for initialization
 	void Start ()
@@ -38,12 +43,47 @@ public class ctrlC : MonoBehaviour
 		// initialize
 		isLastRound = false;
 		isLastStraight = false;
-		lastPos = new Vector3();
+		lastPos = new Vector3 ();
 		lastRot = Quaternion.identity;
 
+
+		yThreshold = 0.07f;
 		//sync (carB2, carA2);
+
+		carB2ref.SetActive (false);
+
+
 	}
-	
+
+	// only once
+	int isFirst = 0;
+	void myStart(){
+		if (isFirst == 2) {
+			// record default height of ROBOT B
+			defaultRBTB = carB2.transform.position;
+			print ("default y\t" + defaultRBTB.y.ToString ("F3"));
+			isFirst = 3;
+		}
+		else if(isFirst < 2)
+			isFirst++;
+	}
+
+	void checkHeight(){
+		if(Vector3.Distance(defaultRBTB, new Vector3()) > 0.1){
+			if (Mathf.Abs (carB2.transform.position.y - defaultRBTB.y) > yThreshold) {
+				print ("being hold.\t" + carB2.transform.position.y.ToString("F3"));
+				step = 0;
+				this.GetComponent<SyncMsg> ().sentMsg = "stop";
+				carB2ref.SetActive (true);
+				carA2ref.SetActive (false);
+			} else {
+				this.GetComponent<SyncMsg> ().sentMsg = "sync";
+				carB2ref.SetActive (false);
+				carA2ref.SetActive (true);
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -54,17 +94,22 @@ public class ctrlC : MonoBehaviour
 
 		//if (Input.GetKeyDown(KeyCode.T))
 		//	testKey = true;
-		if (step == 0)
+
+		if (carB2.GetComponent<Holojam.Network.HolojamView> ().IsTracked) {
+			myStart ();
+		}
+
+
+		// keep sync
+		if (step == 0) {
 			step = 1;
+		}
+
+		// check height
+		checkHeight();
+
+
 		sync (carB2, carA2);
-	}
-
-
-
-	void updateOffset ()
-	{
-		carA2.transform.position += Offset.getInst ().getOffset ();
-		carB1.transform.position -= Offset.getInst ().getOffset ();
 	}
 
 	bool isClose (Vector3 pos1, Vector3 pos2)
@@ -90,28 +135,29 @@ public class ctrlC : MonoBehaviour
 		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
 
-	bool turnAround(GameObject local, GameObject remote, ref Vector3 lastPosition, ref Quaternion lastRotation){
+	bool turnAround (GameObject local, GameObject remote, ref Vector3 lastPosition, ref Quaternion lastRotation)
+	{
 		// check if turn around last time and the distance is positive
-		if(isLastRound
-			&& (Quaternion.Angle(transform.rotation,lastRotation) < 1))
+		if (isLastRound
+		   && (Quaternion.Angle (transform.rotation, lastRotation) < 1))
 			return false;
-		else{
+		else {
 			Quaternion facing = Quaternion.identity;
 			facing.SetFromToRotation (local.transform.rotation * Vector3.forward, remote.transform.position - local.transform.position);
-			Vector3 vFacing = remote.transform.position-local.transform.position;
+			Vector3 vFacing = remote.transform.position - local.transform.position;
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
 			vCur.y = 0;
 			vFacing.y = 0;
-			float angle = Vector3.Angle(vCur, vFacing);
+			float angle = Vector3.Angle (vCur, vFacing);
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
 
 			print ("turnRound:\tvCur:\t" + vCur.ToString ("F2") + "\tvFacing:\t" + vFacing.ToString ("F2"));
 			print ("turnRound:\tangle:\t" + angle);
 
-			if(angle > 90.0f)
+			if (angle > 90.0f)
 				angle = angle - 180.0f;
 			
-			if (Mathf.Abs(angle) % 180.0f > 6.0f) {
+			if (Mathf.Abs (angle) % 180.0f > 6.0f) {
 				//print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
 				if (vUp.y > 0.00005)
 					setAngle (false, angle);
@@ -129,7 +175,8 @@ public class ctrlC : MonoBehaviour
 		}
 	}
 
-	void setSpeedWait(float dis, bool fw){
+	void setSpeedWait (float dis, bool fw)
+	{
 		while (dis > 0.22) {
 			m3piCtrlB.setSpeed (7);
 			m3piCtrlB.setWaitTime (9);
@@ -168,10 +215,11 @@ public class ctrlC : MonoBehaviour
 		}
 		m3piCtrlB.run ();
 		m_returnMsg = m3piCtrlB.m_returnMsg;
-		Debug.Log("receive from m3pi:\t" + m_returnMsg);
+		Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
 
-	void setAngle(bool lft, float angle){
+	void setAngle (bool lft, float angle)
+	{
 		if (angle < 0)
 			lft = !lft;
 		angle = Mathf.Abs (angle);
@@ -205,20 +253,24 @@ public class ctrlC : MonoBehaviour
 		}
 		m3piCtrlB.run ();
 		m_returnMsg = m3piCtrlB.m_returnMsg;
-		Debug.Log("receive from m3pi:\t" + m_returnMsg);
+		Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
 
-	bool goStraight(GameObject local, GameObject remote, ref Vector3 lastPosition ){
-		Vector3 localPos = local.transform.position;	localPos.y = 0;
-		Vector3 remotePos = remote.transform.position;	remotePos.y = 0;
+	bool goStraight (GameObject local, GameObject remote, ref Vector3 lastPosition)
+	{
+		Vector3 localPos = local.transform.position;
+		localPos.y = 0;
+		lastPosition.y = 0;
+		Vector3 remotePos = remote.transform.position;
+		remotePos.y = 0;
 		// check if turn around last time and the distance is positive
 		if (isLastStraight && (Vector3.Distance (localPos, lastPosition) < 0.0001f)) {
 			isLastStraight = false;
 			return false;
 		}
 		Vector3 dis = remotePos - localPos;
-		print ("goStraight\tdis:\t" + dis.magnitude.ToString("F3") + "\tref:\t" + 
-			remote.transform.position.ToString("F3") + "\tcur:\t" + local.transform.position.ToString("F3"));
+		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
+		remote.transform.position.ToString ("F3") + "\tcur:\t" + local.transform.position.ToString ("F3"));
 		
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
@@ -235,6 +287,7 @@ public class ctrlC : MonoBehaviour
 	}
 
 	bool testKey = false;
+
 	void sync (GameObject local, GameObject remote)
 	{
 		//vLocal = transform.rotation * Vector3.forward;
@@ -273,7 +326,7 @@ public class ctrlC : MonoBehaviour
 				break;
 			case 2:
 				// moved car with turning
-				if (turnAround (local, remote,ref lastPos,ref lastRot))
+				if (turnAround (local, remote, ref lastPos, ref lastRot))
 					step = 3;
 				// TODO DEBUG
 				//step = 0;

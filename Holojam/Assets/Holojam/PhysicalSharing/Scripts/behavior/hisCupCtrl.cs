@@ -3,7 +3,7 @@ using System.Collections;
 
 public class hisCupCtrl : MonoBehaviour {
 
-	Vector3 offsetPos;
+	public Vector3 offset;
 
 	public GameObject trackedObj;
 
@@ -15,7 +15,7 @@ public class hisCupCtrl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// update the position with offset all the time
-		offsetPos = Offset.getInst().getOffset();
-		this.transform.position = offsetPos + trackedObj.transform.position;
+		this.transform.position = Offset.getInst().getOffset() + trackedObj.transform.position + offset;
+		this.transform.rotation = trackedObj.transform.rotation;
 	}
 }
