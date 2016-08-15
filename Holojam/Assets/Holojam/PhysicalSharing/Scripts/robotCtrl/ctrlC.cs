@@ -222,7 +222,7 @@ public class ctrlC : MonoBehaviour
 		
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
-			Vector3 vUp = Vector3.Cross (dis, vCur);
+			//Vector3 vUp = Vector3.Cross (dis, vCur);
 			//print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
 			bool isForward = (vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0);
 			setSpeedWait (dis.magnitude, isForward);
