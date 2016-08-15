@@ -10,12 +10,17 @@ public class m3piComm : SerialCommunication
 
 	string m_command;
 
+	string m_name;
+
+	public string m_returnMsg;
+
 	//protected SerialPort stream;
 
 	public m3piComm ()
 	{
 		//m_speed = 0.2f;
 		//m_waitTime = 0.5f;
+		m_returnMsg = "";
 	}
 
 	static private m3piComm m_inst = null;
@@ -39,39 +44,44 @@ public class m3piComm : SerialCommunication
 	public override void forward ()
 	{
 		open ();
-		m_command += "Af" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
+		m_command += m_name + "f" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
 	}
 
 	public void clear(){
 		m_command = "";
 	}
-
+		
 	public void run(){
 		stream.Write (m_command);
 		m_command = "";
+		m_returnMsg = stream.ReadLine();
 	}
 
 	public override void backward ()
 	{
 		open ();
-		m_command += "Ab" + (m_speed ).ToString () + (m_waitTime ).ToString () + "e";
+		m_command += m_name + "b" + (m_speed ).ToString () + (m_waitTime ).ToString () + "e";
 	}
 
 	public override void left ()
 	{
 		open ();
-		m_command +="Al" + (m_speed ).ToString () + (m_waitTime).ToString () + "e";
+		m_command += m_name + "l" + (m_speed ).ToString () + (m_waitTime).ToString () + "e";
 	}
 
 	public override void right ()
 	{
 		open ();
-		m_command +="Ar" + (m_speed ).ToString () + (m_waitTime ).ToString () + "e";
+		m_command += m_name + "r" + (m_speed ).ToString () + (m_waitTime ).ToString () + "e";
 	}
 
 	public override void stop ()
 	{
 		open ();
-		m_command +="Ase";
+		m_command += m_name + "se";
+	}
+
+	public void setName(string name){
+		m_name = name;
 	}
 }

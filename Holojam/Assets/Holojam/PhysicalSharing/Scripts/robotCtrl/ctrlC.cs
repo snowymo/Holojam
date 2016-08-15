@@ -15,15 +15,33 @@ public class ctrlC : MonoBehaviour
 
 	private bool isLastRound,isLastStraight;
 
-	private m3piComm m3piCtrl;
+	private m3piComm m3piCtrlB;
 
+	public int countNo;
 	private int count;
+	public int step;
+
+	Vector3 lastPos;
+	Quaternion lastRot;
+
+	public string m_returnMsg;
 
 	// Use this for initialization
 	void Start ()
 	{
-		m3piCtrl = new m3piComm ();
+		m3piCtrlB = new m3piComm ();
+		m3piCtrlB.setName ("B");
 		count = 0;
+		step = 1;
+		countNo = 20;
+
+		// initialize
+		isLastRound = false;
+		isLastStraight = false;
+		lastPos = new Vector3();
+		lastRot = Quaternion.identity;
+
+		//sync (carB2, carA2);
 	}
 	
 	// Update is called once per frame
@@ -33,9 +51,15 @@ public class ctrlC : MonoBehaviour
 		//updateOffset ();
 		// synchoronize A1 with B1 and sync A2 with B2 all the time
 		//sync (carB1, carA1);
-		sync (carB2, carA2);
 
+		//if (Input.GetKeyDown(KeyCode.T))
+		//	testKey = true;
+		if (step == 0)
+			step = 1;
+		sync (carB2, carA2);
 	}
+
+
 
 	void updateOffset ()
 	{
@@ -76,6 +100,8 @@ public class ctrlC : MonoBehaviour
 			facing.SetFromToRotation (local.transform.rotation * Vector3.forward, remote.transform.position - local.transform.position);
 			Vector3 vFacing = remote.transform.position-local.transform.position;
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
+			vCur.y = 0;
+			vFacing.y = 0;
 			float angle = Vector3.Angle(vCur, vFacing);
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
 
@@ -85,11 +111,11 @@ public class ctrlC : MonoBehaviour
 			if(angle > 90.0f)
 				angle = angle - 180.0f;
 			
-			if (angle % 180.0f > 6.0f) {
+			if (Mathf.Abs(angle) % 180.0f > 6.0f) {
 				//print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
-				if (vUp.y > 0.005)
+				if (vUp.y > 0.00005)
 					setAngle (false, angle);
-				else if (vUp.y < -0.005)
+				else if (vUp.y < -0.00005)
 					setAngle (true, angle);
 				else
 					return true;
@@ -99,47 +125,50 @@ public class ctrlC : MonoBehaviour
 				isLastRound = false;
 				return true;
 			}
+//			return true;
 		}
 	}
 
 	void setSpeedWait(float dis, bool fw){
-		while (dis > 0.21) {
-			m3piCtrl.setSpeed (7);
-			m3piCtrl.setWaitTime (9);
+		while (dis > 0.22) {
+			m3piCtrlB.setSpeed (7);
+			m3piCtrlB.setWaitTime (9);
 			if (fw)
-				m3piCtrl.forward ();
+				m3piCtrlB.forward ();
 			else
-				m3piCtrl.backward ();
+				m3piCtrlB.backward ();
 			dis -= 0.21f;
 		}
 		while (dis > 0.12) {
-			m3piCtrl.setSpeed (6);
-			m3piCtrl.setWaitTime (6);
+			m3piCtrlB.setSpeed (6);
+			m3piCtrlB.setWaitTime (6);
 			if (fw)
-				m3piCtrl.forward ();
+				m3piCtrlB.forward ();
 			else
-				m3piCtrl.backward ();
+				m3piCtrlB.backward ();
 			dis -= 0.12f;
 		}
 		while (dis > 0.06) {
-			m3piCtrl.setSpeed (4);
-			m3piCtrl.setWaitTime (4);
+			m3piCtrlB.setSpeed (4);
+			m3piCtrlB.setWaitTime (4);
 			if (fw)
-				m3piCtrl.forward ();
+				m3piCtrlB.forward ();
 			else
-				m3piCtrl.backward ();
+				m3piCtrlB.backward ();
 			dis -= 0.06f;
 		}
 		while (dis > 0.02) {
-			m3piCtrl.setSpeed (3);
-			m3piCtrl.setWaitTime (2);
+			m3piCtrlB.setSpeed (3);
+			m3piCtrlB.setWaitTime (2);
 			if (fw)
-				m3piCtrl.forward ();
+				m3piCtrlB.forward ();
 			else
-				m3piCtrl.backward ();
+				m3piCtrlB.backward ();
 			dis -= 0.02f;
 		}
-		m3piCtrl.run ();
+		m3piCtrlB.run ();
+		m_returnMsg = m3piCtrlB.m_returnMsg;
+		Debug.Log("receive from m3pi:\t" + m_returnMsg);
 	}
 
 	void setAngle(bool lft, float angle){
@@ -148,48 +177,53 @@ public class ctrlC : MonoBehaviour
 		angle = Mathf.Abs (angle);
 
 		while (angle > 20.0f) {
-			m3piCtrl.setSpeed (6);
-			m3piCtrl.setWaitTime (1);
+			m3piCtrlB.setSpeed (6);
+			m3piCtrlB.setWaitTime (1);
 			if (lft)
-				m3piCtrl.left ();
+				m3piCtrlB.left ();
 			else
-				m3piCtrl.right ();
+				m3piCtrlB.right ();
 			angle -= 20.0f;
 		}
 		while (angle > 10.0f) {
-			m3piCtrl.setSpeed (4);
-			m3piCtrl.setWaitTime (1);
+			m3piCtrlB.setSpeed (4);
+			m3piCtrlB.setWaitTime (1);
 			if (lft)
-				m3piCtrl.left ();
+				m3piCtrlB.left ();
 			else
-				m3piCtrl.right ();
+				m3piCtrlB.right ();
 			angle -= 10.0f;
 		}
 		while (angle > 6.0f) {
-			m3piCtrl.setSpeed (1);
-			m3piCtrl.setWaitTime (1);
+			m3piCtrlB.setSpeed (1);
+			m3piCtrlB.setWaitTime (1);
 			if (lft)
-				m3piCtrl.left ();
+				m3piCtrlB.left ();
 			else
-				m3piCtrl.right ();
+				m3piCtrlB.right ();
 			angle -= 6.0f;
 		}
-		m3piCtrl.run ();
+		m3piCtrlB.run ();
+		m_returnMsg = m3piCtrlB.m_returnMsg;
+		Debug.Log("receive from m3pi:\t" + m_returnMsg);
 	}
 
 	bool goStraight(GameObject local, GameObject remote, ref Vector3 lastPosition ){
+		Vector3 localPos = local.transform.position;	localPos.y = 0;
+		Vector3 remotePos = remote.transform.position;	remotePos.y = 0;
 		// check if turn around last time and the distance is positive
-		if (isLastStraight && (Vector3.Distance (transform.position, lastPosition) < 0.0001f)) {
+		if (isLastStraight && (Vector3.Distance (localPos, lastPosition) < 0.0001f)) {
 			isLastStraight = false;
 			return false;
 		}
-		Vector3 dis = remote.transform.position - local.transform.position;
-		print ("goStraight\tdis:\t" + dis.ToString("F3") + "\tref:\t" + 
+		Vector3 dis = remotePos - localPos;
+		print ("goStraight\tdis:\t" + dis.magnitude.ToString("F3") + "\tref:\t" + 
 			remote.transform.position.ToString("F3") + "\tcur:\t" + local.transform.position.ToString("F3"));
+		
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
 			Vector3 vUp = Vector3.Cross (dis, vCur);
-			print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
+			//print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
 			bool isForward = (vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0);
 			setSpeedWait (dis.magnitude, isForward);
 			isLastStraight = true;
@@ -200,32 +234,39 @@ public class ctrlC : MonoBehaviour
 		}
 	}
 
+	bool testKey = false;
 	void sync (GameObject local, GameObject remote)
 	{
-		vLocal = transform.rotation * Vector3.forward;
+		//vLocal = transform.rotation * Vector3.forward;
 		// TODO: check if tracked
 		drawRays (local.transform, remote.transform);
-		// initialize
-		int step = 1;
-		isLastRound = false;
-		isLastStraight = false;
-		Vector3 lastPos = new Vector3();
-		Quaternion lastRot = Quaternion.identity;
 
-		if (count++ != 20)
+		Vector3 localPos = local.transform.position;
+		Vector3 remotePos = remote.transform.position;
+
+		// ignore y information
+
+		localPos.y = 0;
+		remotePos.y = 0;
+
+		if (count++ != countNo)
 			return;
 		count = 0;
 
-		while (step != 0) {
+//		if (!testKey)
+//			return;
+//		testKey = false;
+
+		if (step != 0) {
 			switch (step) {
 			case 0:
 				break;
 			case 1:
 			case 3:
 				// check distance first
-				if (isClose (local.transform.position, remote.transform.position)) {
+				if (isClose (localPos, remotePos)) {
 					step = 0;
-					m3piCtrl.stop ();
+					m3piCtrlB.stop ();
 				} else {
 					++step;
 				}
@@ -234,12 +275,15 @@ public class ctrlC : MonoBehaviour
 				// moved car with turning
 				if (turnAround (local, remote,ref lastPos,ref lastRot))
 					step = 3;
+				// TODO DEBUG
+				//step = 0;
 				break;
 			case 4:
 				// moved car with going straight
-				if (goStraight (local, remote,ref lastPos)) {
+				if (goStraight (local, remote, ref lastPos)) {
 					step = 0;
-				}
+				} else
+					step = 2;
 				break;
 			default:
 				break;
