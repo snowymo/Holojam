@@ -60,7 +60,7 @@ GameObject:
   - 114: {fileID: 11442274}
   - 114: {fileID: 11465174}
   m_Layer: 0
-  m_Name: HMI_Noguchi_Table_3D
+  m_Name: TriangleTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
