@@ -46,6 +46,7 @@ public class RandAnimation : MonoBehaviour
 			randNum = Random.Range (10, 20);
 			for (int i = 0; i < randNum; i++) {
 				_objs.Add ((GameObject)GameObject.Instantiate (obj, obj.transform.position, obj.transform.rotation));
+				_objs [i].transform.localScale = new Vector3 (0.8f, 1.68f, 0.8f);
 				_objs[i].SetActive (true);
 				startPos.Add (_objs[i].transform.position);
 				Vector3 dest = generateDestination (_objs[i].transform.position);
@@ -100,7 +101,7 @@ public class RandAnimation : MonoBehaviour
 				curDis = Vector3.Distance (_objs [i].transform.position, destination[i]);
 
 				if (curDis >= 0.01) {
-					_objs [i].transform.position = Vector3.Lerp (startPos[i], destination[i], 1 - curDis / journey[i] + speed * 2);
+					_objs [i].transform.position = Vector3.Lerp (startPos[i], destination[i], 1 - curDis / journey[i] + speed * 3);
 					alldone = false;
 				}
 			}

@@ -54,9 +54,10 @@ public class m3piComm : SerialCommunication
 	public void run(){
 		if (stream.IsOpen) {
 			stream.Write (m_command);
+			Debug.Log("command:\t" + m_command);
 			m_command = "";
 			// if robot is not power on then it will die
-			//m_returnMsg = stream.ReadLine();
+			m_returnMsg = stream.ReadLine();
 		}
 	}
 

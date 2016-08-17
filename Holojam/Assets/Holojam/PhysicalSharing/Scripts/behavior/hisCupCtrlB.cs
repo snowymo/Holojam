@@ -9,7 +9,7 @@ public class hisCupCtrlB : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		remoteYOffset = new Vector3 (0, 0.145f, 0);
+		remoteYOffset = new Vector3 (0, 0.157f, 0);
 	}
 	
 	// Update is called once per frame
