@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.IO.Ports;
 
-public class cheerCtrl : MonoBehaviour
+public class cokeCtrl : MonoBehaviour
 {
 
-	public GameObject A1;
-	public GameObject B1;
-	public GameObject RbtA;
-	public GameObject RbtB;
+	public GameObject carA;
+	public GameObject carRbtA;
+	public GameObject carB;
+	public GameObject carRbtB;
+
+	public GameObject carRbtBRef;
 
 	private m3piComm[] m3piCtrls;
 
+	Vector3[] defaultRBT;
+	Vector3[] lastPos;
+
 	public int countNo;
 	private int[] count;
-	public int[] step;
+	public int step;
+	int[] isFirst;
 
-	Vector3 lastPosA, lastPosB;
-	Quaternion lastRotA, lastRotB;
+	float yThreshold;
 
 	// Use this for initialization
 	void Start ()
@@ -32,22 +36,75 @@ public class cheerCtrl : MonoBehaviour
 		count [0] = count [1] = 0;
 		countNo = 20;
 
-		step = new int[2];
-		step [0] = step [1] = 0;
+		step = 0;
+
+		isFirst = new int[2];
+		isFirst [0] = isFirst [1] = 0;
+
+		lastPos = new Vector3[2];
+		lastPos [0] = lastPos [1] = new Vector3 ();
+		defaultRBT = new Vector3[2];
+		defaultRBT [0] = defaultRBT [1] = new Vector3 ();
+
+		yThreshold = 0.07f;
 	}
-	
+
+	// only once
+	void myStart (int index, GameObject obj)
+	{
+		if (isFirst [index] == 2) {
+			// record default height of ROBOT B
+			lastPos [index] = obj.transform.position;
+			defaultRBT[index] = obj.transform.position;
+			//print ("default y\t" + defaultRBTB.y.ToString ("F3"));
+			isFirst [index] = 3;
+		} else if (isFirst [index] < 2)
+			isFirst [index]++;
+	}
+
+	void checkHeight(int index, GameObject obj, GameObject holdingObj){
+		if(Vector3.Distance(defaultRBT[index], new Vector3()) > 0.1){
+			if (Mathf.Abs (obj.transform.position.y - defaultRBT[index].y) > yThreshold) {
+				print ("being hold.\t" + obj.transform.position.y.ToString("F3"));
+				step = 0;
+				this.GetComponent<SyncMsg> ().sentMsg = "stop";
+				holdingObj.SetActive (true);
+				obj.SetActive (false);
+			} else {
+				this.GetComponent<SyncMsg> ().sentMsg = "sync";
+				holdingObj.SetActive (false);
+				obj.SetActive (true);
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
-
-		// keep sync
-		if (step [0] == 0)
-			step [0] = 1;
-		if (step [1] == 0)
-			step [1] = 1;
+		if (carRbtA.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
+			myStart (0, carRbtA);
 		
-		sync (A1, RbtB, 1);
-		sync (B1, RbtA, 0);
+		if (carRbtB.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
+			myStart (1, carRbtB);
+
+		// check the current pos with last pos to decide sync RBTA basedon RBTB or the other way
+		if (step == 0 && isFirst [0] == 3 && isFirst [1] == 3) {
+			if (Vector3.Distance (lastPos [0], carRbtA.transform.position)
+			    > Vector3.Distance (lastPos [1], carRbtB.transform.position)) {
+				step = 1;
+				sync (carRbtB, carRbtA, 0);
+			} else {
+				step = 1;
+				sync (carRbtA, carRbtB, 1);
+			}
+		}
+
+		// update previous location
+		lastPos [0] = carRbtA.transform.position;
+		lastPos [1] = carRbtB.transform.position;
+
+		// if RBT A is being hold, then change the model to coke
+		checkHeight(0, carRbtA, carRbtBRef);
 	}
 
 	void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
@@ -178,29 +235,27 @@ public class cheerCtrl : MonoBehaviour
 		count [index] = 0;
 
 		// send command
-		if (step [index] != 0) {
-			print ("step:\t" + step [index]);
-			switch (step [index]) {
-			case 0:
-				break;
+		if (step != 0) {
+			print ("step:\t" + step);
+			switch (step) {
 			case 1:
 				// check distance first
 				if (Utility.getInst ().checkMatchV2 (localPos, remotePos)) {
-					step [index] = 0;
+					step = 0;
 					m3piCtrls [index].stop ();
 				} else {
 					if (turnAround (local, remote, m3piCtrls [index])) {
 						goStraight (local, remote, m3piCtrls [index]);
-						step [index] = 2;
+						step = 2;
 					}
 				}
 				break;
 			case 2:
 				// moved car with going straight
 				if (goStraight (local, remote, m3piCtrls [index])) {
-					step [index] = 0;
+					step = 0;
 				} else {
-					step [index] = 1;
+					step = 1;
 				}
 				break;
 			default:
