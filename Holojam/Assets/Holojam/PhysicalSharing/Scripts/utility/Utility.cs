@@ -58,6 +58,24 @@ public class Utility {
 		else
 			return false;
 	}
+
+	public void drawRays (Transform localTrans, Transform remoteTrans)
+	{
+		Quaternion facing = Quaternion.identity;
+		facing.SetFromToRotation (localTrans.rotation * Vector3.forward, remoteTrans.position - localTrans.position);
+		//Vector3 vFacing = facing * Vector3.forward;
+
+		Vector3 vCur = localTrans.rotation * Vector3.forward;
+
+		// test if these two vectors are correct
+		Debug.DrawRay (localTrans.position, vCur, Color.green);
+
+		Debug.DrawRay (localTrans.position, remoteTrans.position - localTrans.position, Color.magenta);
+
+		//Debug.DrawRay(this.transform.position,vFacing,Color.red);
+
+		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+	}
 //
 //	void Start(){
 //	}

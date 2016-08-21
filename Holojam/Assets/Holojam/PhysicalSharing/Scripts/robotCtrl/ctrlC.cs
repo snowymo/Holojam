@@ -115,23 +115,6 @@ public class ctrlC : MonoBehaviour
 		return Utility.getInst ().checkMatchV2 (pos1, pos2);
 	}
 
-	void drawRays (Transform localTrans, Transform remoteTrans)
-	{
-		Quaternion facing = Quaternion.identity;
-		facing.SetFromToRotation (localTrans.rotation * Vector3.forward, remoteTrans.position - localTrans.position);
-		//Vector3 vFacing = facing * Vector3.forward;
-
-		Vector3 vCur = localTrans.rotation * Vector3.forward;
-
-		// test if these two vectors are correct
-		Debug.DrawRay (localTrans.position, vCur, Color.green);
-
-		Debug.DrawRay (localTrans.position, remoteTrans.position - localTrans.position, Color.magenta);
-
-		//Debug.DrawRay(this.transform.position,vFacing,Color.red);
-
-		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
-	}
 
 	bool turnAround (GameObject local, GameObject remote, ref Vector3 lastPosition, ref Quaternion lastRotation)
 	{
@@ -303,13 +286,12 @@ public class ctrlC : MonoBehaviour
 	{
 		//vLocal = transform.rotation * Vector3.forward;
 		// TODO: check if tracked
-		drawRays (local.transform, remote.transform);
+		Utility.getInst().drawRays (local.transform, remote.transform);
 
 		Vector3 localPos = local.transform.position;
 		Vector3 remotePos = remote.transform.position;
 
 		// ignore y information
-
 		localPos.y = 0;
 		remotePos.y = 0;
 
