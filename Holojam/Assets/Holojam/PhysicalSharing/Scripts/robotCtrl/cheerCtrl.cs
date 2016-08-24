@@ -5,8 +5,8 @@ using System.IO.Ports;
 public class cheerCtrl : MonoBehaviour
 {
 
-	public GameObject A1;
-	public GameObject B1;
+	public GameObject A;
+	public GameObject B;
 	public GameObject RbtA;
 	public GameObject RbtB;
 
@@ -41,13 +41,15 @@ public class cheerCtrl : MonoBehaviour
 	{
 
 		// keep sync
+		print ("step A:\t" + step [0]);
+		print ("step B:\t" + step [1]);
 		if (step [0] == 0)
 			step [0] = 1;
 		if (step [1] == 0)
 			step [1] = 1;
 		
-		sync (A1, RbtB, 1);
-		sync (B1, RbtA, 0);
+		sync (RbtA, A, 0);
+		sync (RbtB, B, 1);
 	}
 
 	void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
@@ -179,7 +181,7 @@ public class cheerCtrl : MonoBehaviour
 
 		// send command
 		if (step [index] != 0) {
-			print ("step:\t" + step [index]);
+			
 			switch (step [index]) {
 			case 0:
 				break;
