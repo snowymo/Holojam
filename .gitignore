@@ -6,6 +6,8 @@ Videos/
 Holojam/ProjectSettings/ProjectSettings.asset
 Holojam/ProjectSettings/EditorBuildSettings.asset
 
+/ProjectSettings/ProjectSettings.asset
+/ProjectSettings/*
 Temp/
 Library/
 Library.meta
