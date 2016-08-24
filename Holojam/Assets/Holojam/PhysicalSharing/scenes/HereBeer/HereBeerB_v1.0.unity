@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 24
+  trackingTag: 28
   localSpace: 0
 --- !u!114 &5705742
 MonoBehaviour:
@@ -226,6 +226,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: VR1_table
   isMine: 0
+--- !u!64 &5705743
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 5705740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: 2ed72a2cb256b434189053daba16b412, type: 3}
 --- !u!1001 &22643906
 Prefab:
   m_ObjectHideFlags: 0
@@ -739,7 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 33
+  trackingTag: 37
   localSpace: 0
 --- !u!114 &657814996
 MonoBehaviour:
@@ -795,7 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 32
+  trackingTag: 33
   localSpace: 0
 --- !u!114 &658001926
 MonoBehaviour:
@@ -808,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: PS_A1
+  label: PS_A2
   isMine: 0
 --- !u!4 &658001927
 Transform:
@@ -1104,7 +1116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 33
+  trackingTag: 34
   localSpace: 0
 --- !u!114 &1229051802
 MonoBehaviour:

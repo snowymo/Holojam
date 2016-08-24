@@ -84,7 +84,7 @@ namespace Holojam.Network {
 			LEFTHAND4, RIGHTHAND4, LEFTFOOT4, RIGHTFOOT4,
 			LAPTOP, TABLE,
 			VIVE,VIVECONTROLLERLEFT,VIVECONTROLLERRIGHT,
-			PSB2,PSA2,PSTBL,PSB1,PSA1,PSRBTA,PSRBTB
+			PSB2,PSFLAT,PSTBL,PSB1,PSBOX,PSRBTA,PSRBTB
 		}
 		
 		private static readonly Dictionary<Tag, string> tagNames = new Dictionary<Tag, string>() {
@@ -119,9 +119,9 @@ namespace Holojam.Network {
 			{ Tag.VIVECONTROLLERLEFT, "vive_controller_left"},
 			{ Tag.VIVECONTROLLERRIGHT, "vive_controller_right"},
 			{ Tag.PSB2, "PS_B2"},
-			{ Tag.PSA2, "PS_A2"},
+			{ Tag.PSFLAT, "PS_A2"},
 			{ Tag.PSB1, "PS_B1"},
-			{ Tag.PSA1, "PS_A1"},
+			{ Tag.PSBOX, "PS_A1"},
 			{ Tag.PSRBTA, "PS_RBTA"},
 			{ Tag.PSRBTB, "PS_RBTB"},
 			{ Tag.PSTBL, "PS_table"}
