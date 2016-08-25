@@ -18,7 +18,7 @@ public class myCupCtrl : MonoBehaviour
 	void Update ()
 	{
 		transform.position = trackedObj.transform.position + remoteOffset;
-
+		transform.rotation = trackedObj.transform.rotation;
 
 	}
 }

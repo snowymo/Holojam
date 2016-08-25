@@ -19,7 +19,7 @@ public class DataCollection : MonoBehaviour {
 	void Start () {
 		m_inst = m3piComm.getInst ();
 		m_inst.open ();
-		m_inst.setName ("A");
+		m_inst.setName ("B");
 		rot = this.transform.rotation;
 		pos = this.transform.position;
 		//Debug.Log (pos);

@@ -524,7 +524,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!114 &298812260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -773,7 +773,7 @@ Transform:
   m_Children:
   - {fileID: 815594053}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!114 &632204035 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0,
@@ -833,8 +833,7 @@ Transform:
   m_LocalPosition: {x: -0.12933898, y: 1.5, z: -0.34232736}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children:
-  - {fileID: 2135425055}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &658001924
@@ -892,7 +891,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!1 &676387764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1013,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &837918693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2002,7 +2001,7 @@ Transform:
   - {fileID: 1604107854}
   - {fileID: 1233265919}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!114 &2023686464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2045,18 +2044,18 @@ Transform:
   m_Children:
   - {fileID: 1794739068}
   - {fileID: 82070381}
-  m_Father: {fileID: 657814997}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!114 &2135425056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2135425054}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eca4ae37fbdba4f31bab1e5330d5c8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   trackedObj: {fileID: 657814994}
-  remoteOffset: {x: 0, y: 0, z: 0}
+  remoteOffset: {x: 0, y: 0.017, z: 0}

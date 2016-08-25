@@ -1740,11 +1740,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2023686462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad29288747e9f43eb9d0c7d26a39485e, type: 3}
+  m_Script: {fileID: 11500000, guid: eca4ae37fbdba4f31bab1e5330d5c8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackedObject: {fileID: 658001924}
-  remoteYOffset: {x: 0, y: 0.157, z: 0}
+  trackedObj: {fileID: 658001924}
+  remoteOffset: {x: 0, y: -0.07, z: 0}
 --- !u!1001 &2080033982
 Prefab:
   m_ObjectHideFlags: 0
@@ -1846,4 +1846,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackedObj: {fileID: 657814994}
-  remoteOffset: {x: 0, y: -0.08, z: 0}
+  remoteOffset: {x: 0, y: -0.044, z: 0}

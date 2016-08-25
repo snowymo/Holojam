@@ -5,7 +5,8 @@ public class Utility {
 
 	static Utility m_instance;
 
-	public float disError = 0.035f;
+	//TODO 0.05 for normal using
+	public float disError = 0.05f;
 
 	public float rotateError = 0.02f;
 

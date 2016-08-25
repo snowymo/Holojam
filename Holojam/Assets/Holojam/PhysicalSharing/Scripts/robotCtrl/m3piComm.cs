@@ -4,7 +4,7 @@ using System.IO.Ports;
 
 public class m3piComm : SerialCommunication
 {
-	int m_speed;
+	char m_speed;
 
 	int m_waitTime;
 
@@ -34,8 +34,7 @@ public class m3piComm : SerialCommunication
 
 	public override void setSpeed (int sp)
 	{
-		m_speed = sp;
-
+		m_speed = (char)('a' + (char)sp);
 	}
 
 	public override void setWaitTime (int wt)
@@ -60,11 +59,13 @@ public class m3piComm : SerialCommunication
 	{
 		if (stream != null) {
 			if (stream.IsOpen) {
+				//Debug.Log ("time bf:\t" + Time.time);
 				stream.Write (m_command);
 				Debug.Log ("command:\t" + m_command);
 				m_command = "";
 				// if robot is not power on then it will die
 				//m_returnMsg = stream.ReadLine ();
+				//Debug.Log ("time af:\t" + Time.time);
 			}
 		}
 	}

@@ -80,9 +80,20 @@ public class cheerCtrl : MonoBehaviour
 			lft = !lft;
 		angle = Mathf.Abs (angle);
 
-		setAngleHelp (m3piCtrl, ref angle, 21.0f, 6, 1, lft);
-		setAngleHelp (m3piCtrl, ref angle, 15.0f, 4, 1, lft);
-		setAngleHelp (m3piCtrl, ref angle, 8.0f, 1, 1, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 55.0f, 5, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 44.0f, 3, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 34.7f, 2, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 24.7f, 5, 1, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 17.98f, 3, 1, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 9.6f, 1, 1, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 5.0f, 0, 1, lft);
+		setAngleHelp (m3piCtrl, ref angle, 51.0f, 15, 2, lft);
+		setAngleHelp (m3piCtrl, ref angle, 35.0f, 10, 2, lft);
+		setAngleHelp (m3piCtrl, ref angle, 28f, 8, 2, lft);
+		setAngleHelp (m3piCtrl, ref angle, 20f, 6, 2, lft);
+		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
+		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
+		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
 		m3piCtrl.run ();
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
@@ -129,10 +140,18 @@ public class cheerCtrl : MonoBehaviour
 
 	void setSpeedWait (float dis, bool fw, m3piComm m3piCtrl)
 	{
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.25f, 7, 8, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.13f, 6, 6, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 4, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.022f, 3, 2, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.21f, 20, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.17f, 15, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.11f, 15, 2, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.074f, 10, 2, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.04f, 5, 2, fw);
+
+		setSpeedWaitHelp (m3piCtrl, ref dis, 0.19f, 25, 3, fw);
+		setSpeedWaitHelp (m3piCtrl, ref dis, 0.167f, 20, 3, fw);
+		setSpeedWaitHelp (m3piCtrl, ref dis, 0.126f, 15, 3, fw);
+		setSpeedWaitHelp (m3piCtrl, ref dis, 0.093f, 10, 3, fw);
+		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
+		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
 
 		m3piCtrl.run ();
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
@@ -189,7 +208,7 @@ public class cheerCtrl : MonoBehaviour
 				// check distance first
 				if (Utility.getInst ().checkMatchV2 (localPos, remotePos)) {
 					step [index] = 0;
-					m3piCtrls [index].stop ();
+					//m3piCtrls [index].stop ();
 				} else {
 					if (turnAround (local, remote, m3piCtrls [index])) {
 						goStraight (local, remote, m3piCtrls [index]);
