@@ -268,8 +268,23 @@ public class cokeCtrl : MonoBehaviour
 		}
 	}
 
+	bool checkRtnMsg(int index){
+		// check if there is return msg already
+		if (!m3piCtrls [index].m_bRtn)
+			return false;
+
+		if(m3piCtrls[index].m_returnMsg.Length > 0)
+			print (m3piCtrls[index].m_returnMsg);
+		m3piCtrls[index].m_returnMsg = "";
+
+		return true;
+	}
+
 	void sync (GameObject local, GameObject remote, int index)
 	{
+		if (!checkRtnMsg (index))
+			return;
+
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
 
 		Utility.getInst ().drawRays (local.transform, remote.transform);
@@ -277,9 +292,9 @@ public class cokeCtrl : MonoBehaviour
 		ignoreYPos (local, remote, ref localPos, ref remotePos);
 
 		// count for delay of serial control
-		if (count [index]++ != countNo)
-			return;
-		count [index] = 0;
+//		if (count [index]++ != countNo)
+//			return;
+//		count [index] = 0;
 
 		// send command
 		if (step != 0) {

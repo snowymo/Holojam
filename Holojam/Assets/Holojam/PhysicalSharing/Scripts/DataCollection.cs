@@ -61,6 +61,7 @@ public class DataCollection : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.L)) {
 			if (m_inst.m_bRtn) {
 				m_inst.m_bRtn = false;
+
 				m_inst.setSpeed (speed);
 				m_inst.setWaitTime (waitTime);
 				m_inst.left ();

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO.Ports;
+using System.Threading;
 
 public class m3piComm : SerialCommunication
 {
@@ -49,7 +50,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "f" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
+			m_command += "f" + (m_speed).ToString () + (m_waitTime).ToString ();
 		}
 	}
 
@@ -63,12 +64,16 @@ public class m3piComm : SerialCommunication
 		if (stream != null) {
 			if (stream.IsOpen) {
 				//Debug.Log ("time bf:\t" + Time.time);
+				m_command = m_name + m_command + "E";
 				stream.Write (m_command);
 				Debug.Log ("command:\t" + m_command);
 				m_command = "";
 				// if robot is not power on then it will die
 				//m_returnMsg = stream.ReadLine ();
 				//Debug.Log ("time af:\t" + Time.time);
+				m_bRtn = false;
+				Thread receiveThread = new Thread (receive);
+				receiveThread.Start ();
 			}
 		}
 	}
@@ -86,7 +91,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "b" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
+			m_command += "b" + (m_speed).ToString () + (m_waitTime).ToString ();
 		}
 	}
 
@@ -94,7 +99,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "l" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
+			m_command += "l" + (m_speed).ToString () + (m_waitTime).ToString ();
 		}
 	}
 
@@ -102,7 +107,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "r" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
+			m_command += "r" + (m_speed).ToString () + (m_waitTime).ToString ();
 		}
 	}
 
