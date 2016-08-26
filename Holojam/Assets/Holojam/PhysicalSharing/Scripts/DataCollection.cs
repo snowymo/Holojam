@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 public class DataCollection : MonoBehaviour {
 
@@ -29,6 +30,7 @@ public class DataCollection : MonoBehaviour {
 	// left 15 6 3
 	// Update is called once per frame
 	void Update () {
+		
 		if (Input.GetKeyDown (KeyCode.F)) {
 			//m_inst.forwardTest (roundTest);
 			m_inst.setSpeed(speed);
@@ -57,14 +59,23 @@ public class DataCollection : MonoBehaviour {
 			pos = this.transform.position;
 		}
 		if (Input.GetKeyDown (KeyCode.L)) {
-			m_inst.setSpeed(speed);
-			m_inst.setWaitTime (waitTime);
-			m_inst.left ();
-			m_inst.run ();
-			Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
-			Debug.Log(Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
-			pos = this.transform.position;
-			rot = this.transform.rotation;
+			if (m_inst.m_bRtn) {
+				m_inst.m_bRtn = false;
+				m_inst.setSpeed (speed);
+				m_inst.setWaitTime (waitTime);
+				m_inst.left ();
+				m_inst.run ();
+				// test threads
+				Thread receiveThread = new Thread (m_inst.receive);
+				receiveThread.Start ();
+
+				Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
+				Debug.Log (Quaternion.Angle (rot, this.transform.rotation).ToString ("F8"));
+				pos = this.transform.position;
+				rot = this.transform.rotation;
+			} else {
+				print ("busy");
+			}
 		}
 		if (Input.GetKeyDown (KeyCode.R)) {
 			m_inst.setSpeed(speed);
@@ -117,5 +128,13 @@ public class DataCollection : MonoBehaviour {
 //			m_inst.low ();
 //			Debug.Log ("low");
 //		}
+
+		// test receive data
+		if (m_inst.m_bRtn) {
+			if(m_inst.m_returnMsg.Length > 0)
+				print (m_inst.m_returnMsg);
+			m_inst.m_returnMsg = "";
+
+		}
 	}
 }

@@ -14,6 +14,8 @@ public class m3piComm : SerialCommunication
 
 	public string m_returnMsg;
 
+	public bool m_bRtn;
+
 	//protected SerialPort stream;
 
 	public m3piComm ()
@@ -21,6 +23,7 @@ public class m3piComm : SerialCommunication
 		//m_speed = 0.2f;
 		//m_waitTime = 0.5f;
 		m_returnMsg = "";
+		m_bRtn = true;
 	}
 
 	static private m3piComm m_inst = null;
@@ -46,7 +49,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "f" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
+			m_command += m_name + "f" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
 		}
 	}
 
@@ -70,11 +73,20 @@ public class m3piComm : SerialCommunication
 		}
 	}
 
+	public void receive ()
+	{
+		do {
+			m_returnMsg = stream.ReadLine ();
+		} while(m_returnMsg.Length == 0);
+		m_bRtn = true;
+		return;
+	}
+
 	public override void backward ()
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "b" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
+			m_command += m_name + "b" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
 		}
 	}
 
@@ -82,7 +94,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "l" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
+			m_command += m_name + "l" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
 		}
 	}
 
@@ -90,7 +102,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "r" + (m_speed).ToString () + (m_waitTime).ToString () + "e";
+			m_command += m_name + "r" + (m_speed).ToString () + (m_waitTime).ToString () + "E";
 		}
 	}
 
@@ -98,7 +110,7 @@ public class m3piComm : SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			m_command += m_name + "se";
+			m_command += m_name + "sE";
 		}
 	}
 
