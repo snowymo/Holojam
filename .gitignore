@@ -4,7 +4,7 @@ Videos/
 *.MOV
 
 Holojam/ProjectSettings/ProjectSettings.asset
-/Holojam/ProjectSettings/EditorBuildSettings.asset
+Holojam/ProjectSettings/*.asset
 stepper_oneRevolution/
 
 /ProjectSettings/ProjectSettings.asset
