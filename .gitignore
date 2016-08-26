@@ -4,8 +4,7 @@ Videos/
 *.MOV
 
 Holojam/ProjectSettings/ProjectSettings.asset
-Holojam/ProjectSettings/EditorBuildSettings.asset
-/ProjectSettings/EditorBuildSettings.asset
+/Holojam/ProjectSettings/EditorBuildSettings.asset
 
 /ProjectSettings/ProjectSettings.asset
 /ProjectSettings/*
