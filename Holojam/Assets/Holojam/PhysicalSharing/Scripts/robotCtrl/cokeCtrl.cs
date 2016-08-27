@@ -27,6 +27,9 @@ public class cokeCtrl : MonoBehaviour
 	float yThreshold;
 	int lastIdx;
 
+	bool m_bRbtConn;
+	float m_rbtCheckTime;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -35,6 +38,7 @@ public class cokeCtrl : MonoBehaviour
 		m3piCtrls [0].setName ("A");
 		m3piCtrls [1] = new m3piComm ();
 		m3piCtrls [1].setName ("B");
+		print ("create 2 ctrls");
 
 		count = new int[2];
 		count [0] = count [1] = 0;
@@ -51,7 +55,10 @@ public class cokeCtrl : MonoBehaviour
 		defaultRBT [0] = defaultRBT [1] = new Vector3 ();
 
 		yThreshold = 0.07f;
-		lastIdx = 0;
+		lastIdx = 1;
+		m_bRbtConn = false;
+
+		print ("after start");
 	}
 
 	// only once
@@ -85,15 +92,64 @@ public class cokeCtrl : MonoBehaviour
 	}
 
 
+
+	// run robot for testing connection
+	bool m_bRunRobot = false;
+	bool checkRobotConnected(){
+		//print ("in checkRobotConnected");
+		if (m_bRbtConn)
+			return true;
+		if (!m_bRunRobot) {
+			// check if the robots can response, if they cannot, I will set it false to avoid force stopping the unity
+			for (int i = 0; i < 2; i++) {
+				m3piCtrls [i].setSpeed (2);
+				m3piCtrls [i].setWaitTime (2);
+				m3piCtrls [i].left ();
+				m3piCtrls [i].run ();
+			}
+			m_bRunRobot = true;
+			m_rbtCheckTime = Time.time;
+			//StartCoroutine (stopReceivingThread ());
+		}
+		// check return msg
+		if (checkRtnMsg (0) && checkRtnMsg (1))
+			m_bRbtConn = true;
+		if (Time.time > 5f + m_rbtCheckTime)
+			stopReceivingThread ();
+		return m_bRbtConn;
+	}
+
+	void stopReceivingThread(){
+		//print ("in stopReceivingThread");
+		//yield return new WaitForSeconds (0);
+		//print ("after WaitForSeconds");
+		foreach (m3piComm m3piCtrl in m3piCtrls) {
+			if ((m3piCtrl.receiveThread.ThreadState == System.Threading.ThreadState.Running)
+			//	|| (m3piCtrl.receiveThread.ThreadState ==  System.Threading.ThreadState.Stopped)
+			) {
+				m3piCtrl.receiveThread.Abort ();
+				print ("Done with stopReceivingThread");
+			}
+		}
+
+	}
+
 	// Update is called once per frame
 	void Update ()
-	{
+	{		
+		//print ("udpate");
+
 		if (carRbtA.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
 			myStart (0, carRbtA);
 		
 		if (carRbtB.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
 			myStart (1, carRbtB);
 
+//		if (!checkRobotConnected ())
+//			return;
+		if (!checkRtnMsg (0) || !checkRtnMsg (1))
+			return;
+		
 		// check the current pos with last pos to decide sync RBTA basedon RBTB or the other way
 		if (isFirst [0] == 3 && isFirst [1] == 3) {
 			// if previous state is sync up
@@ -132,9 +188,6 @@ public class cokeCtrl : MonoBehaviour
 				lastPos [1] = carRbtA.transform.position;
 			}
 		}
-
-
-
 		// if RBT A is being hold, then change the model to coke
 		checkHeight (0, carRbtA, carRbtBRef);
 	}
@@ -179,8 +232,7 @@ public class cokeCtrl : MonoBehaviour
 		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
 		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
 		m3piCtrl.run ();
-		//m_returnMsg = m3piCtrlB.m_returnMsg;
-		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
+
 	}
 
 	bool turnAround (GameObject local, GameObject remote, m3piComm m3piCtrl)
@@ -237,8 +289,7 @@ public class cokeCtrl : MonoBehaviour
 		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
 
 		m3piCtrl.run ();
-		//m_returnMsg = m3piCtrlB.m_returnMsg;
-		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
+
 	}
 
 	bool goStraight (GameObject local, GameObject remote, m3piComm m3piCtrl)
@@ -276,14 +327,17 @@ public class cokeCtrl : MonoBehaviour
 		if(m3piCtrls[index].m_returnMsg.Length > 0)
 			print (m3piCtrls[index].m_returnMsg);
 		m3piCtrls[index].m_returnMsg = "";
-
+		if (m3piCtrls [index].receiveThread != null) {
+			print ("abort in check\t" + index);
+			m3piCtrls [index].receiveThread.Abort ();
+		}
 		return true;
 	}
 
 	void sync (GameObject local, GameObject remote, int index)
 	{
-		if (!checkRtnMsg (index))
-			return;
+//		if (!checkRtnMsg (index))
+//			return;
 
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
 
@@ -323,6 +377,14 @@ public class cokeCtrl : MonoBehaviour
 			default:
 				break;
 			}
+		}
+	}
+
+	void OnDestroy(){
+		foreach (m3piComm mctrl in m3piCtrls) {
+			mctrl.receiveThread.Abort ();
+			print ("destroy:\t" + mctrl.receiveThread.ThreadState);
+
 		}
 	}
 }

@@ -265,10 +265,26 @@ public class ctrlC : MonoBehaviour
 
 	bool testKey = false;
 
+	bool checkRtnMsg(){
+		// check if there is return msg already
+		if (!m3piCtrler.m_bRtn)
+			return false;
+
+		if(m3piCtrler.m_returnMsg.Length > 0)
+			print (m3piCtrler.m_returnMsg);
+		m3piCtrler.m_returnMsg = "";
+		if(m3piCtrler.receiveThread != null)
+			m3piCtrler.receiveThread.Abort ();
+		return true;
+	}
+
 	void sync (GameObject local, GameObject remote)
 	{
 		//vLocal = transform.rotation * Vector3.forward;
 		// TODO: check if tracked
+		if (!checkRtnMsg ())
+			return;
+		
 		Utility.getInst ().drawRays (local.transform, remote.transform);
 
 		Vector3 localPos = local.transform.position;
@@ -278,9 +294,9 @@ public class ctrlC : MonoBehaviour
 		localPos.y = 0;
 		remotePos.y = 0;
 
-		if (count++ != countNo)
-			return;
-		count = 0;
+//		if (count++ != countNo)
+//			return;
+//		count = 0;
 
 		if (enableTest) {
 			if (!testKey)
@@ -319,5 +335,10 @@ public class ctrlC : MonoBehaviour
 			lastPos = local.transform.position;
 			lastRot = local.transform.rotation;
 		}
+	}
+	void OnDestroy(){
+		
+			m3piCtrler.receiveThread.Abort ();
+		print ("destroy:\t" + m3piCtrler.receiveThread.ThreadState);
 	}
 }

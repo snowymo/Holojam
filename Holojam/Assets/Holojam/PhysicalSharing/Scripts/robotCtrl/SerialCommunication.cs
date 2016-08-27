@@ -5,7 +5,7 @@ using System.IO.Ports;
 public class SerialCommunication
 {
 
-	protected SerialPort stream;
+	protected StreamSingleton stream;
 
 	public SerialCommunication ()
 	{
@@ -25,10 +25,10 @@ public class SerialCommunication
 	public void open ()
 	{
 		if (stream == null)
-			stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ", 57600);
+			stream = StreamSingleton.getStreamInst ();
 		if (stream != null) {
-			if (!stream.IsOpen) {
-				stream.Open ();
+			if (!stream.getStream().IsOpen) {
+				stream.getStream().Open ();
 			}
 		}
 	}
@@ -51,7 +51,7 @@ public class SerialCommunication
 			}
 			if (left > 0)
 				command += "lf";
-			stream.Write (command);
+			stream.getStream().Write (command);
 //		if (dis > 0.05)
 //			stream.Write ("h");
 //		else if (dis > 0.025)
@@ -67,7 +67,7 @@ public class SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			stream.Write ("f");
+			stream.getStream().Write ("f");
 		}
 		//stream.Write ("f");
 	}
@@ -79,7 +79,7 @@ public class SerialCommunication
 			string command = "";
 			for (int r = 0; r < round; r++)
 				command += "f";
-			stream.Write (command);
+			stream.getStream().Write (command);
 		}
 		//stream.Write ("f");
 	}
@@ -91,7 +91,7 @@ public class SerialCommunication
 			string command = "";
 			for (int r = 0; r < round; r++)
 				command += "b";
-			stream.Write (command);
+			stream.getStream().Write (command);
 		}
 		//stream.Write ("f");
 	}
@@ -100,7 +100,7 @@ public class SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			stream.Write ("b");
+			stream.getStream().Write ("b");
 		}
 	}
 
@@ -122,7 +122,7 @@ public class SerialCommunication
 			}
 			if (left > 0)
 				command += "lb";
-			stream.Write (command);
+			stream.getStream().Write (command);
 			//		if (dis > 0.05)
 			//			stream.Write ("h");
 			//		else if (dis > 0.025)
@@ -151,7 +151,7 @@ public class SerialCommunication
 			}
 			if (angle > 0)
 				command += "lz";
-			stream.Write (command);
+			stream.getStream().Write (command);
 		}
 		//stream.Write ("z");
 	}
@@ -160,7 +160,7 @@ public class SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			stream.Write ("z");
+			stream.getStream().Write ("z");
 		}
 		//stream.Write ("z");
 	}
@@ -169,7 +169,7 @@ public class SerialCommunication
 	{
 		open ();
 		if (stream != null) {
-			stream.Write ("y");
+			stream.getStream().Write ("y");
 		}
 		//stream.Write ("z");
 	}
@@ -203,22 +203,22 @@ public class SerialCommunication
 			}
 			if (angle > 0)
 				command += "ly";
-			stream.Write (command);
+			stream.getStream().Write (command);
 		}
 	}
 
 	public void median ()
 	{
-		stream.Write ("m");
+		stream.getStream().Write ("m");
 	}
 
 	public void high ()
 	{
-		stream.Write ("h");
+		stream.getStream().Write ("h");
 	}
 
 	public void low ()
 	{
-		stream.Write ("l");
+		stream.getStream().Write ("l");
 	}
 }
