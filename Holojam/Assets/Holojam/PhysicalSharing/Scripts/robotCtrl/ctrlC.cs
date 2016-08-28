@@ -113,7 +113,8 @@ public class ctrlC : MonoBehaviour
 		// check height
 		checkHeight ();
 
-		sync (carB2, carA2);
+		if(isFirst == 3)
+			sync (carB2, carA2);
 	}
 
 	bool isClose (Vector3 pos1, Vector3 pos2)
@@ -190,7 +191,7 @@ public class ctrlC : MonoBehaviour
 		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
 		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
 
-		m3piCtrl.run ();
+		m3piCtrl.run (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -221,7 +222,7 @@ public class ctrlC : MonoBehaviour
 		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
 		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
 		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
-		m3piCtrl.run ();
+		m3piCtrl.run (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -267,8 +268,17 @@ public class ctrlC : MonoBehaviour
 
 	bool checkRtnMsg(){
 		// check if there is return msg already
-		if (!m3piCtrler.m_bRtn)
-			return false;
+		float executeTime = Time.time - m3piCtrler.m_runTime;
+		if (!m3piCtrler.m_bRtn) {
+			// check if it is already too long then return and sync up them again
+			if (executeTime < (m3piCtrler.m_cmdTime + 0.5f))
+				return false;
+			else {
+				print ("wait too long:\t" + executeTime);
+				m3piCtrler.m_exStop = true;
+				return true;
+			}
+		}
 
 		if(m3piCtrler.m_returnMsg.Length > 0)
 			print (m3piCtrler.m_returnMsg);
@@ -305,7 +315,7 @@ public class ctrlC : MonoBehaviour
 		}
 
 		if (step != 0) {
-			print ("step:\t" + step);
+			//print ("step:\t" + step);
 			switch (step) {
 			case 0:
 				break;
