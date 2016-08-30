@@ -36,27 +36,27 @@ public class StepperCommunication : SerialCommunication {
 		if (step > 20)
 			step = 20;
 		open ();
-		stream.Write (encode(step,step));
+		StreamSingleton.getInst().getStream().Write (encode(step,step));
 	}
 
 	public void backward(int step){
 		if (step > 20)
 			step = 20;
 		open ();
-		stream.Write (encode(-step,-step));
+		stream.getStream().Write (encode(-step,-step));
 	}
 
 	public void left(int step){
 		if (step > 10)
 			step = 10;
 		open ();
-		stream.Write (encode(0,step));
+		stream.getStream().Write (encode(0,step));
 	}
 
 	public void right(int step){
 		if (step > 10)
 			step = 10;
 		open ();
-		stream.Write (encode(step,0));
+		stream.getStream().Write (encode(step,0));
 	}
 }

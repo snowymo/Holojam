@@ -9,13 +9,19 @@ public class m3piComm : SerialCommunication
 
 	int m_waitTime;
 
-	string m_command;
+	public string m_command;
 
 	string m_name;
 
 	public string m_returnMsg;
 
 	public bool m_bRtn;
+
+	public float m_cmdTime;
+
+	public float m_runTime;
+
+	public bool m_exStop;
 
 	//protected SerialPort stream;
 
@@ -25,6 +31,7 @@ public class m3piComm : SerialCommunication
 		//m_waitTime = 0.5f;
 		m_returnMsg = "";
 		m_bRtn = true;
+		m_exStop = false;
 	}
 
 	static private m3piComm m_inst = null;
@@ -59,30 +66,122 @@ public class m3piComm : SerialCommunication
 		m_command = "";
 	}
 
-	public void run ()
+	void assignRunTime(){
+		m_cmdTime = 0;
+		//calculate estimated running time based on command
+		for (int i = 3; i < m_command.Length; i+=3) {
+			m_cmdTime += m_command [i] - '0';
+		}
+		m_cmdTime /= 10.0f;
+		Debug.Log ("estimated time:\t" + m_command + "\t" + m_cmdTime);
+	}
+
+	bool verifyCommand(){
+		if (m_command.Length % 3 != 0)
+			return false;
+		return true;
+	}
+
+//	public Thread receiveThread;
+	public void run (float curTime = 0)
 	{
+		m_runTime = curTime;
 		if (stream != null) {
-			if (stream.IsOpen) {
+			if (stream.getStream().IsOpen) {
 				//Debug.Log ("time bf:\t" + Time.time);
-				m_command = m_name + m_command + "E";
-				stream.Write (m_command);
-				Debug.Log ("command:\t" + m_command);
-				m_command = "";
-				// if robot is not power on then it will die
-				//m_returnMsg = stream.ReadLine ();
-				//Debug.Log ("time af:\t" + Time.time);
-				m_bRtn = false;
-				Thread receiveThread = new Thread (receive);
-				receiveThread.Start ();
+				// verify command
+				if (verifyCommand ()) {
+					m_command = m_name + m_command + "E";
+					assignRunTime ();
+					stream.getStream ().Write (m_command);
+					//Debug.Log ("command:\t" + m_command);
+
+					// if robot is not power on then it will die
+					//m_returnMsg = stream.ReadLine ();
+					//Debug.Log ("time af:\t" + Time.time);
+					m_bRtn = false;
+
+					if (StreamSingleton.getInst().getReceiveThread() != null) {
+						Debug.Log ("before abort state:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
+						//					while (receiveThread.ThreadState != ThreadState.Stopped)
+						//						Thread.Sleep (500);
+						StreamSingleton.getInst().getReceiveThread().Abort ();
+					}
+					StreamSingleton.getInst ().newRcvThread (receive);
+					StreamSingleton.getInst().getReceiveThread().Name = m_name;
+					//Debug.Log("after new state :\t" +receiveThread.Name + "\t" + receiveThread.ThreadState);
+					//if (receiveThread.ThreadState == ThreadState.Stopped
+					//	|| receiveThread.ThreadState == ThreadState.Unstarted) {
+					StreamSingleton.getInst().getReceiveThread().Start ();
+					//Debug.Log("after start state:\t" + receiveThread.ThreadState);
+					//}
+				} else {
+					clear ();
+				}
 			}
 		}
+	}
+
+	// new version for sharing thread
+	public void run2 (float curTime = 0)
+	{
+		m_runTime = curTime;
+		if (stream != null) {
+			if (stream.getStream().IsOpen) {
+				Debug.Log ("time:\t" + curTime + "\t" +Time.time);
+				// verify command
+				if (verifyCommand ()) {
+					m_command = m_name + m_command + "E";
+					assignRunTime ();
+					stream.getStream ().Write (m_command);
+					stream.addReceive ();
+					// if robot is not power on then it will die
+
+					m_bRtn = false;
+
+				} else {
+					clear ();
+				}
+			}
+		}
+	}
+
+//	public void stopThread() {
+//		receiveThread.Join ();
+//	}
+
+	bool match(){
+		// check if command is match with the receive msg
+		if (m_command.Length >= 5
+		   && m_returnMsg.Length > 10) {
+			if (m_returnMsg.Substring (2, m_command.Length-1).Equals (m_command.Substring(0,m_command.Length-1))) {
+				return true;
+			}
+			Debug.Log("cmd:\t" + m_command + "\trtnMsg:\t" + m_returnMsg);
+		}
+		return false;
 	}
 
 	public void receive ()
 	{
 		do {
-			m_returnMsg = stream.ReadLine ();
-		} while(m_returnMsg.Length == 0);
+			Debug.Log ("in receive");
+			m_returnMsg = stream.getStream().ReadLine ();
+			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
+			if(m_returnMsg.Length > 0 && !match()){
+				Debug.Log("when return NOT match:cmd\t" + m_command + "\rret\t" + m_returnMsg);
+				// TODO
+				m_returnMsg = "";
+			}
+			if(m_exStop){
+				Debug.Log("stop external");
+				m_exStop = false;
+				break;
+			}
+		} while(!match());
+		// clear the command
+		clear ();
+		Debug.Log ("after receive");
 		m_bRtn = true;
 		return;
 	}

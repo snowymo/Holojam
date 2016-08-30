@@ -77,6 +77,60 @@ public class Utility {
 
 		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
+
+	public bool checkRtnMsg(m3piComm ctrl){
+		// check if there is return msg already
+		if (!ctrl.m_bRtn) {
+			float executeTime = Time.time - ctrl.m_runTime;
+			// check if it is already too long then return and sync up them again
+			if(executeTime < (ctrl.m_cmdTime + 0.8f))
+				return false;
+			Debug.Log ("exe:\t" + executeTime + "\test:\t" + ctrl.m_cmdTime);
+			Debug.Log ("wait too long:\t" + executeTime);
+			ctrl.m_exStop = true;
+			return true;
+		}
+
+		if(ctrl.m_returnMsg.Length > 0)
+			Debug.Log (ctrl.m_returnMsg);
+		ctrl.m_returnMsg = "";
+		if (StreamSingleton.getInst().getReceiveThread() != null) {
+			//Debug.Log ("abort in checkRtnMsg and return true" + ctrl.receiveThread.ThreadState);
+			StreamSingleton.getInst().getReceiveThread().Abort ();
+		}
+		return true;
+	}
+
+
+
+	// new version for sharing thread
+	public bool checkRtnMsg2(m3piComm ctrl){
+		if (ctrl.m_runTime < 0.1f || ctrl.m_bRtn)
+			return true;	// just started
+		// check if the command is matched with one of the received msg and will discard unused msg
+		int matchResult = StreamSingleton.getInst().match(ctrl.m_command);
+		if(matchResult == 0){
+			// matched
+			StreamSingleton.getInst ().minusThread ();
+			ctrl.m_bRtn = true;
+			return true;
+		}
+		// then check if it is not too long
+		if(matchResult == 2){
+			float executeTime = Time.time - ctrl.m_runTime;
+			if (executeTime < (ctrl.m_cmdTime + 0.8f))
+				return false;
+			else {
+				// too long then stop one, if it is 0 for link count, kill the thread
+				Debug.Log ("wait too long:\t" + executeTime);
+				StreamSingleton.getInst ().setExstop (true);
+				StreamSingleton.getInst ().minusThread ();
+				return true;
+			}
+		}
+		return false;
+	}
+
 //
 //	void Start(){
 //	}

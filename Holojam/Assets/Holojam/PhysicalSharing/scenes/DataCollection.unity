@@ -335,8 +335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundTest: 3
-  speed: 3
-  waitTime: 6
+  speed: 6
+  waitTime: 2
 --- !u!4 &1421362028
 Transform:
   m_ObjectHideFlags: 0

@@ -113,7 +113,8 @@ public class ctrlC : MonoBehaviour
 		// check height
 		checkHeight ();
 
-		sync (carB2, carA2);
+		if(isFirst == 3)
+			sync (carB2, carA2);
 	}
 
 	bool isClose (Vector3 pos1, Vector3 pos2)
@@ -183,14 +184,11 @@ public class ctrlC : MonoBehaviour
 
 	void setSpeedWait (float dis, bool fw, m3piComm m3piCtrl)
 	{
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.19f, 25, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.167f, 20, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.126f, 15, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.093f, 10, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
+		for(int i = 0; i < m3piCtrl.posHelpArray.Length; i++)
+			setSpeedWaitHelp (m3piCtrl, ref dis, 
+				m3piCtrl.posHelpArray[i].dis, m3piCtrl.posHelpArray[i].sp, m3piCtrl.posHelpArray[i].wt, fw);
 
-		m3piCtrl.run ();
+		m3piCtrl.run2 (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -214,14 +212,11 @@ public class ctrlC : MonoBehaviour
 			lft = !lft;
 		angle = Mathf.Abs (angle);
 
-		setAngleHelp (m3piCtrl, ref angle, 51.0f, 15, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 35.0f, 10, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 28f, 8, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 20f, 6, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
-		m3piCtrl.run ();
+		for(int i = 0; i < m3piCtrl.angleHelpArray.Length; i++)
+			setAngleHelp (m3piCtrl, ref angle, 
+				m3piCtrl.angleHelpArray[i].angle, m3piCtrl.angleHelpArray[i].sp, m3piCtrl.angleHelpArray[i].wt, lft);
+		
+		m3piCtrl.run2 (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -265,10 +260,15 @@ public class ctrlC : MonoBehaviour
 
 	bool testKey = false;
 
+
+
 	void sync (GameObject local, GameObject remote)
 	{
 		//vLocal = transform.rotation * Vector3.forward;
 		// TODO: check if tracked
+		if (!Utility.getInst().checkRtnMsg2 (m3piCtrler))
+			return;
+		
 		Utility.getInst ().drawRays (local.transform, remote.transform);
 
 		Vector3 localPos = local.transform.position;
@@ -278,9 +278,9 @@ public class ctrlC : MonoBehaviour
 		localPos.y = 0;
 		remotePos.y = 0;
 
-		if (count++ != countNo)
-			return;
-		count = 0;
+//		if (count++ != countNo)
+//			return;
+//		count = 0;
 
 		if (enableTest) {
 			if (!testKey)
@@ -289,7 +289,7 @@ public class ctrlC : MonoBehaviour
 		}
 
 		if (step != 0) {
-			print ("step:\t" + step);
+			//print ("step:\t" + step);
 			switch (step) {
 			case 0:
 				break;
@@ -319,5 +319,34 @@ public class ctrlC : MonoBehaviour
 			lastPos = local.transform.position;
 			lastRot = local.transform.rotation;
 		}
+	}
+	void OnDestroy(){
+		
+//		StreamSingleton.getInst().getReceiveThread().Abort ();
+//		print ("destroy:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
+		StreamSingleton.getInst().minusThread();
+	}
+
+	//unused
+	bool checkRtnMsg(){
+		// check if there is return msg already
+		float executeTime = Time.time - m3piCtrler.m_runTime;
+		if (!m3piCtrler.m_bRtn) {
+			// check if it is already too long then return and sync up them again
+			if (executeTime < (m3piCtrler.m_cmdTime + 0.8f))
+				return false;
+			else {
+				print ("wait too long:\t" + executeTime);
+				m3piCtrler.m_exStop = true;
+				return true;
+			}
+		}
+
+		if(m3piCtrler.m_returnMsg.Length > 0)
+			print (m3piCtrler.m_returnMsg);
+		m3piCtrler.m_returnMsg = "";
+		if(StreamSingleton.getInst().getReceiveThread() != null)
+			StreamSingleton.getInst().getReceiveThread().Abort ();
+		return true;
 	}
 }
