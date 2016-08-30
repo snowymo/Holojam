@@ -9,7 +9,7 @@ public class m3piComm : SerialCommunication
 
 	int m_waitTime;
 
-	string m_command;
+	public string m_command;
 
 	string m_name;
 
@@ -82,7 +82,7 @@ public class m3piComm : SerialCommunication
 		return true;
 	}
 
-	public Thread receiveThread;
+//	public Thread receiveThread;
 	public void run (float curTime = 0)
 	{
 		m_runTime = curTime;
@@ -101,20 +101,44 @@ public class m3piComm : SerialCommunication
 					//Debug.Log ("time af:\t" + Time.time);
 					m_bRtn = false;
 
-					if (receiveThread != null) {
-						Debug.Log ("before abort state:\t" + receiveThread.ThreadState);
+					if (StreamSingleton.getInst().getReceiveThread() != null) {
+						Debug.Log ("before abort state:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
 						//					while (receiveThread.ThreadState != ThreadState.Stopped)
 						//						Thread.Sleep (500);
-						receiveThread.Abort ();
+						StreamSingleton.getInst().getReceiveThread().Abort ();
 					}
-					receiveThread = new Thread (receive);
-					receiveThread.Name = m_name;
+					StreamSingleton.getInst ().newRcvThread (receive);
+					StreamSingleton.getInst().getReceiveThread().Name = m_name;
 					//Debug.Log("after new state :\t" +receiveThread.Name + "\t" + receiveThread.ThreadState);
 					//if (receiveThread.ThreadState == ThreadState.Stopped
 					//	|| receiveThread.ThreadState == ThreadState.Unstarted) {
-					receiveThread.Start ();
+					StreamSingleton.getInst().getReceiveThread().Start ();
 					//Debug.Log("after start state:\t" + receiveThread.ThreadState);
 					//}
+				} else {
+					clear ();
+				}
+			}
+		}
+	}
+
+	// new version for sharing thread
+	public void run2 (float curTime = 0)
+	{
+		m_runTime = curTime;
+		if (stream != null) {
+			if (stream.getStream().IsOpen) {
+				Debug.Log ("time:\t" + curTime + "\t" +Time.time);
+				// verify command
+				if (verifyCommand ()) {
+					m_command = m_name + m_command + "E";
+					assignRunTime ();
+					stream.getStream ().Write (m_command);
+					stream.addReceive ();
+					// if robot is not power on then it will die
+
+					m_bRtn = false;
+
 				} else {
 					clear ();
 				}
@@ -145,8 +169,9 @@ public class m3piComm : SerialCommunication
 			m_returnMsg = stream.getStream().ReadLine ();
 			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
 			if(m_returnMsg.Length > 0 && !match()){
+				Debug.Log("when return NOT match:cmd\t" + m_command + "\rret\t" + m_returnMsg);
+				// TODO
 				m_returnMsg = "";
-				Debug.Log("when return NOT match");
 			}
 			if(m_exStop){
 				Debug.Log("stop external");

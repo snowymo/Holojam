@@ -188,7 +188,7 @@ public class ctrlC : MonoBehaviour
 			setSpeedWaitHelp (m3piCtrl, ref dis, 
 				m3piCtrl.posHelpArray[i].dis, m3piCtrl.posHelpArray[i].sp, m3piCtrl.posHelpArray[i].wt, fw);
 
-		m3piCtrl.run (Time.time);
+		m3piCtrl.run2 (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -216,7 +216,7 @@ public class ctrlC : MonoBehaviour
 			setAngleHelp (m3piCtrl, ref angle, 
 				m3piCtrl.angleHelpArray[i].angle, m3piCtrl.angleHelpArray[i].sp, m3piCtrl.angleHelpArray[i].wt, lft);
 		
-		m3piCtrl.run (Time.time);
+		m3piCtrl.run2 (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -260,33 +260,13 @@ public class ctrlC : MonoBehaviour
 
 	bool testKey = false;
 
-	bool checkRtnMsg(){
-		// check if there is return msg already
-		float executeTime = Time.time - m3piCtrler.m_runTime;
-		if (!m3piCtrler.m_bRtn) {
-			// check if it is already too long then return and sync up them again
-			if (executeTime < (m3piCtrler.m_cmdTime + 0.8f))
-				return false;
-			else {
-				print ("wait too long:\t" + executeTime);
-				m3piCtrler.m_exStop = true;
-				return true;
-			}
-		}
 
-		if(m3piCtrler.m_returnMsg.Length > 0)
-			print (m3piCtrler.m_returnMsg);
-		m3piCtrler.m_returnMsg = "";
-		if(m3piCtrler.receiveThread != null)
-			m3piCtrler.receiveThread.Abort ();
-		return true;
-	}
 
 	void sync (GameObject local, GameObject remote)
 	{
 		//vLocal = transform.rotation * Vector3.forward;
 		// TODO: check if tracked
-		if (!Utility.getInst().checkRtnMsg (m3piCtrler))
+		if (!Utility.getInst().checkRtnMsg2 (m3piCtrler))
 			return;
 		
 		Utility.getInst ().drawRays (local.transform, remote.transform);
@@ -342,7 +322,31 @@ public class ctrlC : MonoBehaviour
 	}
 	void OnDestroy(){
 		
-			m3piCtrler.receiveThread.Abort ();
-		print ("destroy:\t" + m3piCtrler.receiveThread.ThreadState);
+//		StreamSingleton.getInst().getReceiveThread().Abort ();
+//		print ("destroy:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
+		StreamSingleton.getInst().minusThread();
+	}
+
+	//unused
+	bool checkRtnMsg(){
+		// check if there is return msg already
+		float executeTime = Time.time - m3piCtrler.m_runTime;
+		if (!m3piCtrler.m_bRtn) {
+			// check if it is already too long then return and sync up them again
+			if (executeTime < (m3piCtrler.m_cmdTime + 0.8f))
+				return false;
+			else {
+				print ("wait too long:\t" + executeTime);
+				m3piCtrler.m_exStop = true;
+				return true;
+			}
+		}
+
+		if(m3piCtrler.m_returnMsg.Length > 0)
+			print (m3piCtrler.m_returnMsg);
+		m3piCtrler.m_returnMsg = "";
+		if(StreamSingleton.getInst().getReceiveThread() != null)
+			StreamSingleton.getInst().getReceiveThread().Abort ();
+		return true;
 	}
 }

@@ -201,9 +201,9 @@ public class cheerCtrl : MonoBehaviour
 		ignoreYPos (local, remote, ref localPos, ref remotePos);
 
 		// count for delay of serial control
-		if (count [index]++ != countNo)
-			return;
-		count [index] = 0;
+//		if (count [index]++ != countNo)
+//			return;
+//		count [index] = 0;
 
 		// send command
 		if (step [index] != 0) {

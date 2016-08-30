@@ -36,7 +36,7 @@ public class StepperCommunication : SerialCommunication {
 		if (step > 20)
 			step = 20;
 		open ();
-		stream.getStream().Write (encode(step,step));
+		StreamSingleton.getInst().getStream().Write (encode(step,step));
 	}
 
 	public void backward(int step){

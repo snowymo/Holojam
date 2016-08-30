@@ -43,8 +43,8 @@ public class DataCollection : MonoBehaviour {
 		if(m_inst.m_returnMsg.Length > 0)
 			print (m_inst.m_returnMsg);
 		m_inst.m_returnMsg = "";
-		if(m_inst.receiveThread != null)
-			m_inst.receiveThread.Abort ();
+		if(StreamSingleton.getInst().getReceiveThread() != null)
+			StreamSingleton.getInst().getReceiveThread().Abort ();
 		return true;
 	}
 
@@ -55,16 +55,20 @@ public class DataCollection : MonoBehaviour {
 		
 		if (Input.GetKeyDown (KeyCode.F)) {
 			//m_inst.forwardTest (roundTest);
-			m_inst.setSpeed(speed);
-			m_inst.setWaitTime (waitTime);
-			m_inst.forward();
-			m_inst.run ();
-			Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
+			if (checkRtnMsg ()) {
+				m_inst.setSpeed (speed);
+				m_inst.setWaitTime (waitTime);
+				m_inst.forward ();
+				m_inst.run ();
+				Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 
-			Debug.Log (Vector3.Distance(pos,this.transform.position).ToString("F8"));
-			Debug.Log("rot:" + Quaternion.Angle(rot,this.transform.rotation).ToString("F8"));
-			rot = this.transform.rotation;
-			pos = this.transform.position;
+				Debug.Log (Vector3.Distance (pos, this.transform.position).ToString ("F8"));
+				Debug.Log ("rot:" + Quaternion.Angle (rot, this.transform.rotation).ToString ("F8"));
+				rot = this.transform.rotation;
+				pos = this.transform.position;
+			} else {
+				print ("busy");
+			}
 		}
 		if (Input.GetKeyDown (KeyCode.B)) {
 		//	m_inst.backwardTest (roundTest);
@@ -82,8 +86,6 @@ public class DataCollection : MonoBehaviour {
 		}
 		if (Input.GetKeyDown (KeyCode.L)) {
 			if (checkRtnMsg()) {
-				m_inst.m_bRtn = false;
-
 				m_inst.setSpeed (speed);
 				m_inst.setWaitTime (waitTime);
 				m_inst.left ();

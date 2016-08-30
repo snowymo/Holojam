@@ -331,12 +331,15 @@ public class cokeCtrl : MonoBehaviour
 	}
 
 	void OnDestroy(){
-		foreach (m3piComm mctrl in m3piCtrls) {
-			if (mctrl.receiveThread != null) {
-				mctrl.receiveThread.Abort ();
-				print ("destroy:\t" + mctrl.receiveThread.ThreadState);
-			}
-
+//		foreach (m3piComm mctrl in m3piCtrls) {
+//			if (mctrl.receiveThread != null) {
+//				mctrl.receiveThread.Abort ();
+//				print ("destroy:\t" + mctrl.receiveThread.ThreadState);
+//			}
+//		}
+		if (StreamSingleton.getInst ().getReceiveThread () != null) {
+			StreamSingleton.getInst ().getReceiveThread ().Abort ();
+			print ("destroy:\t" + StreamSingleton.getInst ().getReceiveThread ().ThreadState);
 		}
 	}
 
@@ -369,10 +372,10 @@ public class cokeCtrl : MonoBehaviour
 
 	void stopReceivingThread(){
 		foreach (m3piComm m3piCtrl in m3piCtrls) {
-			if ((m3piCtrl.receiveThread.ThreadState == System.Threading.ThreadState.Running)
+			if ((StreamSingleton.getInst().getReceiveThread().ThreadState == System.Threading.ThreadState.Running)
 				//	|| (m3piCtrl.receiveThread.ThreadState ==  System.Threading.ThreadState.Stopped)
 			) {
-				m3piCtrl.receiveThread.Abort ();
+				StreamSingleton.getInst().getReceiveThread().Abort ();
 				print ("Done with stopReceivingThread");
 			}
 		}
