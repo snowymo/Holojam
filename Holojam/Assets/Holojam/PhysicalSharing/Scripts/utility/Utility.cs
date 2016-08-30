@@ -125,6 +125,7 @@ public class Utility {
 				Debug.Log ("wait too long:\t" + executeTime);
 				StreamSingleton.getInst ().setExstop (true);
 				StreamSingleton.getInst ().minusThread ();
+				ctrl.m_bRtn = true;		// do not need to wait for next return msg
 				return true;
 			}
 		}

@@ -11,9 +11,13 @@ public class cokeCtrl : MonoBehaviour
 	private GameObject[] carRbts;
 
 	public GameObject copyRbtA;
+	public GameObject copyRbtADisplay;
 	public GameObject copyRbtB;
 
 	public GameObject carRbtBRef;
+
+	public GameObject[] m_cups;
+	public GameObject[] m_cans;
 
 	private m3piComm[] m3piCtrls;
 
@@ -22,7 +26,7 @@ public class cokeCtrl : MonoBehaviour
 
 	public int countNo;
 	private int[] count;
-//	public int[] steps;
+	//	public int[] steps;
 	public int step;
 	int[] isFirst;
 
@@ -76,28 +80,40 @@ public class cokeCtrl : MonoBehaviour
 			// record default height of ROBOT B
 			lastPos [index] = obj.transform.position;
 			defaultRBT [index] = obj.transform.position;
-			//print ("default y\t" + defaultRBTB.y.ToString ("F3"));
+			print ("default y\t" + index + "\t" + defaultRBT [index].y.ToString ("F3"));
 			isFirst [index] = 3;
 		} else if (isFirst [index] < 2)
 			isFirst [index]++;
 	}
 
-	//TODO
-	void checkHeight (int index, GameObject obj, GameObject holdingObj)
+
+	void changeModel ()
+	{
+		foreach (GameObject cup in m_cups)
+			cup.SetActive (false);
+		foreach (GameObject can in m_cans)
+			can.SetActive (true);
+	}
+	//rbtNew is being hold, disable rbtOld, change the model
+	bool checkHeight (int index, GameObject holdingObj, GameObject remoteObj, GameObject fakeObj)
 	{
 		if (Vector3.Distance (defaultRBT [index], new Vector3 ()) > 0.1) {
-			if (Mathf.Abs (obj.transform.position.y - defaultRBT [index].y) > yThreshold) {
-				print ("being hold.\t" + obj.transform.position.y.ToString ("F3"));
+			if (Mathf.Abs (holdingObj.transform.position.y - defaultRBT [index].y) > yThreshold) {
+				print ("being hold.\t" + holdingObj.transform.position.y.ToString ("F3") + "\t" + defaultRBT [index].y.ToString ("F3"));
 				step = 0;
 				this.GetComponent<SyncMsg> ().sentMsg = "stop";
-				holdingObj.SetActive (true);
-				obj.SetActive (false);
+				fakeObj.SetActive (true);
+				remoteObj.SetActive (false);
+				changeModel ();
+				return true;
 			} else {
 				this.GetComponent<SyncMsg> ().sentMsg = "sync";
-				holdingObj.SetActive (false);
-				obj.SetActive (true);
+				fakeObj.SetActive (false);
+				remoteObj.SetActive (true);
+				return false;
 			}
 		}
+		return false;
 	}
 
 	// Update is called once per frame
@@ -105,16 +121,27 @@ public class cokeCtrl : MonoBehaviour
 	{		
 		//print ("udpate");
 		for (int index = 0; index < 2; index++) {
-			if (carRbts[index].GetComponent<Holojam.Network.HolojamView> ().IsTracked)
+			if (carRbts [index].GetComponent<Holojam.Network.HolojamView> ().IsTracked)
 				myStart (index, carRbts [index]);
 		}
-		
+
+		// if RBT A is being hold, then change the model to coke
+		// check obj's height, hide another robot, show copy one
+		//if (
+		checkHeight (0, carRbtA, carRbtB, copyRbtA);
+		//) {
+			// TODO
+//			lastPos [0] = carRbts [0].transform.position;
+//			lastPos [1] = carRbts [1].transform.position;
+//			return;
+		//}
+
 		// check the current pos with last pos to decide sync RBTA basedon RBTB or the other way
 		if (isFirst [0] == 3 && isFirst [1] == 3) {
 			// if previous state is sync up
 			if (step == 0) {
-				float moveOld = Vector3.Distance (lastPos [0], carRbts[0].transform.position);
-				float moveNew = Vector3.Distance (lastPos [1], carRbts[1].transform.position);
+				float moveOld = Vector3.Distance (lastPos [0], carRbts [0].transform.position);
+				float moveNew = Vector3.Distance (lastPos [1], carRbts [1].transform.position);
 				//print ("old diff:\t" + moveOld + "\tnew diff:\t" + moveNew);
 				if (moveOld > (moveNew + Utility.getInst ().disError)) {
 					Debug.Log ("move \"New\"");
@@ -141,8 +168,7 @@ public class cokeCtrl : MonoBehaviour
 				}
 			}
 		}
-		// if RBT A is being hold, then change the model to coke
-		checkHeight (0, carRbtA, carRbtBRef);
+
 	}
 
 	void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
@@ -186,9 +212,9 @@ public class cokeCtrl : MonoBehaviour
 //		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
 
-		for(int i = 0; i < m3piCtrl.angleHelpArray.Length; i++)
+		for (int i = 0; i < m3piCtrl.angleHelpArray.Length; i++)
 			setAngleHelp (m3piCtrl, ref angle, 
-				m3piCtrl.angleHelpArray[i].angle, m3piCtrl.angleHelpArray[i].sp, m3piCtrl.angleHelpArray[i].wt, lft);
+				m3piCtrl.angleHelpArray [i].angle, m3piCtrl.angleHelpArray [i].sp, m3piCtrl.angleHelpArray [i].wt, lft);
 		
 		m3piCtrl.run2 (Time.time);
 
@@ -207,7 +233,7 @@ public class cokeCtrl : MonoBehaviour
 
 		if (Mathf.Abs (angle) % 180.0f > 8.0f) {
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
-			print("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString("F2"));
+			print ("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString ("F2"));
 			if (vUp.y > 0.00005)
 				setAngle (false, angle, m3piCtrl);
 			else if (vUp.y < -0.00005)
@@ -247,9 +273,9 @@ public class cokeCtrl : MonoBehaviour
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
 
-		for(int i = 0; i < m3piCtrl.posHelpArray.Length; i++)
+		for (int i = 0; i < m3piCtrl.posHelpArray.Length; i++)
 			setSpeedWaitHelp (m3piCtrl, ref dis, 
-				m3piCtrl.posHelpArray[i].dis, m3piCtrl.posHelpArray[i].sp, m3piCtrl.posHelpArray[i].wt, fw);
+				m3piCtrl.posHelpArray [i].dis, m3piCtrl.posHelpArray [i].sp, m3piCtrl.posHelpArray [i].wt, fw);
 
 		m3piCtrl.run2 (Time.time);
 
@@ -282,14 +308,15 @@ public class cokeCtrl : MonoBehaviour
 		}
 	}
 
-	bool checkRtnMsg(int index){
+	bool checkRtnMsg (int index)
+	{
 		// check if there is return msg already
-		return Utility.getInst().checkRtnMsg (m3piCtrls [index]);
+		return Utility.getInst ().checkRtnMsg (m3piCtrls [index]);
 	}
 
 	void sync (GameObject local, GameObject remote, int index)
 	{
-		if (!Utility.getInst().checkRtnMsg2 (m3piCtrls[index]))
+		if (!Utility.getInst ().checkRtnMsg2 (m3piCtrls [index]))
 			return;
 		
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
@@ -324,13 +351,14 @@ public class cokeCtrl : MonoBehaviour
 			}
 		}
 		// update previous location
-		lastPos [0] = carRbts[0].transform.position;
-		lastPos [1] = carRbts[1].transform.position;
+		lastPos [0] = carRbts [0].transform.position;
+		lastPos [1] = carRbts [1].transform.position;
 		lastIdx = index;
 		//lastPos [1] = carRbtA.transform.position;
 	}
 
-	void OnDestroy(){
+	void OnDestroy ()
+	{
 //		foreach (m3piComm mctrl in m3piCtrls) {
 //			if (mctrl.receiveThread != null) {
 //				mctrl.receiveThread.Abort ();
@@ -341,14 +369,16 @@ public class cokeCtrl : MonoBehaviour
 //			StreamSingleton.getInst ().getReceiveThread ().Abort ();
 //			print ("destroy:\t" + StreamSingleton.getInst ().getReceiveThread ().ThreadState);
 //		}
-		StreamSingleton.getInst().minusThread();
-		StreamSingleton.getInst().minusThread();
+		StreamSingleton.getInst ().minusThread ();
+		StreamSingleton.getInst ().minusThread ();
 	}
 
 	// unused
 	// run robot for testing connection
 	bool m_bRunRobot = false;
-	bool checkRobotConnected(){
+
+	bool checkRobotConnected ()
+	{
 		//print ("in checkRobotConnected");
 		if (m_bRbtConn)
 			return true;
@@ -372,12 +402,13 @@ public class cokeCtrl : MonoBehaviour
 		return m_bRbtConn;
 	}
 
-	void stopReceivingThread(){
+	void stopReceivingThread ()
+	{
 		foreach (m3piComm m3piCtrl in m3piCtrls) {
-			if ((StreamSingleton.getInst().getReceiveThread().ThreadState == System.Threading.ThreadState.Running)
+			if ((StreamSingleton.getInst ().getReceiveThread ().ThreadState == System.Threading.ThreadState.Running)
 				//	|| (m3piCtrl.receiveThread.ThreadState ==  System.Threading.ThreadState.Stopped)
 			) {
-				StreamSingleton.getInst().getReceiveThread().Abort ();
+				StreamSingleton.getInst ().getReceiveThread ().Abort ();
 				print ("Done with stopReceivingThread");
 			}
 		}
