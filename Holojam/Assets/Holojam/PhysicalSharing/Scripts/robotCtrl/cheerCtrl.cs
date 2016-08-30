@@ -96,7 +96,7 @@ public class cheerCtrl : MonoBehaviour
 //		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
-		m3piCtrl.run (Time.time);
+		m3piCtrl.run2 (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -157,7 +157,7 @@ public class cheerCtrl : MonoBehaviour
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
 
-		m3piCtrl.run (Time.time);
+		m3piCtrl.run2 (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -191,7 +191,7 @@ public class cheerCtrl : MonoBehaviour
 
 	void sync (GameObject local, GameObject remote, int index)
 	{
-		if (!Utility.getInst().checkRtnMsg (m3piCtrls[index]))
+		if (!Utility.getInst().checkRtnMsg2 (m3piCtrls[index]))
 			return;
 		
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
@@ -235,5 +235,9 @@ public class cheerCtrl : MonoBehaviour
 				break;
 			}
 		}
+	}
+	void OnDestroy(){
+		StreamSingleton.getInst ().minusThread ();
+		StreamSingleton.getInst ().minusThread ();
 	}
 }

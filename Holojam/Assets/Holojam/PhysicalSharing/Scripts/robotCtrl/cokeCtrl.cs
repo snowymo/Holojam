@@ -190,7 +190,7 @@ public class cokeCtrl : MonoBehaviour
 			setAngleHelp (m3piCtrl, ref angle, 
 				m3piCtrl.angleHelpArray[i].angle, m3piCtrl.angleHelpArray[i].sp, m3piCtrl.angleHelpArray[i].wt, lft);
 		
-		m3piCtrl.run (Time.time);
+		m3piCtrl.run2 (Time.time);
 
 	}
 
@@ -251,7 +251,7 @@ public class cokeCtrl : MonoBehaviour
 			setSpeedWaitHelp (m3piCtrl, ref dis, 
 				m3piCtrl.posHelpArray[i].dis, m3piCtrl.posHelpArray[i].sp, m3piCtrl.posHelpArray[i].wt, fw);
 
-		m3piCtrl.run (Time.time);
+		m3piCtrl.run2 (Time.time);
 
 	}
 
@@ -289,7 +289,7 @@ public class cokeCtrl : MonoBehaviour
 
 	void sync (GameObject local, GameObject remote, int index)
 	{
-		if(!Utility.getInst().checkRtnMsg(m3piCtrls[index]))
+		if (!Utility.getInst().checkRtnMsg2 (m3piCtrls[index]))
 			return;
 		
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
@@ -337,10 +337,12 @@ public class cokeCtrl : MonoBehaviour
 //				print ("destroy:\t" + mctrl.receiveThread.ThreadState);
 //			}
 //		}
-		if (StreamSingleton.getInst ().getReceiveThread () != null) {
-			StreamSingleton.getInst ().getReceiveThread ().Abort ();
-			print ("destroy:\t" + StreamSingleton.getInst ().getReceiveThread ().ThreadState);
-		}
+//		if (StreamSingleton.getInst ().getReceiveThread () != null) {
+//			StreamSingleton.getInst ().getReceiveThread ().Abort ();
+//			print ("destroy:\t" + StreamSingleton.getInst ().getReceiveThread ().ThreadState);
+//		}
+		StreamSingleton.getInst().minusThread();
+		StreamSingleton.getInst().minusThread();
 	}
 
 	// unused
