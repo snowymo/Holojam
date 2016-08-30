@@ -77,6 +77,30 @@ public class Utility {
 
 		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
+
+	public bool checkRtnMsg(m3piComm ctrl){
+		// check if there is return msg already
+		if (!ctrl.m_bRtn) {
+			float executeTime = Time.time - ctrl.m_runTime;
+			Debug.Log ("exe:\t" + executeTime + "\test:\t" + ctrl.m_cmdTime);
+			// check if it is already too long then return and sync up them again
+			if(executeTime < (ctrl.m_cmdTime + 0.8f))
+				return false;
+			Debug.Log ("wait too long:\t" + executeTime);
+			ctrl.m_exStop = true;
+			return true;
+		}
+
+		if(ctrl.m_returnMsg.Length > 0)
+			Debug.Log (ctrl.m_returnMsg);
+		ctrl.m_returnMsg = "";
+		if (ctrl.receiveThread != null) {
+			Debug.Log ("abort in checkRtnMsg and return true" + ctrl.receiveThread.ThreadState);
+			ctrl.receiveThread.Abort ();
+		}
+		return true;
+	}
+
 //
 //	void Start(){
 //	}

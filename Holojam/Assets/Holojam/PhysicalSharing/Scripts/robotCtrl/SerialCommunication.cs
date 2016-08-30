@@ -2,14 +2,47 @@
 using System.Collections;
 using System.IO.Ports;
 
+
+
 public class SerialCommunication
 {
+	public struct AngleData{
+		public int sp;
+		public int wt;
+		public float angle;
+		public AngleData(int s, int w, float a){sp =s;wt = w; angle = a;}
+	}
+
+	public struct PosData{
+		public int sp;
+		public int wt;
+		public float dis;
+		public PosData(int s, int w, float d){sp =s;wt = w; dis = d;}
+	}
 
 	protected StreamSingleton stream;
+
+	public AngleData[] angleHelpArray;
+	public PosData[] posHelpArray;
 
 	public SerialCommunication ()
 	{
 		stream = null;
+		angleHelpArray = new AngleData[7];
+		angleHelpArray[0] = new AngleData(15,2,56.79f);
+		angleHelpArray[1] = new AngleData(10,2,37.6f);
+		angleHelpArray[2] = new AngleData(8,2,30.6f);
+		angleHelpArray[3] = new AngleData(6,2,21f);
+		angleHelpArray[4] = new AngleData(5,2,18.7f);
+		angleHelpArray[5] = new AngleData(3,2,10.9f);
+		angleHelpArray[6] = new AngleData(2,3,6.22f);
+		posHelpArray = new PosData[6];
+		posHelpArray[0] = new PosData(25,3,0.19f);
+		posHelpArray[1] = new PosData(20,3,0.167f);
+		posHelpArray[2] = new PosData(15,3,0.126f);
+		posHelpArray[3] = new PosData(10,3,0.093f);
+		posHelpArray[4] = new PosData(6,3,0.06f);
+		posHelpArray[5] = new PosData(3,3,0.033f);
 	}
 
 	static SerialCommunication m_Instance = null;

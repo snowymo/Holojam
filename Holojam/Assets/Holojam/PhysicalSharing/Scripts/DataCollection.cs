@@ -26,6 +26,28 @@ public class DataCollection : MonoBehaviour {
 		//Debug.Log (pos);
 	}
 
+	bool checkRtnMsg(){
+		// check if there is return msg already
+		float executeTime = Time.time - m_inst.m_runTime;
+		if (!m_inst.m_bRtn) {
+			// check if it is already too long then return and sync up them again
+			if (executeTime < (m_inst.m_cmdTime + 0.5f))
+				return false;
+			else {
+				print ("wait too long:\t" + executeTime);
+				m_inst.m_exStop = true;
+				return true;
+			}
+		}
+
+		if(m_inst.m_returnMsg.Length > 0)
+			print (m_inst.m_returnMsg);
+		m_inst.m_returnMsg = "";
+		if(m_inst.receiveThread != null)
+			m_inst.receiveThread.Abort ();
+		return true;
+	}
+
 	// forward 0.05 0.025 0.02
 	// left 15 6 3
 	// Update is called once per frame
@@ -59,16 +81,16 @@ public class DataCollection : MonoBehaviour {
 			pos = this.transform.position;
 		}
 		if (Input.GetKeyDown (KeyCode.L)) {
-			if (m_inst.m_bRtn) {
+			if (checkRtnMsg()) {
 				m_inst.m_bRtn = false;
 
 				m_inst.setSpeed (speed);
 				m_inst.setWaitTime (waitTime);
 				m_inst.left ();
-				m_inst.run ();
-				// test threads
-				Thread receiveThread = new Thread (m_inst.receive);
-				receiveThread.Start ();
+				m_inst.run (Time.time);
+//				// test threads
+//				Thread receiveThread = new Thread (m_inst.receive);
+//				receiveThread.Start ();
 
 				Debug.Log ("speed:\t" + speed + "\twait:\t" + waitTime);
 				Debug.Log (Quaternion.Angle (rot, this.transform.rotation).ToString ("F8"));

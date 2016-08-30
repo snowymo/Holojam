@@ -94,7 +94,7 @@ public class m3piComm : SerialCommunication
 					m_command = m_name + m_command + "E";
 					assignRunTime ();
 					stream.getStream ().Write (m_command);
-					Debug.Log ("command:\t" + m_command);
+					//Debug.Log ("command:\t" + m_command);
 
 					// if robot is not power on then it will die
 					//m_returnMsg = stream.ReadLine ();
@@ -131,8 +131,6 @@ public class m3piComm : SerialCommunication
 		if (m_command.Length >= 5
 		   && m_returnMsg.Length > 10) {
 			if (m_returnMsg.Substring (2, m_command.Length-1).Equals (m_command.Substring(0,m_command.Length-1))) {
-				// clear the command
-				clear ();
 				return true;
 			}
 			Debug.Log("cmd:\t" + m_command + "\trtnMsg:\t" + m_returnMsg);
@@ -145,13 +143,19 @@ public class m3piComm : SerialCommunication
 		do {
 			Debug.Log ("in receive");
 			m_returnMsg = stream.getStream().ReadLine ();
+			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
+			if(m_returnMsg.Length > 0 && !match()){
+				m_returnMsg = "";
+				Debug.Log("when return NOT match");
+			}
 			if(m_exStop){
 				Debug.Log("stop external");
-				clear ();
 				m_exStop = false;
 				break;
 			}
 		} while(!match());
+		// clear the command
+		clear ();
 		Debug.Log ("after receive");
 		m_bRtn = true;
 		return;

@@ -178,13 +178,18 @@ public class cokeCtrl : MonoBehaviour
 //		setAngleHelp (m3piCtrl, ref angle, 15.0f, 4, 1, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 8.0f, 1, 1, lft);
 
-		setAngleHelp (m3piCtrl, ref angle, 51.0f, 15, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 35.0f, 10, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 28f, 8, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 20f, 6, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 51.0f, 15, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 35.0f, 10, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 28f, 8, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 20f, 6, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
+
+		for(int i = 0; i < m3piCtrl.angleHelpArray.Length; i++)
+			setAngleHelp (m3piCtrl, ref angle, 
+				m3piCtrl.angleHelpArray[i].angle, m3piCtrl.angleHelpArray[i].sp, m3piCtrl.angleHelpArray[i].wt, lft);
+		
 		m3piCtrl.run (Time.time);
 
 	}
@@ -202,7 +207,7 @@ public class cokeCtrl : MonoBehaviour
 
 		if (Mathf.Abs (angle) % 180.0f > 8.0f) {
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
-			//print("turnRound:\tupVector:\t" + vUp.ToString("F2"));
+			print("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString("F2"));
 			if (vUp.y > 0.00005)
 				setAngle (false, angle, m3piCtrl);
 			else if (vUp.y < -0.00005)
@@ -235,12 +240,16 @@ public class cokeCtrl : MonoBehaviour
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 4, 3, fw);
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.022f, 3, 2, fw);
 
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.19f, 25, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.167f, 20, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.126f, 15, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.093f, 10, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.19f, 25, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.167f, 20, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.126f, 15, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.093f, 10, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
+
+		for(int i = 0; i < m3piCtrl.posHelpArray.Length; i++)
+			setSpeedWaitHelp (m3piCtrl, ref dis, 
+				m3piCtrl.posHelpArray[i].dis, m3piCtrl.posHelpArray[i].sp, m3piCtrl.posHelpArray[i].wt, fw);
 
 		m3piCtrl.run (Time.time);
 
@@ -254,8 +263,8 @@ public class cokeCtrl : MonoBehaviour
 		remotePos.y = 0;
 
 		Vector3 dis = remotePos - localPos;
-		//print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
-		//remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
+		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
+		remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
 
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
@@ -275,28 +284,12 @@ public class cokeCtrl : MonoBehaviour
 
 	bool checkRtnMsg(int index){
 		// check if there is return msg already
-		float executeTime = Time.time - m3piCtrls[index].m_runTime;
-		if (!m3piCtrls [index].m_bRtn) {
-			// check if it is already too long then return and sync up them again
-			if(executeTime < (m3piCtrls[index].m_cmdTime + 0.5f))
-				return false;
-			print ("wait too long:\t" + executeTime);
-			m3piCtrls [index].m_exStop = true;
-		}
-		print ("exe:\t" + executeTime + "\test:\t" + m3piCtrls [index].m_cmdTime);
-		if(m3piCtrls[index].m_returnMsg.Length > 0)
-			print (m3piCtrls[index].m_returnMsg);
-		m3piCtrls[index].m_returnMsg = "";
-		if (m3piCtrls [index].receiveThread != null) {
-			print ("abort in checkRtnMsg and return true\t" + index + "\tstate:\t" + m3piCtrls [index].receiveThread.ThreadState);
-			m3piCtrls [index].receiveThread.Abort ();
-		}
-		return true;
+		return Utility.getInst().checkRtnMsg (m3piCtrls [index]);
 	}
 
 	void sync (GameObject local, GameObject remote, int index)
 	{
-		if (!checkRtnMsg (index))
+		if(!Utility.getInst().checkRtnMsg(m3piCtrls[index]))
 			return;
 		
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();

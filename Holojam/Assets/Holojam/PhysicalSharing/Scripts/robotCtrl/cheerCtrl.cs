@@ -79,7 +79,9 @@ public class cheerCtrl : MonoBehaviour
 		if (angle < 0)
 			lft = !lft;
 		angle = Mathf.Abs (angle);
-
+		for (int i = 0; i < m3piCtrl.angleHelpArray.Length; i++) {
+			setAngleHelp (m3piCtrl, ref angle, m3piCtrl.angleHelpArray [i].angle, m3piCtrl.angleHelpArray [i].sp, m3piCtrl.angleHelpArray [i].wt, lft);
+		}
 //		setAngleHelp (m3piCtrl, ref angle, 55.0f, 5, 2, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 44.0f, 3, 2, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 34.7f, 2, 2, lft);
@@ -87,14 +89,14 @@ public class cheerCtrl : MonoBehaviour
 //		setAngleHelp (m3piCtrl, ref angle, 17.98f, 3, 1, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 9.6f, 1, 1, lft);
 //		setAngleHelp (m3piCtrl, ref angle, 5.0f, 0, 1, lft);
-		setAngleHelp (m3piCtrl, ref angle, 51.0f, 15, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 35.0f, 10, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 28f, 8, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 20f, 6, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
-		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
-		m3piCtrl.run ();
+//		setAngleHelp (m3piCtrl, ref angle, 51.0f, 15, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 35.0f, 10, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 28f, 8, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 20f, 6, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 16f, 5, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 8f, 3, 2, lft);
+//		setAngleHelp (m3piCtrl, ref angle, 3.4f, 2, 2, lft);
+		m3piCtrl.run (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -145,15 +147,17 @@ public class cheerCtrl : MonoBehaviour
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.11f, 15, 2, fw);
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.074f, 10, 2, fw);
 //		setSpeedWaitHelp (m3piCtrl, ref dis, 0.04f, 5, 2, fw);
+		for (int i = 0; i < m3piCtrl.posHelpArray.Length; i++)
+			setSpeedWaitHelp (m3piCtrl, ref dis, m3piCtrl.posHelpArray [i].dis, m3piCtrl.posHelpArray [i].sp, m3piCtrl.posHelpArray [i].wt, fw);
+		
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.19f, 25, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.167f, 20, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.126f, 15, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.093f, 10, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
+//		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
 
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.19f, 25, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.167f, 20, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.126f, 15, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.093f, 10, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.06f, 6, 3, fw);
-		setSpeedWaitHelp (m3piCtrl, ref dis, 0.033f, 3, 3, fw);
-
-		m3piCtrl.run ();
+		m3piCtrl.run (Time.time);
 		//m_returnMsg = m3piCtrlB.m_returnMsg;
 		//Debug.Log ("receive from m3pi:\t" + m_returnMsg);
 	}
@@ -187,6 +191,9 @@ public class cheerCtrl : MonoBehaviour
 
 	void sync (GameObject local, GameObject remote, int index)
 	{
+		if (!Utility.getInst().checkRtnMsg (m3piCtrls[index]))
+			return;
+		
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
 
 		Utility.getInst ().drawRays (local.transform, remote.transform);
