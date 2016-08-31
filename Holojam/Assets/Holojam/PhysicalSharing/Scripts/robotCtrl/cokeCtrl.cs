@@ -95,13 +95,13 @@ public class cokeCtrl : MonoBehaviour
 			can.SetActive (true);
 	}
 	//rbtNew is being hold, disable rbtOld, change the model
-	bool checkHeight (int index, GameObject holdingObj, GameObject remoteObj, GameObject fakeObj)
+	bool checkHeight (int index, GameObject holdingObj, GameObject remoteObj, GameObject fakeObj, string msg)
 	{
 		if (Vector3.Distance (defaultRBT [index], new Vector3 ()) > 0.1) {
 			if (Mathf.Abs (holdingObj.transform.position.y - defaultRBT [index].y) > yThreshold) {
 				print ("being hold.\t" + holdingObj.transform.position.y.ToString ("F3") + "\t" + defaultRBT [index].y.ToString ("F3"));
 				step = 0;
-				this.GetComponent<SyncMsg> ().sentMsg = "stop";
+				this.GetComponent<SyncMsg> ().sentMsg = msg;
 				fakeObj.SetActive (true);
 				remoteObj.SetActive (false);
 				changeModel ();
@@ -128,7 +128,8 @@ public class cokeCtrl : MonoBehaviour
 		// if RBT A is being hold, then change the model to coke
 		// check obj's height, hide another robot, show copy one
 		//if (
-		checkHeight (0, carRbtA, carRbtB, copyRbtA);
+		checkHeight (0, carRbtA, carRbtB, copyRbtA, "stopB");
+		checkHeight (1, carRbtB, carRbtA, copyRbtB, "stopA");
 		//) {
 			// TODO
 //			lastPos [0] = carRbts [0].transform.position;
