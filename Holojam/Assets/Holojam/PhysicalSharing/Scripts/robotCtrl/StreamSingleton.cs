@@ -10,6 +10,7 @@ public class StreamSingleton
 	SerialPort m_stream;
 
 	Thread m_rcvThread;
+	bool thread_running;
 
 	Object m_rcvMsgLock;
 	//lock
@@ -51,18 +52,47 @@ public class StreamSingleton
 		if (m_linkCnt == 0) {
 			m_rcvThread = new Thread (receiveRobots);
 			m_rcvThread.Start ();
+			thread_running = true;
 		}
 		++m_linkCnt;
 	}
 
-	public void minusThread ()
+	public void minusThread (bool stop = false)
 	{
+		if (m_rcvThread == null)
+			return;
 		Debug.Log ("minusThread:\t" + m_linkCnt);
 		if (m_linkCnt > 0) {
 			--m_linkCnt;
-			if (m_linkCnt == 0)
-				m_rcvThread.Abort ();
+			if (m_linkCnt == 0) {
+				//thread_running = false;
+				m_exStop = true;
+				Debug.Log (m_rcvThread.ThreadState);
+			}
+
 		}
+		if (stop) {
+			Debug.Log ("Before join: " + m_rcvThread.ThreadState);
+
+			m_rcvThread.Join ();
+			Debug.Log ("After join");
+			Debug.Log (m_rcvThread.ThreadState);
+		}
+	}
+
+	bool matchHelp(string cmd, string rtnMsg){
+		if (cmd != null && cmd.Length >= 5
+		    && rtnMsg.Length > 10
+		    && rtnMsg.Length > cmd.Length) {
+			if (rtnMsg.StartsWith ("t:")) {
+				if (rtnMsg [2] == 'A' ||
+				   rtnMsg [2] == 'B') {
+					return true;
+				}
+			}
+		} 
+
+			return false;
 	}
 
 	public int match (string cmd)
@@ -73,8 +103,7 @@ public class StreamSingleton
 		for (int i = 0; i < m_rcvMsgs.Count; i++) {
 			string curMsg = m_rcvMsgs [i];
 			// check if command is match with the receive msg
-			if (cmd.Length >= 5
-			     && curMsg.Length > 10) {
+			if (matchHelp(cmd,curMsg)) {
 				if (curMsg.Substring (2, cmd.Length - 1).Equals (cmd.Substring (0, cmd.Length - 1))) {
 					Debug.Log ("matched:\t" + cmd + "\t" + curMsg);
 					removeList.Add (i);
@@ -97,6 +126,8 @@ public class StreamSingleton
 
 	void receiveRobots ()
 	{
+//		if (!thread_running)
+//			return;
 		do {
 			Debug.Log ("in receive:" + m_linkCnt);
 			//lock (m_rcvMsgLock) {

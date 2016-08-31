@@ -29,6 +29,7 @@ public class m3piComm : SerialCommunication
 	{
 		//m_speed = 0.2f;
 		//m_waitTime = 0.5f;
+		m_command = "";
 		m_returnMsg = "";
 		m_bRtn = true;
 		m_exStop = false;

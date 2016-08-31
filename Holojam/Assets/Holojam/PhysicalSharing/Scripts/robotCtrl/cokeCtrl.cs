@@ -371,7 +371,7 @@ public class cokeCtrl : MonoBehaviour
 //			print ("destroy:\t" + StreamSingleton.getInst ().getReceiveThread ().ThreadState);
 //		}
 		StreamSingleton.getInst ().minusThread ();
-		StreamSingleton.getInst ().minusThread ();
+		StreamSingleton.getInst ().minusThread (true);
 	}
 
 	// unused
