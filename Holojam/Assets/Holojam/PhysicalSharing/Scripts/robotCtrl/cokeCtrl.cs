@@ -13,6 +13,7 @@ public class cokeCtrl : MonoBehaviour
 	public GameObject copyRbtA;
 	public GameObject copyRbtADisplay;
 	public GameObject copyRbtB;
+	public GameObject copyRbtBDisplay;
 
 	public GameObject carRbtBRef;
 
@@ -131,8 +132,9 @@ public class cokeCtrl : MonoBehaviour
 		// if RBT A is being hold, then change the model to coke
 		// check obj's height, hide another robot, show copy one
 		//if (
-		checkHeight (1, carRbtA, carRbtB, copyRbtA, "stopB");
-		checkHeight (0, carRbtB, carRbtA, copyRbtB, "stopA");
+		bool isHolding = checkHeight (1, carRbtA, carRbtB, copyRbtADisplay, "stopA");
+		if(!isHolding)
+			checkHeight (0, carRbtB, carRbtA, copyRbtBDisplay, "stopB");
 		//) {
 			// TODO
 //			lastPos [0] = carRbts [0].transform.position;
@@ -148,7 +150,7 @@ public class cokeCtrl : MonoBehaviour
 				float moveNew = Vector3.Distance (lastPos [1], carRbts [1].transform.position);
 				//print ("old diff:\t" + moveOld + "\tnew diff:\t" + moveNew);
 				if (moveOld > (moveNew + Utility.getInst ().disError)) {
-					Debug.Log ("move \"New\"");
+					Debug.Log ("move \"New\"" + carRbts [1].transform.position + "\t" + copyRbtB.transform.position);
 					step = 1;
 					sync (carRbts [1], copyRbtB, 1);
 				} else if (moveNew > (moveOld + Utility.getInst ().disError)) {

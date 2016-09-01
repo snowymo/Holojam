@@ -131,8 +131,9 @@ public class StreamSingleton
 				}
 			}
 		}
-		foreach (int i in removeList)
-			m_rcvMsgs.RemoveAt (i);
+		removeList.Sort ();
+		for (int i = removeList.Count - 1; i >= 0; i--)
+			m_rcvMsgs.RemoveAt (removeList[i]);
 		return ret;
 		//}
 	}

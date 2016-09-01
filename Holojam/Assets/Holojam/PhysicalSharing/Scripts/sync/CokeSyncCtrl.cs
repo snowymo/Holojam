@@ -32,10 +32,12 @@ public class CokeSyncCtrl : MonoBehaviour {
 		m_syncMsg = this.GetComponent<SyncMsg> ().text;
 		if (m_syncMsg == null)
 			return;
+		if(m_syncMsg.Contains("stop"))
+			changeModel ();
+		
 		if (m_syncMsg.Equals (m_stopCmd)) {
 			copyRobotA.SetActive (true);
 			robotB.SetActive (false);
-			changeModel ();
 		} 
 //		else if (m_syncMsg.Equals ("stopA")) {
 //			copyRobotB.SetActive (true);
