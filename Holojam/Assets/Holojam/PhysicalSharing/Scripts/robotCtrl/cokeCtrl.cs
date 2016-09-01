@@ -125,11 +125,14 @@ public class cokeCtrl : MonoBehaviour
 				myStart (index, carRbts [index]);
 		}
 
+		//print("height:0\t" + carRbts [0].transform.position);
+		//print("height:1\t" + carRbts [1].transform.position);
+
 		// if RBT A is being hold, then change the model to coke
 		// check obj's height, hide another robot, show copy one
 		//if (
-		checkHeight (0, carRbtA, carRbtB, copyRbtA, "stopB");
-		checkHeight (1, carRbtB, carRbtA, copyRbtB, "stopA");
+		checkHeight (1, carRbtA, carRbtB, copyRbtA, "stopB");
+		checkHeight (0, carRbtB, carRbtA, copyRbtB, "stopA");
 		//) {
 			// TODO
 //			lastPos [0] = carRbts [0].transform.position;

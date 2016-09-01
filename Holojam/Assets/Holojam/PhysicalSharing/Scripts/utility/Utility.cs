@@ -25,7 +25,7 @@ public class Utility {
 	public bool checkMatchV2(Vector3 pos, Vector3 refPos){
 		Vector3 thisXOZ = new Vector3(pos.x,0,pos.z);
 		Vector3 carXOZ = new Vector3(refPos.x,0,refPos.z);
-		//Debug.Log("checkMatchV2:\tdis:" + (thisXOZ-carXOZ).magnitude);
+		Debug.Log("checkMatchV2:\tdis:" + (thisXOZ-carXOZ).magnitude);
 
 		//Debug.Log("checkMatchV2:\ty:" + (pos.y-refPos.y));
 		// 
@@ -115,8 +115,9 @@ public class Utility {
 			ctrl.m_bRtn = true;
 			return true;
 		}
-		// then check if it is not too long
-		if(matchResult == 2){
+		// then check if it waits not too long
+		else//(matchResult == 2)
+		{
 			float executeTime = Time.time - ctrl.m_runTime;
 			if (executeTime < (ctrl.m_cmdTime + 0.8f))
 				return false;
@@ -129,7 +130,7 @@ public class Utility {
 				return true;
 			}
 		}
-		return false;
+		//return false;
 	}
 
 //
