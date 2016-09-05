@@ -5,20 +5,22 @@ public class wandCtrl : MonoBehaviour {
 
 	public GameObject _hand;
 
-	magicObjCtrl objChosen;
+	public magicObjCtrl objChosen;
 
 	public GameObject _objs;
 
+	public bool isCollide;
+
 	// Use this for initialization
 	void Start () {
-	
+		isCollide = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		// check if selected, and highlight it
-		bool isCollide = isCollision ();
+		isCollide = isCollision ();
 		if (isCollide) {
 			objChosen.highlight ();
 		} else {
@@ -30,7 +32,8 @@ public class wandCtrl : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			print ("click space");
-			objChosen.moveWanimation ();
+			if(isCollide)
+				objChosen.moveWanimation ();
 		}
 	
 	}
@@ -49,7 +52,8 @@ public class wandCtrl : MonoBehaviour {
 
 	public void OnButtonA(){
 		print ("click button A");
-		objChosen.moveWanimation ();
+		if(isCollide)
+			objChosen.moveWanimation ();
 	}
 
 	void drawRays(){
