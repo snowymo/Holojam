@@ -78,6 +78,24 @@ public class Utility {
 		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
 
+	public void drawRays (Transform localTrans, Vector3 remotePos)
+	{
+		Quaternion facing = Quaternion.identity;
+		facing.SetFromToRotation (localTrans.rotation * Vector3.forward, remotePos - localTrans.position);
+		//Vector3 vFacing = facing * Vector3.forward;
+
+		Vector3 vCur = localTrans.rotation * Vector3.forward;
+
+		// test if these two vectors are correct
+		Debug.DrawRay (localTrans.position, vCur, Color.green);
+
+		Debug.DrawRay (localTrans.position, remotePos - localTrans.position, Color.magenta);
+
+		//Debug.DrawRay(this.transform.position,vFacing,Color.red);
+
+		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+	}
+
 	public bool checkRtnMsg(m3piComm ctrl){
 		// check if there is return msg already
 		if (!ctrl.m_bRtn) {

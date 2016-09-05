@@ -32,8 +32,10 @@ public class wandCtrl : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			print ("click space");
-			if(isCollide)
+			if (isCollide) {
 				objChosen.moveWanimation ();
+				unlinkAll ();
+			}
 		}
 	
 	}
@@ -52,8 +54,10 @@ public class wandCtrl : MonoBehaviour {
 
 	public void OnButtonA(){
 		print ("click button A");
-		if(isCollide)
+		if (isCollide) {
 			objChosen.moveWanimation ();
+			unlinkAll ();
+		}
 	}
 
 	void drawRays(){
@@ -66,6 +70,13 @@ public class wandCtrl : MonoBehaviour {
 		magicObjCtrl[] mos = _objs.GetComponentsInChildren <magicObjCtrl> ();
 		foreach (magicObjCtrl mo in mos){
 			mo.hideWings ();
+		}
+	}
+
+	void unlinkAll(){
+		magicObjCtrl[] mos = _objs.GetComponentsInChildren <magicObjCtrl> ();
+		foreach (magicObjCtrl mo in mos){
+			mo.SetLink (false);
 		}
 	}
 }
