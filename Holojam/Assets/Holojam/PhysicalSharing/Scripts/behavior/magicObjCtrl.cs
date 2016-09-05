@@ -88,13 +88,26 @@ public class magicObjCtrl : MonoBehaviour
 
 	void generateTarget ()
 	{
+		// generate according to the robot's position
+		Vector3 robotDis = rbtObj.transform.position - _table.transform.position;
 		// generate two points for bezier generation and
-		float deltax = Random.Range (-25, 25) / 100.0f;
-		float deltay = Random.Range (-25, 25) / 100.0f;
+		float deltax = Random.Range (Mathf.Max(-25,-25-robotDis.x*100), Mathf.Min(25,25-robotDis.x*100)) / 100.0f;
+		float deltay = Random.Range (Mathf.Max(-25,-25-robotDis.z*100), Mathf.Min(25,25-robotDis.z*100)) / 100.0f;
 		float tableSize = 1f;	// TODO
-		Vector3 des = new Vector3 (deltax * tableSize, 0, deltay * tableSize) + _table.transform.position;
-		//ONLY FOR TEST
 
+//		robotDis.y = 0;
+		Vector3 des = new Vector3 (deltax * tableSize, 0, deltay * tableSize) + _table.transform.position;
+//		if (des.x > 0.25f)
+//			des.x = 0.25f;
+//		if (des.x < -0.25f)
+//			des.x = -0.25f;
+//		if (des.z > 0.25f)
+//			des.z = 0.25f;
+//		if (des.z < -0.25f)
+//			des.z = -0.25f;
+		//des += _table.transform.position;
+		
+		//ONLY FOR TEST
 		if(_DEBUG){
 			des = _table.transform.position;
 		}

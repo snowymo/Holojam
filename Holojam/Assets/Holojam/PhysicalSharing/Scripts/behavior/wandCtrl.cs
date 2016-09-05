@@ -35,7 +35,7 @@ public class wandCtrl : MonoBehaviour {
 			if (isCollide) {
 				unlinkAll ();
 				objChosen.moveWanimation ();
-			}
+			} 
 		}
 	
 	}
