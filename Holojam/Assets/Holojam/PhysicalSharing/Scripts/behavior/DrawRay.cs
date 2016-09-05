@@ -27,6 +27,9 @@ public class DrawRay : MonoBehaviour
 		lineRenderer.SetWidth (startWidth, endWidth);
 
 		startDrawdot = false;
+
+		lineRenderer.SetPosition (0, origin.transform.position);
+		lineRenderer.SetPosition (1, origin.transform.position);
 	}
 	
 	// Update is called once per frame
@@ -50,7 +53,7 @@ public class DrawRay : MonoBehaviour
 
 	void drawDotRay ()
 	{
-		// draw when the wand is holding TODO
+		// draw when the wand is holding
 		lineRenderer.SetPosition (0, origin.transform.position);
 		// if hit then just draw until that obj
 		if (wCtrl.isCollide) {

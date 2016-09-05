@@ -24,7 +24,7 @@ public class magicObjCtrl : MonoBehaviour
 
 	public GameObject rbtObj;
 
-	public bool _DEBUG = true;
+	public bool _DEBUG = false;
 
 	// Use this for initialization
 	void Start ()
@@ -35,6 +35,7 @@ public class magicObjCtrl : MonoBehaviour
 		_damping = 4f;
 		_hasRbtArrived = false;
 		_isLinkRbt = false;
+		_DEBUG = false;
 	}
 	
 	// Update is called once per frame
@@ -81,7 +82,7 @@ public class magicObjCtrl : MonoBehaviour
 		generateTarget ();
 		_isMoving = true;
 		//_hasRbtArrived = false;
-		// call the robot to move
+		// call the robot to move NOT FOR VIEWER
 		rbtObj.GetComponent<HPSCtrl>().setDestination(_path.getPoint(1.0f));
 	}
 

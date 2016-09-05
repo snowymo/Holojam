@@ -64,12 +64,11 @@ public class StreamSingleton
 		Debug.Log ("minusThread:\t" + m_linkCnt);
 		if (m_linkCnt > 0) {
 			--m_linkCnt;
-			if (m_linkCnt == 0) {
-				//thread_running = false;
-				m_exStop = true;
-				Debug.Log (m_rcvThread.ThreadState);
-			}
-
+		}
+		if (m_linkCnt == 0) {
+			//thread_running = false;
+			m_exStop = true;
+			Debug.Log (m_rcvThread.ThreadState);
 		}
 		if (stop) {
 			Debug.Log ("Before join: " + m_rcvThread.ThreadState);
@@ -142,7 +141,12 @@ public class StreamSingleton
 	{
 //		if (!thread_running)
 //			return;
-		do {
+		if (m_exStop) {
+			Debug.Log ("stop external:\t" + m_linkCnt);
+			--m_linkCnt;
+			m_exStop = false;
+		}
+		while(m_linkCnt > 0){
 			Debug.Log ("in receive:" + m_linkCnt);
 			//lock (m_rcvMsgLock) {
 			string returnMsg = m_stream.ReadLine ();
@@ -151,14 +155,7 @@ public class StreamSingleton
 				Debug.Log ("add msg\t" + returnMsg);
 				m_rcvMsgs.Add (returnMsg);
 			}
-			if (m_exStop) {
-				Debug.Log ("stop external:\t" + m_linkCnt);
-				--m_linkCnt;
-				m_exStop = false;
-				
-			}
-			//}
-		} while(m_linkCnt > 0);
+		}
 		// clear the command
 		//clear ();
 		Debug.Log ("after receive");

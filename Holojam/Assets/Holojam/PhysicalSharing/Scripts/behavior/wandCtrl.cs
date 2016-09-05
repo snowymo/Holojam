@@ -33,8 +33,8 @@ public class wandCtrl : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			print ("click space");
 			if (isCollide) {
-				objChosen.moveWanimation ();
 				unlinkAll ();
+				objChosen.moveWanimation ();
 			}
 		}
 	

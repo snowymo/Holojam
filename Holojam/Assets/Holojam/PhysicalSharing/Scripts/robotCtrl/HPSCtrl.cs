@@ -10,12 +10,16 @@ public class HPSCtrl : MonoBehaviour
 	wandCtrl wCtrl;
 	public GameObject stylus;
 
+	public bool _isViewer;
+
 	// Use this for initialization
 	void Start ()
 	{
 		_destination = new Vector3 ();
-		_robotCtrl = new m3piComm ();
-		_robotCtrl.setName ("B");
+		if (!_isViewer) {
+			_robotCtrl = new m3piComm ();
+			_robotCtrl.setName ("B");
+		}
 		step = 1;
 		wCtrl = stylus.GetComponent<wandCtrl> ();
 	}
@@ -53,8 +57,9 @@ public class HPSCtrl : MonoBehaviour
 	void moveToDest ()
 	{
 		if (_destination.sqrMagnitude > 0.1) {
-			if (!Utility.getInst ().checkRtnMsg2 (_robotCtrl))
-				return;
+			if(!_isViewer)
+				if (!Utility.getInst ().checkRtnMsg2 (_robotCtrl))
+					return;
 
 			Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
 			Utility.getInst ().drawRays (transform, _destination);
@@ -67,13 +72,15 @@ public class HPSCtrl : MonoBehaviour
 					if (Utility.getInst ().checkMatchV2 (localPos, remotePos)) {
 						step = 0;
 					} else {
-						if (turnAround (gameObject, remotePos, _robotCtrl)) {
-							goStraight (gameObject, remotePos, _robotCtrl);
-							step = 2;
-						}
+						if(!_isViewer)
+							if (turnAround (gameObject, remotePos, _robotCtrl)) {
+								goStraight (gameObject, remotePos, _robotCtrl);
+								step = 2;
+							}
 					}
 					break;
 				case 2:
+					// viewer will never come here
 					// moved car with going straight
 					if (goStraight (gameObject, remotePos, _robotCtrl)) {
 						step = 0;
