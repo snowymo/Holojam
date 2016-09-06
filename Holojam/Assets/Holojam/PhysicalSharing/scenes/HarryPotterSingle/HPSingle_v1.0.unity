@@ -184,7 +184,7 @@ MonoBehaviour:
   _wings: {fileID: 2124774697}
   _damping: 0
   rbtObj: {fileID: 1235542727}
-  _DEBUG: 1
+  _DEBUG: 0
 --- !u!4 &74234592
 Transform:
   m_ObjectHideFlags: 0
@@ -674,7 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackingTag: 39
   localSpace: 0
-  damping: 3
+  damping: 10
 --- !u!114 &475945104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1457,7 +1457,7 @@ MonoBehaviour:
   _wings: {fileID: 697704449}
   _damping: 0
   rbtObj: {fileID: 1235542727}
-  _DEBUG: 1
+  _DEBUG: 0
 --- !u!1001 &654357373
 Prefab:
   m_ObjectHideFlags: 0
@@ -1650,7 +1650,7 @@ MonoBehaviour:
   _wings: {fileID: 121100375}
   _damping: 0
   rbtObj: {fileID: 1235542727}
-  _DEBUG: 1
+  _DEBUG: 0
 --- !u!1001 &697704447
 Prefab:
   m_ObjectHideFlags: 0
@@ -3800,7 +3800,7 @@ MonoBehaviour:
   _wings: {fileID: 1159676024}
   _damping: 0
   rbtObj: {fileID: 1235542727}
-  _DEBUG: 1
+  _DEBUG: 0
 --- !u!1 &1615296238
 GameObject:
   m_ObjectHideFlags: 0
@@ -4394,7 +4394,7 @@ MonoBehaviour:
   _wings: {fileID: 1041869164}
   _damping: 0
   rbtObj: {fileID: 1235542727}
-  _DEBUG: 1
+  _DEBUG: 0
 --- !u!1 &1802558646
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,7 +45,7 @@ public class magicObjCtrl : MonoBehaviour
 		moving ();
 		// update position when linked
 		if (_isLinkRbt) {
-			if(rbtObj.GetComponent<Holojam.Network.HolojamView>().IsTracked)
+			if (rbtObj.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
 				transform.position = rbtObj.transform.position;
 		}
 
@@ -78,37 +78,54 @@ public class magicObjCtrl : MonoBehaviour
 	public void moveWanimation ()
 	{
 		// generate a target with position and rotation, then lerp and slerp to the target
-		print(gameObject.name + "\tmoving bezier");
+		print (gameObject.name + "\tmoving bezier");
 		generateTarget ();
 		_isMoving = true;
 		//_hasRbtArrived = false;
 		// call the robot to move NOT FOR VIEWER
-		rbtObj.GetComponent<HPSCtrl>().setDestination(_path.getPoint(1.0f));
+		rbtObj.GetComponent<HPSCtrl> ().setDestination (_path.getPoint (1.0f));
 	}
 
 	void generateTarget ()
 	{
 		// generate according to the robot's position
 		Vector3 robotDis = rbtObj.transform.position - _table.transform.position;
+		Vector3 mir = 2 * _table.transform.position - rbtObj.transform.position;
+		float tableSize = 1f;
 		// generate two points for bezier generation and
-		float deltax = Random.Range (Mathf.Max(-25,-25-robotDis.x*100), Mathf.Min(25,25-robotDis.x*100)) / 100.0f;
-		float deltay = Random.Range (Mathf.Max(-25,-25-robotDis.z*100), Mathf.Min(25,25-robotDis.z*100)) / 100.0f;
-		float tableSize = 1f;	// TODO
+		// algorithms3
+		float deltax = Random.Range (Mathf.Max(-25f + _table.transform.position.x * 100f,-15 + mir.x * 100f),
+			Mathf.Min(25f + _table.transform.position.x * 100f, 15 + mir.x * 100f)) / 100.0f;
+		float deltaz = Random.Range (Mathf.Max(-25f + _table.transform.position.z * 100f,-15 + mir.z * 100f),
+			Mathf.Min(25f + _table.transform.position.z * 100f, 15 + mir.z * 100f)) / 100.0f;
+		print ("dx:\t" + deltax + "\tdy:\t" + deltaz + "\trbt:\t" + rbtObj.transform.position + "\ttbl:\t" + _table.transform.position);
 
+		while (Vector3.Distance (rbtObj.transform.position, new Vector3 (deltax, rbtObj.transform.position.y, deltaz)) < 0.2f) {
+			print ("redo");
+			deltax = Random.Range (-25, 25) / 100.0f + _table.transform.position.x;
+			deltaz = Random.Range (-25, 25) / 100.0f + _table.transform.position.z;
+		}
+		deltax = Mathf.Min (_table.transform.position.x + 0.25f, deltax);
+		deltax = Mathf.Max (_table.transform.position.x - 0.25f, deltax);
+		deltaz = Mathf.Min (_table.transform.position.z + 0.25f, deltaz);
+		deltaz = Mathf.Max (_table.transform.position.z - 0.25f, deltaz);
+
+
+
+
+//		if(deltax + mir.x > 0.25f + _table.transform.position.x) deltax += 0.1f; else deltax -= 0.1f;
+//		if (!((robotDis.x > 0) ^ (deltax > 0)) && (Random.Range (0, 3) > 0))
+//			deltax = -deltax;
+//		float deltay = Random.Range (-15, 15) / 100.0f;if(deltay > 0f) deltay += 0.1f; else deltay -= 0.1f;
+//		if (!((robotDis.z > 0) ^ (deltay > 0)) && (Random.Range (0, 3) > 0))
+//			deltay = -deltay;
+//		print ("dx:\t" + deltax + "\tdy:\t" + deltay + "\trbt:\t" + rbtObj.transform.position + "\ttbl:\t" + _table.transform.position);
 //		robotDis.y = 0;
-		Vector3 des = new Vector3 (deltax * tableSize, 0, deltay * tableSize) + _table.transform.position;
-//		if (des.x > 0.25f)
-//			des.x = 0.25f;
-//		if (des.x < -0.25f)
-//			des.x = -0.25f;
-//		if (des.z > 0.25f)
-//			des.z = 0.25f;
-//		if (des.z < -0.25f)
-//			des.z = -0.25f;
-		//des += _table.transform.position;
+		Vector3 des = new Vector3 (deltax * tableSize, _table.transform.position.y, deltaz * tableSize);// + _table.transform.position;
+		print ("des:\t" + des.ToString("F3"));
 		
 		//ONLY FOR TEST
-		if(_DEBUG){
+		if (_DEBUG) {
 			des = _table.transform.position;
 		}
 
@@ -122,7 +139,7 @@ public class magicObjCtrl : MonoBehaviour
 		_path = new bezier (transform.position, p2, p3, des);
 
 		// generate the first destination
-		moveDestination = _path.getPoint(0.0f);
+		moveDestination = _path.getPoint (0.0f);
 
 	}
 

@@ -8,7 +8,7 @@ public class TrackableCamera : Trackable {
 	public float damping;
 
 	void Start(){
-		damping = 3.0f;
+		damping = 10.0f;
 	}
 
 	protected override void UpdateTracking(){
