@@ -148,7 +148,7 @@ public class magicObjCtrl : MonoBehaviour
 	Vector3 startPos;
 	Quaternion startRot;
 	float journey;
-	float speed = 0.15f;
+	float speed = 0.05f;
 	//Quaternion rot;
 	Vector3 finalDest;
 	Vector3 moveDestination;
