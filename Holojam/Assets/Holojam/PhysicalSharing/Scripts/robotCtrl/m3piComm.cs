@@ -84,44 +84,44 @@ public class m3piComm : SerialCommunication
 	}
 
 //	public Thread receiveThread;
-	public void run (float curTime = 0)
-	{
-		m_runTime = curTime;
-		if (stream != null) {
-			if (stream.getStream().IsOpen) {
-				//Debug.Log ("time bf:\t" + Time.time);
-				// verify command
-				if (verifyCommand ()) {
-					m_command = m_name + m_command + "E";
-					assignRunTime ();
-					stream.getStream ().Write (m_command);
-					//Debug.Log ("command:\t" + m_command);
-
-					// if robot is not power on then it will die
-					//m_returnMsg = stream.ReadLine ();
-					//Debug.Log ("time af:\t" + Time.time);
-					m_bRtn = false;
-
-					if (StreamSingleton.getInst().getReceiveThread() != null) {
-						Debug.Log ("before abort state:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
-						//					while (receiveThread.ThreadState != ThreadState.Stopped)
-						//						Thread.Sleep (500);
-						StreamSingleton.getInst().getReceiveThread().Abort ();
-					}
-					StreamSingleton.getInst ().newRcvThread (receive);
-					StreamSingleton.getInst().getReceiveThread().Name = m_name;
-					//Debug.Log("after new state :\t" +receiveThread.Name + "\t" + receiveThread.ThreadState);
-					//if (receiveThread.ThreadState == ThreadState.Stopped
-					//	|| receiveThread.ThreadState == ThreadState.Unstarted) {
-					StreamSingleton.getInst().getReceiveThread().Start ();
-					//Debug.Log("after start state:\t" + receiveThread.ThreadState);
-					//}
-				} else {
-					clear ();
-				}
-			}
-		}
-	}
+//	public void run (float curTime = 0)
+//	{
+//		m_runTime = curTime;
+//		if (stream != null) {
+//			if (stream.getStream().IsOpen) {
+//				//Debug.Log ("time bf:\t" + Time.time);
+//				// verify command
+//				if (verifyCommand ()) {
+//					m_command = m_name + m_command + "E";
+//					assignRunTime ();
+//					stream.getStream ().Write (m_command);
+//					//Debug.Log ("command:\t" + m_command);
+//
+//					// if robot is not power on then it will die
+//					//m_returnMsg = stream.ReadLine ();
+//					//Debug.Log ("time af:\t" + Time.time);
+//					m_bRtn = false;
+//
+//					if (StreamSingleton.getInst().getReceiveThread() != null) {
+////						Debug.Log ("before abort state:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
+//						//					while (receiveThread.ThreadState != ThreadState.Stopped)
+//						//						Thread.Sleep (500);
+//						StreamSingleton.getInst().getReceiveThread().Abort ();
+//					}
+//					StreamSingleton.getInst ().newRcvThread (receive);
+//					StreamSingleton.getInst().getReceiveThread().Name = m_name;
+//					//Debug.Log("after new state :\t" +receiveThread.Name + "\t" + receiveThread.ThreadState);
+//					//if (receiveThread.ThreadState == ThreadState.Stopped
+//					//	|| receiveThread.ThreadState == ThreadState.Unstarted) {
+//					StreamSingleton.getInst().getReceiveThread().Start ();
+//					//Debug.Log("after start state:\t" + receiveThread.ThreadState);
+//					//}
+//				} else {
+//					clear ();
+//				}
+//			}
+//		}
+//	}
 
 	// new version for sharing thread
 	public void run2 (float curTime = 0)
@@ -129,7 +129,7 @@ public class m3piComm : SerialCommunication
 		m_runTime = curTime;
 		if (stream != null) {
 			if (stream.getStream().IsOpen) {
-				Debug.Log ("time:\t" + curTime + "\t" +Time.time);
+//				Debug.Log ("time:\t" + curTime + "\t" +Time.time);
 				// verify command
 				if (verifyCommand ()) {
 					m_command = m_name + m_command + "E";
@@ -167,17 +167,17 @@ public class m3piComm : SerialCommunication
 	{
 		do {
 			Debug.Log ("in receive");
+			if(m_exStop){
+				Debug.Log("stop external");
+				m_exStop = false;
+				break;
+			}
 			m_returnMsg = stream.getStream().ReadLine ();
 			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
 			if(m_returnMsg.Length > 0 && !match()){
 				Debug.Log("when return NOT match:cmd\t" + m_command + "\rret\t" + m_returnMsg);
 				// TODO
 				m_returnMsg = "";
-			}
-			if(m_exStop){
-				Debug.Log("stop external");
-				m_exStop = false;
-				break;
 			}
 		} while(!match());
 		// clear the command

@@ -394,7 +394,7 @@ public class cokeCtrl : MonoBehaviour
 				m3piCtrls [i].setSpeed (2);
 				m3piCtrls [i].setWaitTime (2);
 				m3piCtrls [i].left ();
-				m3piCtrls [i].run (Time.time);
+				m3piCtrls [i].run2 (Time.time);
 			}
 			m_bRunRobot = true;
 			m_rbtCheckTime = Time.time;

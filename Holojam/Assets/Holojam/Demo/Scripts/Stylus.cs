@@ -49,6 +49,7 @@ public class Stylus : MonoBehaviour{
 	}
 	
 	public void OnButtonA(){
+		print ("click A haha");
 		click=!drawing;
 		drawing=true;
 	}

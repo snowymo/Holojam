@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Holojam.Network;
+using Holojam.IO;
 
 public class wandCtrl : MonoBehaviour {
 
@@ -30,6 +32,7 @@ public class wandCtrl : MonoBehaviour {
 		// draw the ray of wand, TODO maybe activate when button B is clicked
 		drawRays ();
 
+		// for laptop
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			print ("click space");
 			if (isCollide) {
@@ -37,6 +40,13 @@ public class wandCtrl : MonoBehaviour {
 				objChosen.moveWanimation ();
 			} 
 		}
+
+		// for phones
+		int bits = GetComponent<HolojamView>().Bits;
+
+		if((bits & ButtonConstants.A)>0){
+			OnButtonA();
+		} 
 	
 	}
 
@@ -53,27 +63,27 @@ public class wandCtrl : MonoBehaviour {
 	}
 
 	public void OnButtonA(){
-		print ("click button A");
+		//print ("click button A");
 		if (isCollide) {
-			objChosen.moveWanimation ();
 			unlinkAll ();
+			objChosen.moveWanimation ();
 		}
 	}
 
-	void drawRays(){
+	protected void drawRays(){
 		Vector3 fwd = transform.position - _hand.transform.position;
 		Debug.DrawRay (transform.position, fwd, Color.white);
 		Debug.DrawRay (transform.position, transform.transform.rotation * Vector3.forward, Color.magenta);
 	}
 
-	void uncheckAll(){
+	protected void uncheckAll(){
 		magicObjCtrl[] mos = _objs.GetComponentsInChildren <magicObjCtrl> ();
 		foreach (magicObjCtrl mo in mos){
 			mo.hideWings ();
 		}
 	}
 
-	void unlinkAll(){
+	protected void unlinkAll(){
 		magicObjCtrl[] mos = _objs.GetComponentsInChildren <magicObjCtrl> ();
 		foreach (magicObjCtrl mo in mos){
 			mo.SetLink (false);

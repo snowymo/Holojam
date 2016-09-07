@@ -41,8 +41,8 @@ public class cheerCtrl : MonoBehaviour
 	{
 
 		// keep sync
-		print ("step A:\t" + step [0]);
-		print ("step B:\t" + step [1]);
+		//print ("step A:\t" + step [0]);
+		//print ("step B:\t" + step [1]);
 		if (step [0] == 0)
 			step [0] = 1;
 		if (step [1] == 0)

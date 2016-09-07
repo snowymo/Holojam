@@ -14,7 +14,7 @@ public class magicObjCtrl : MonoBehaviour
 
 	GameObject _table;
 
-	bezier _path;
+	public bezier _path;
 
 	public float _damping;
 
@@ -35,7 +35,7 @@ public class magicObjCtrl : MonoBehaviour
 		_damping = 4f;
 		_hasRbtArrived = false;
 		_isLinkRbt = false;
-		_DEBUG = false;
+		_DEBUG = true;
 	}
 	
 	// Update is called once per frame
@@ -78,49 +78,38 @@ public class magicObjCtrl : MonoBehaviour
 	public void moveWanimation ()
 	{
 		// generate a target with position and rotation, then lerp and slerp to the target
-		print (gameObject.name + "\tmoving bezier");
-		generateTarget ();
+		//print (gameObject.name + "\tmoving bezier");
+		Vector3 des4Rbt = generateTarget ();
 		_isMoving = true;
 		//_hasRbtArrived = false;
 		// call the robot to move NOT FOR VIEWER
-		rbtObj.GetComponent<HPSCtrl> ().setDestination (_path.getPoint (1.0f));
+		rbtObj.GetComponent<HPSCtrl> ().setDestination (des4Rbt);
 	}
 
-	void generateTarget ()
+	Vector3 generateTarget ()
 	{
 		// generate according to the robot's position
-		Vector3 robotDis = rbtObj.transform.position - _table.transform.position;
+		//Vector3 robotDis = rbtObj.transform.position - _table.transform.position;
 		Vector3 mir = 2 * _table.transform.position - rbtObj.transform.position;
 		float tableSize = 1f;
 		// generate two points for bezier generation and
 		// algorithms3
-		float deltax = Random.Range (Mathf.Max(-25f + _table.transform.position.x * 100f,-15 + mir.x * 100f),
-			Mathf.Min(25f + _table.transform.position.x * 100f, 15 + mir.x * 100f)) / 100.0f;
-		float deltaz = Random.Range (Mathf.Max(-25f + _table.transform.position.z * 100f,-15 + mir.z * 100f),
-			Mathf.Min(25f + _table.transform.position.z * 100f, 15 + mir.z * 100f)) / 100.0f;
+		float deltax = Random.Range (Mathf.Max(-20f + _table.transform.position.x * 100f,-15 + mir.x * 100f),
+			Mathf.Min(20f + _table.transform.position.x * 100f, 15 + mir.x * 100f)) / 100.0f;
+		float deltaz = Random.Range (Mathf.Max(-20f + _table.transform.position.z * 100f,-15 + mir.z * 100f),
+			Mathf.Min(20f + _table.transform.position.z * 100f, 15 + mir.z * 100f)) / 100.0f;
 		print ("dx:\t" + deltax + "\tdy:\t" + deltaz + "\trbt:\t" + rbtObj.transform.position + "\ttbl:\t" + _table.transform.position);
 
 		while (Vector3.Distance (rbtObj.transform.position, new Vector3 (deltax, rbtObj.transform.position.y, deltaz)) < 0.2f) {
 			print ("redo");
-			deltax = Random.Range (-25, 25) / 100.0f + _table.transform.position.x;
-			deltaz = Random.Range (-25, 25) / 100.0f + _table.transform.position.z;
+			deltax = Random.Range (-20, 20) / 100.0f + _table.transform.position.x;
+			deltaz = Random.Range (-20, 20) / 100.0f + _table.transform.position.z;
 		}
-		deltax = Mathf.Min (_table.transform.position.x + 0.25f, deltax);
-		deltax = Mathf.Max (_table.transform.position.x - 0.25f, deltax);
-		deltaz = Mathf.Min (_table.transform.position.z + 0.25f, deltaz);
-		deltaz = Mathf.Max (_table.transform.position.z - 0.25f, deltaz);
+		deltax = Mathf.Min (_table.transform.position.x + 0.2f, deltax);
+		deltax = Mathf.Max (_table.transform.position.x - 0.2f, deltax);
+		deltaz = Mathf.Min (_table.transform.position.z + 0.2f, deltaz);
+		deltaz = Mathf.Max (_table.transform.position.z - 0.2f, deltaz);
 
-
-
-
-//		if(deltax + mir.x > 0.25f + _table.transform.position.x) deltax += 0.1f; else deltax -= 0.1f;
-//		if (!((robotDis.x > 0) ^ (deltax > 0)) && (Random.Range (0, 3) > 0))
-//			deltax = -deltax;
-//		float deltay = Random.Range (-15, 15) / 100.0f;if(deltay > 0f) deltay += 0.1f; else deltay -= 0.1f;
-//		if (!((robotDis.z > 0) ^ (deltay > 0)) && (Random.Range (0, 3) > 0))
-//			deltay = -deltay;
-//		print ("dx:\t" + deltax + "\tdy:\t" + deltay + "\trbt:\t" + rbtObj.transform.position + "\ttbl:\t" + _table.transform.position);
-//		robotDis.y = 0;
 		Vector3 des = new Vector3 (deltax * tableSize, _table.transform.position.y, deltaz * tableSize);// + _table.transform.position;
 		print ("des:\t" + des.ToString("F3"));
 		
@@ -129,9 +118,13 @@ public class magicObjCtrl : MonoBehaviour
 			des = _table.transform.position;
 		}
 
+		// try two way animation that it goes to some floating place first and then get on the table
+		Vector3 desForRbt = des;
+		des.y += (transform.position.y - _table.transform.position.y)/3f; 
+
 		// another two points
-		float disx = Random.Range (-2, 2);
-		float disy = Random.Range (-2, 2);
+		float disx = Random.Range (1, 3) * (Random.Range(0,1) * 2 - 1);
+		float disy = Random.Range (1, 3)* (Random.Range(0,1) * 2 - 1);
 		Vector3 p2 = (transform.position + des) / 2 + new Vector3 (disx, disy, 0);
 		Vector3 p3 = (transform.position + des) / 2 - new Vector3 (disx, disy, 0);
 
@@ -141,6 +134,10 @@ public class magicObjCtrl : MonoBehaviour
 		// generate the first destination
 		moveDestination = _path.getPoint (0.0f);
 
+		// reset the speed
+		speed = 0.05f;
+
+		return desForRbt;
 	}
 
 	// for movement control
@@ -161,32 +158,39 @@ public class magicObjCtrl : MonoBehaviour
 
 		moveRotation = Quaternion.identity;
 		moveDestination = finalDest;
+
+		startPos = transform.position;
+		startRot = transform.rotation;
+		speed = 0.1f;
+//		t = 1f;
+		_isMoving = true;
 	}
 
 	void moving ()
 	{
 		if (_isMoving) {
+			//print ("moving");
 			showWings ();
 			//print ("moving:\t" + t);
 			float curDis = Vector3.Distance (transform.position, moveDestination);
-			if (curDis < 0.01f) {
-				t += 0.03f;
-				if (t > 1.1f) {
-					_isMoving = false;
-					_hasRbtArrived = false;
-					_isLinkRbt = true;
-					hideWings ();
-					print ("arrived");
-					return;
-				}
+			print ("cur dis:\t" + curDis); 
 
-				if (!_hasRbtArrived) {
-					moveRotation = transform.rotation * Quaternion.Euler (new Vector3 (Random.Range (0, 20), Random.Range (-0, 35), Random.Range (-0, 30)));
-					moveDestination = _path.getPoint (t);
-					if (t > 1f) {
-						moveRotation = Quaternion.identity;
-						//print ("moving rot:\t" + moveRotation);
-					}
+			if (_hasRbtArrived) {
+				if (curDis < 0.08f) {
+					_isMoving = false;
+					hideWings ();
+					_isLinkRbt = true;
+					print ("arrived");
+				}
+			}
+			else if (curDis < 0.08f) {
+				t = Mathf.Min(t+0.01f, 1.0f);
+
+				moveRotation = transform.rotation * Quaternion.Euler (new Vector3 (Random.Range (0, 20), Random.Range (-0, 35), Random.Range (-0, 30)));
+				moveDestination = _path.getPoint (t);
+				if (t > 0.999f) {
+					moveRotation = Quaternion.identity;
+					//print ("moving rot:\t" + moveRotation);
 				}
 				startPos = transform.position;
 				startRot = transform.rotation;
@@ -200,11 +204,11 @@ public class magicObjCtrl : MonoBehaviour
 	{	
 		//print ("moving to:\t" + moveDestination + "\t" + moveRotation);
 		journey = Vector3.Distance (startPos, moveDestination);
-		float curDis = Vector3.Distance (transform.position, moveDestination);
-		if (journey != 0) {
-			transform.position = Vector3.Lerp (startPos, moveDestination, 1 - curDis / journey * speed);
+		float curDis = Vector3.Distance (transform.position, startPos);
+		if (journey > 0.01f) {
+			transform.position = Vector3.Lerp (startPos, moveDestination, curDis / journey + speed);
 			//transform.position = Vector3.Lerp (startPos, destination, Time.deltaTime * _damping);
-			transform.rotation = Quaternion.Slerp (startRot, moveRotation, 1 - curDis / journey * speed);
+			transform.rotation = Quaternion.Slerp (startRot, moveRotation, curDis / journey + speed);
 		}
 	}
 

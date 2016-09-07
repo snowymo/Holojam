@@ -101,7 +101,7 @@ public class Utility {
 		if (!ctrl.m_bRtn) {
 			float executeTime = Time.time - ctrl.m_runTime;
 			// check if it is already too long then return and sync up them again
-			if(executeTime < (ctrl.m_cmdTime + 0.8f))
+			if(executeTime < (ctrl.m_cmdTime + 0.5f))
 				return false;
 			Debug.Log ("exe:\t" + executeTime + "\test:\t" + ctrl.m_cmdTime);
 			Debug.Log ("wait too long:\t" + executeTime);
@@ -123,7 +123,8 @@ public class Utility {
 
 	// new version for sharing thread
 	public bool checkRtnMsg2(m3piComm ctrl){
-		if (ctrl.m_runTime < 0.1f || ctrl.m_bRtn)
+		//if (ctrl.m_runTime < 0.1f || ctrl.m_bRtn)
+		if ( ctrl.m_bRtn)
 			return true;	// just started
 		// check if the command is matched with one of the received msg and will discard unused msg
 		int matchResult = StreamSingleton.getInst().match(ctrl.m_command);
@@ -137,12 +138,12 @@ public class Utility {
 		else//(matchResult == 2)
 		{
 			float executeTime = Time.time - ctrl.m_runTime;
-			if (executeTime < (ctrl.m_cmdTime + 0.8f))
+			if (executeTime < (ctrl.m_cmdTime + 0.5f))
 				return false;
 			else {
 				// too long then stop one, if it is 0 for link count, kill the thread
-				Debug.Log ("wait too long:\t" + executeTime);
-				StreamSingleton.getInst ().setExstop (true);
+				Debug.Log ("wait too long:\t" + ctrl.m_cmdTime + "\t" + executeTime);
+				//StreamSingleton.getInst ().setExstop (true);
 				StreamSingleton.getInst ().minusThread ();
 				ctrl.m_bRtn = true;		// do not need to wait for next return msg
 				return true;

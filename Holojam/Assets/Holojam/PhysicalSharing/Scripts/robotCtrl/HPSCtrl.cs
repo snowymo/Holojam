@@ -104,7 +104,7 @@ public class HPSCtrl : MonoBehaviour
 		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
 		remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
 
-		if (dis.magnitude > Utility.getInst ().disError) {
+		if (dis.magnitude > (Utility.getInst ().disError * 1.5f)) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
 			float angle = Vector3.Angle (vCur, dis);
 			bool isForward = (vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0);

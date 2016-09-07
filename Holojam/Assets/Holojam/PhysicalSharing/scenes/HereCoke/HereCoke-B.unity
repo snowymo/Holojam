@@ -2281,7 +2281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackedObject: {fileID: 658001924}
-  remoteYOffset: {x: 0, y: 0.157, z: 0}
+  remoteYOffset: {x: 0, y: 0.08, z: 0}
 --- !u!1001 &2080033982
 Prefab:
   m_ObjectHideFlags: 0
@@ -2389,4 +2389,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackedObj: {fileID: 657814994}
-  remoteOffset: {x: 0, y: -0.08, z: 0}
+  remoteOffset: {x: 0, y: 0, z: 0}

@@ -48,7 +48,7 @@ public class StreamSingleton
 	public void addReceive ()
 	{
 		//if link is 0 so that i need to start a new one, otherwise i just continue
-		Debug.Log ("addReceive:\t" + m_linkCnt);
+//		Debug.Log ("addReceive:\t" + m_linkCnt);
 		if (m_linkCnt == 0) {
 			m_rcvThread = new Thread (receiveRobots);
 			m_rcvThread.Start ();
@@ -61,13 +61,13 @@ public class StreamSingleton
 	{
 		if (m_rcvThread == null)
 			return;
-		Debug.Log ("minusThread:\t" + m_linkCnt);
+//		Debug.Log ("minusThread:\t" + m_linkCnt);
 		if (m_linkCnt > 0) {
 			--m_linkCnt;
 		}
 		if (m_linkCnt == 0) {
 			//thread_running = false;
-			m_exStop = true;
+			//m_exStop = true;
 			Debug.Log (m_rcvThread.ThreadState);
 		}
 		if (stop) {
@@ -141,23 +141,23 @@ public class StreamSingleton
 	{
 //		if (!thread_running)
 //			return;
-		if (m_exStop) {
-			Debug.Log ("stop external:\t" + m_linkCnt);
-			--m_linkCnt;
-			m_exStop = false;
-		}
+//		if (m_exStop) {
+//			Debug.Log ("stop external:\t" + m_linkCnt);
+//			--m_linkCnt;
+//			Debug.Log ("link cnt:\t" + m_linkCnt);
+//			m_exStop = false;
+//		}
 		while(m_linkCnt > 0){
-			Debug.Log ("in receive:" + m_linkCnt);
+//			Debug.Log ("in receive:" + m_linkCnt);
 			//lock (m_rcvMsgLock) {
 			string returnMsg = m_stream.ReadLine ();
 			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
 			if (returnMsg.Length > 0) {
+				--m_linkCnt;
 				Debug.Log ("add msg\t" + returnMsg);
 				m_rcvMsgs.Add (returnMsg);
 			}
 		}
-		// clear the command
-		//clear ();
 		Debug.Log ("after receive");
 		//m_bRtn = true;
 		return;
