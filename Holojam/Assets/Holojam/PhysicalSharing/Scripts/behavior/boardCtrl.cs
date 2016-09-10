@@ -8,7 +8,7 @@ public class boardCtrl : MonoBehaviour {
 	public string username;
 	public GameObject[] chesses;
 
-	public GameObject chessSync;
+	public GameObject chessSyncGameObject;
 
 	//Transform ctrler;
 	GameObject ctrlGo;
@@ -41,7 +41,7 @@ public class boardCtrl : MonoBehaviour {
 
 		ctrlGo = transform.Find ("controller").gameObject;
 
-		isViewer = false;
+		//isViewer = false;
 	}
 	
 	// Update is called once per frame
@@ -77,7 +77,7 @@ public class boardCtrl : MonoBehaviour {
 				// manually select
 				enemyBoard.GetComponent<boardCtrl>().chesses[indexselect].GetComponent<chessCtrl>().select(username);
 				// send msg
-				chessSync.GetComponent<chessSync> ().sentMsg = indexselect.ToString() + "-" + username;
+				chessSyncGameObject.GetComponent<chessSync> ().sentMsg = indexselect.ToString() + "-" + username;
 			}
 		}
 	}
@@ -87,8 +87,11 @@ public class boardCtrl : MonoBehaviour {
 		//TODO to be test
 		if (isViewer) {
 			// use msg 
-			string[] msg = this.GetComponent<SyncMsg> ().text.Split (splitChar, 2);
-			chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
+			chessSync cs = chessSyncGameObject.GetComponent<chessSync> ();
+			if (cs.text != "" && cs.text != null) {
+				string[] msg = cs.text.Split (splitChar, 2);
+				chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
+			}
 		}
 	}
 
