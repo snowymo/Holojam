@@ -8,6 +8,8 @@ public class boardCtrl : MonoBehaviour {
 	public string username;
 	public GameObject[] chesses;
 
+	public GameObject chessSync;
+
 	//Transform ctrler;
 	GameObject ctrlGo;
 
@@ -75,7 +77,7 @@ public class boardCtrl : MonoBehaviour {
 				// manually select
 				enemyBoard.GetComponent<boardCtrl>().chesses[indexselect].GetComponent<chessCtrl>().select(username);
 				// send msg
-				this.GetComponent<chessSync> ().sentMsg = indexselect.ToString() + "-" + username;
+				chessSync.GetComponent<chessSync> ().sentMsg = indexselect.ToString() + "-" + username;
 			}
 		}
 	}

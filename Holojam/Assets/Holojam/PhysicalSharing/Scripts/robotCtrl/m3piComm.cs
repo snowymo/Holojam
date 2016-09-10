@@ -70,7 +70,7 @@ public class m3piComm : SerialCommunication
 	void assignRunTime(){
 		m_cmdTime = 0;
 		//calculate estimated running time based on command
-		for (int i = 3; i < m_command.Length; i+=3) {
+		for (int i = 4; i < m_command.Length; i+=3) {
 			m_cmdTime += m_command [i] - '0';
 		}
 		m_cmdTime /= 10.0f;
@@ -123,6 +123,18 @@ public class m3piComm : SerialCommunication
 //		}
 //	}
 
+	bool sameCmd(string cmda, string cmdb){
+		if(cmda.Length == cmdb.Length)
+			if (cmda [0] == cmdb [0]) {
+			int dis = cmda [1] - cmdb [1];
+				if(dis < 3)
+					if (cmda.Substring (2).Equals (cmdb.Substring (2)))
+						return true;
+			}
+		return false;
+	}
+
+	string m_lastCmd = "";
 	// new version for sharing thread
 	public void run2 (float curTime = 0)
 	{
@@ -132,14 +144,16 @@ public class m3piComm : SerialCommunication
 //				Debug.Log ("time:\t" + curTime + "\t" +Time.time);
 				// verify command
 				if (verifyCommand ()) {
-					m_command = m_name + m_command + "E";
-					assignRunTime ();
-					stream.getStream ().Write (m_command);
-					stream.addReceive ();
-					// if robot is not power on then it will die
-
-					m_bRtn = false;
-
+					m_command = m_name + Utility.getInst().getMyTimeStamp() + m_command + "E";
+					if (!sameCmd( m_command , m_lastCmd)) {
+						assignRunTime ();
+						stream.getStream ().Write (m_command);
+						stream.addReceive ();
+						// if robot is not power on then it will die
+						m_bRtn = false;
+						m_lastCmd = m_command;
+						//clear ();
+					}
 				} else {
 					clear ();
 				}
@@ -151,11 +165,13 @@ public class m3piComm : SerialCommunication
 //		receiveThread.Join ();
 //	}
 
+	//unused
 	bool match(){
 		// check if command is match with the receive msg
 		if (m_command.Length >= 5
 		   && m_returnMsg.Length > 10) {
-			if (m_returnMsg.Substring (2, m_command.Length-1).Equals (m_command.Substring(0,m_command.Length-1))) {
+			//if (m_returnMsg.Substring (2, m_command.Length-1).Equals (m_command.Substring(0,m_command.Length-1))) {
+			if(m_returnMsg[0].Equals(m_command[1])){
 				return true;
 			}
 			Debug.Log("cmd:\t" + m_command + "\trtnMsg:\t" + m_returnMsg);
@@ -163,6 +179,7 @@ public class m3piComm : SerialCommunication
 		return false;
 	}
 
+	// unused
 	public void receive ()
 	{
 		do {

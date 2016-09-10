@@ -82,7 +82,7 @@ public class robotCtrl : MonoBehaviour {
 
 		if (Mathf.Abs (angle) % 180.0f > 8.0f) {
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
-			print ("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString ("F2"));
+//			print ("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString ("F2"));
 			if (vUp.y > 0.00005)
 				setAngle (false, angle, m3piCtrl);
 			else if (vUp.y < -0.00005)
@@ -110,8 +110,8 @@ public class robotCtrl : MonoBehaviour {
 		remotePos.y = 0;
 
 		Vector3 dis = remotePos - localPos;
-		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
-			remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
+//		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
+//			remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
 
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;

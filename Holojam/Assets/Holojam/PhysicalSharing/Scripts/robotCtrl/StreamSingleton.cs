@@ -80,19 +80,24 @@ public class StreamSingleton
 	}
 
 	bool validateRtn(string cmd, string rtnMsg){
-		if (rtnMsg.Length > cmd.Length) {
-			if (rtnMsg.StartsWith ("t:")) {
-				if (rtnMsg [2] == 'A' ||
-				   rtnMsg [2] == 'B') {
-					return true;
-				}
-			}
-		} 
+//		if (rtnMsg.Length > cmd.Length) {
+//			if (rtnMsg.StartsWith ("t:")) {
+//				if (rtnMsg [2] == 'A' ||
+//				   rtnMsg [2] == 'B') {
+//					return true;
+//				}
+//			}
+//		} 
+		if (rtnMsg.Length == 1) {
+			if (rtnMsg [0] <= 'z'
+			   && rtnMsg [0] >= 'a')
+				return true;
+		}
 		return false;
 	}
 
 	bool validateCmd(string cmd){
-		if (cmd != null && cmd.Length >= 5) {
+		if (cmd != null && cmd.Length >= 6) {
 				if (cmd [0] == 'A' ||
 					cmd [0] == 'B') {
 					return true;
@@ -111,14 +116,15 @@ public class StreamSingleton
 			// check if command is match with the receive msg
 			if (validateCmd(cmd)) {
 				if (validateRtn (cmd, curMsg)) {
-					if (curMsg.Substring (2, cmd.Length - 1).Equals (cmd.Substring (0, cmd.Length - 1))) {
+					if (curMsg[0] == cmd[1]) {
 						Debug.Log ("matched:\t" + cmd + "\t" + curMsg);
 						removeList.Add (i);
 						ret = 0;
 						break;
 					} 
 					// external stop leads to later receive msg
-					else if (cmd [0] == curMsg [2]) {
+					else// if (cmd [0] == curMsg [2]) 
+					{
 						Debug.Log ("discard:\t" + cmd + "\t" + curMsg);
 						removeList.Add (i);
 						ret = 1;
@@ -158,7 +164,7 @@ public class StreamSingleton
 				m_rcvMsgs.Add (returnMsg);
 			}
 		}
-		Debug.Log ("after receive");
+//		Debug.Log ("after receive");
 		//m_bRtn = true;
 		return;
 	}

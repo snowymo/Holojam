@@ -17,6 +17,11 @@ public class boardRbtCtrl : robotCtrl
 	Vector3[] lastPos;
 	Vector3[] defaultRBT;
 
+	int stableTimeCount = 10;
+	public int stableTime;
+
+	public int myTS;
+
 	void createM3pi ()
 	{
 		m3piCtrls = new m3piComm[2];
@@ -45,6 +50,8 @@ public class boardRbtCtrl : robotCtrl
 		Rbts [1] = RbtB;	//new
 
 		step = 1;
+
+		stableTime = 0;
 	}
 
 	// only once
@@ -72,6 +79,7 @@ public class boardRbtCtrl : robotCtrl
 	// Update is called once per frame
 	void Update ()
 	{
+		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
 		for (int index = 0; index < 2; index++) {
 			if (Rbts [index].GetComponent<Holojam.Network.HolojamView> ().IsTracked)
@@ -80,31 +88,32 @@ public class boardRbtCtrl : robotCtrl
 		// sync up
 		if (isFirst [0] == 3 && isFirst [1] == 3) {
 			// if previous state is sync up
-			if (step == 0) {
+//			print("stable count:\t" + stableTime);
+			if (step == 0 && (stableTime == stableTimeCount)) {
 				float moveOld = Vector3.Distance (lastPos [0], Rbts [0].transform.position);
 				float moveNew = Vector3.Distance (lastPos [1], Rbts [1].transform.position);
 				//print ("old diff:\t" + moveOld + "\tnew diff:\t" + moveNew);
 				if (moveOld > (moveNew + Utility.getInst ().disError)) {
-					Debug.Log ("move \"New\"" + Rbts [1].transform.localPosition + "\t" + Rbts [0].transform.localPosition);
+					//Debug.Log ("move \"New\"" + Rbts [1].transform.localPosition + "\t" + Rbts [0].transform.localPosition);
 					step = 1;
 					sync (Rbts [1], Rbts [0], 1);
+
 				} else if (moveNew > (moveOld + Utility.getInst ().disError)) {
-					Debug.Log ("move \"Old\"");
+					//Debug.Log ("move \"Old\"");
 					step = 1;
 					sync (Rbts [0], Rbts [1], 0);
+
 				}
-			} else {
+				stableTime = 0;
+			} else if(step != 0) {
 				// still doing the sync up
-				if (lastIdx == 0) {
-					sync (Rbts [0], Rbts [1], 0);
-					//Debug.Log ("move \"Old\"");
-				} else {
-					sync (Rbts [1], Rbts [0], 1);
-					//Debug.Log ("move \"New\"");
-				}
+				sync (Rbts [lastIdx], Rbts [1-lastIdx], lastIdx);
 			}
+			if (step == 0)
+				++stableTime;
 		}
 	}
+
 
 	void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
 	{
@@ -121,10 +130,14 @@ public class boardRbtCtrl : robotCtrl
 		if (!Utility.getInst ().checkRtnMsg2 (m3piCtrls [index]))
 			return;
 
+//		print ("local\t" + local.transform.position + "\t" + local.transform.localPosition);
+//		print ("remote\t" + remote.transform.position + "\t" + remote.transform.localPosition);
 		Utility.getInst ().drawRays (local.transform, remote.transform, true);
 
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
 		ignoreYPos (local, remote, ref localPos, ref remotePos);
+
+		m3piCtrls [index].clear ();
 
 		// send command
 		if (step != 0) {
@@ -136,6 +149,7 @@ public class boardRbtCtrl : robotCtrl
 					step = 0;
 				} else {
 					if (turnAround (local, remote, m3piCtrls [index], true)) {
+//						print ("move index:\t" + index + "\tstep:\t" + step);
 						goStraight (local, remote, m3piCtrls [index], true);
 						step = 2;
 					}
@@ -145,8 +159,10 @@ public class boardRbtCtrl : robotCtrl
 			// moved car with going straight
 				if (goStraight (local, remote, m3piCtrls [index], true)) {
 					step = 0;
+					//print ("move index:\t" + index + "\tstep:\t" + step);
 				} else {
 					step = 1;
+					//print ("move index:\t" + index + "\tstep:\t" + step);
 				}
 				break;
 			default:

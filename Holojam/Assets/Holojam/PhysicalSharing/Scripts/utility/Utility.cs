@@ -12,6 +12,8 @@ public class Utility {
 
 	public float yError = 0.01f;
 
+	int timestamp;
+
 	public static Utility getInst (){
 		if(m_instance == null)
 			m_instance = new Utility();
@@ -19,6 +21,17 @@ public class Utility {
 	}
 
 	public Utility(){
+		timestamp = 0;
+	}
+
+	public string getMyTimeStamp(){
+		timestamp %= 26;
+		string st = char.ToString((char)('a' + (char)timestamp++));
+		return st;
+	}
+
+	public int getMyTS(){
+		return timestamp;
 	}
 
 	// do not care about the rotation
@@ -145,7 +158,7 @@ public class Utility {
 		else//(matchResult == 2)
 		{
 			float executeTime = Time.time - ctrl.m_runTime;
-			if (executeTime < (ctrl.m_cmdTime + 0.5f))
+			if (executeTime < (ctrl.m_cmdTime + 0.8f))
 				return false;
 			else {
 				// too long then stop one, if it is 0 for link count, kill the thread
