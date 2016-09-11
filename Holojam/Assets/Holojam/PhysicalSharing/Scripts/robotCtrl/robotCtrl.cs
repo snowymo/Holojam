@@ -13,6 +13,62 @@ public class robotCtrl : MonoBehaviour {
 	
 	}
 
+	protected void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
+	{
+		// get local position
+		localPos = local.transform.localPosition;
+		remotePos = remote.transform.localPosition;
+		// ignore y information
+		localPos.y = 0;
+		remotePos.y = 0;
+	}
+
+	protected void sync (GameObject local, GameObject remote, m3piComm m3piCtrl, ref int step)
+	{
+		if (!Utility.getInst ().checkRtnMsg2 (m3piCtrl))
+			return;
+
+		//		print ("local\t" + local.transform.position + "\t" + local.transform.localPosition);
+		//		print ("remote\t" + remote.transform.position + "\t" + remote.transform.localPosition);
+		Utility.getInst ().drawRays (local.transform, remote.transform, true);
+
+		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
+		ignoreYPos (local, remote, ref localPos, ref remotePos);
+
+		m3piCtrl.clear ();
+
+		// send command
+		if (step != 0) {
+			//print ("move index:\t" + index + "\tstep:\t" + step);
+			switch (step) {
+			case 1:
+				// check distance first
+				if (Utility.getInst ().checkMatchV2 (localPos, remotePos)) {
+					step = 0;
+				} else {
+					if (turnAround (local, remote, m3piCtrl, true)) {
+						//						print ("move index:\t" + index + "\tstep:\t" + step);
+						goStraight (local, remote, m3piCtrl, true);
+						step = 2;
+					}
+				}
+				break;
+			case 2:
+				// moved car with going straight
+				if (goStraight (local, remote, m3piCtrl, true)) {
+					step = 0;
+					//print ("move index:\t" + index + "\tstep:\t" + step);
+				} else {
+					step = 1;
+					//print ("move index:\t" + index + "\tstep:\t" + step);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
 	void setAngleHelp (m3piComm m3piCtrl, ref float angle, float thres, int sp, int wt, ref bool lft, bool abs = false)
 	{
 		//while (angle > thres) {
@@ -141,5 +197,11 @@ public class robotCtrl : MonoBehaviour {
 		} else {
 			return true;
 		}
+	}
+
+	void OnDestroy ()
+	{
+		StreamSingleton.getInst ().minusThread ();
+		StreamSingleton.getInst ().minusThread (true);
 	}
 }

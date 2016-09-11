@@ -96,88 +96,40 @@ public class boardRbtCtrl : robotCtrl
 				if (moveOld > (moveNew + Utility.getInst ().disError)) {
 					//Debug.Log ("move \"New\"" + Rbts [1].transform.localPosition + "\t" + Rbts [0].transform.localPosition);
 					step = 1;
-					sync (Rbts [1], Rbts [0], 1);
-
+					sync (Rbts [1], Rbts [0], m3piCtrls[1],ref step);
+					updatePosnIdx(1);
 				} else if (moveNew > (moveOld + Utility.getInst ().disError)) {
 					//Debug.Log ("move \"Old\"");
 					step = 1;
-					sync (Rbts [0], Rbts [1], 0);
-
+					sync (Rbts [0], Rbts [1], m3piCtrls[0],ref step);
+					// update previous location
+					updatePosnIdx(0);
 				}
 				stableTime = 0;
 			} else if(step != 0) {
 				// still doing the sync up
-				sync (Rbts [lastIdx], Rbts [1-lastIdx], lastIdx);
+				sync (Rbts [lastIdx], Rbts [1-lastIdx], m3piCtrls[lastIdx],ref step);
+				// update previous location
+				updatePosnIdx(lastIdx);
 			}
 			if (step == 0)
 				++stableTime;
 		}
 	}
 
-
-	void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
-	{
-		// get local position
-		localPos = local.transform.localPosition;
-		remotePos = remote.transform.localPosition;
-		// ignore y information
-		localPos.y = 0;
-		remotePos.y = 0;
-	}
-
-	void sync (GameObject local, GameObject remote, int index)
-	{
-		if (!Utility.getInst ().checkRtnMsg2 (m3piCtrls [index]))
-			return;
-
-//		print ("local\t" + local.transform.position + "\t" + local.transform.localPosition);
-//		print ("remote\t" + remote.transform.position + "\t" + remote.transform.localPosition);
-		Utility.getInst ().drawRays (local.transform, remote.transform, true);
-
-		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
-		ignoreYPos (local, remote, ref localPos, ref remotePos);
-
-		m3piCtrls [index].clear ();
-
-		// send command
-		if (step != 0) {
-			print ("move index:\t" + index + "\tstep:\t" + step);
-			switch (step) {
-			case 1:
-			// check distance first
-				if (Utility.getInst ().checkMatchV2 (localPos, remotePos)) {
-					step = 0;
-				} else {
-					if (turnAround (local, remote, m3piCtrls [index], true)) {
-//						print ("move index:\t" + index + "\tstep:\t" + step);
-						goStraight (local, remote, m3piCtrls [index], true);
-						step = 2;
-					}
-				}
-				break;
-			case 2:
-			// moved car with going straight
-				if (goStraight (local, remote, m3piCtrls [index], true)) {
-					step = 0;
-					//print ("move index:\t" + index + "\tstep:\t" + step);
-				} else {
-					step = 1;
-					//print ("move index:\t" + index + "\tstep:\t" + step);
-				}
-				break;
-			default:
-				break;
-			}
-		}
+	void updatePosnIdx(int idx){
 		// update previous location
 		lastPos [0] = Rbts [0].transform.position;
 		lastPos [1] = Rbts [1].transform.position;
-		lastIdx = index;
+		lastIdx = idx;
 	}
 
-	void OnDestroy ()
-	{
-		StreamSingleton.getInst ().minusThread ();
-		StreamSingleton.getInst ().minusThread (true);
-	}
+
+
+
+//	void OnDestroy ()
+//	{
+//		StreamSingleton.getInst ().minusThread ();
+//		StreamSingleton.getInst ().minusThread (true);
+//	}
 }
