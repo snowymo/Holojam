@@ -142,7 +142,7 @@ GameObject:
   - 4: {fileID: 464096}
   - 114: {fileID: 11488890}
   m_Layer: 0
-  m_Name: actorCtrl
+  m_Name: actorLocalCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
