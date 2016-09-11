@@ -17,12 +17,14 @@ public class DataCollection : MonoBehaviour
 
 	public int waitTime;
 
+	public string robotName;
+
 	// Use this for initialization
 	void Start ()
 	{
 		m_inst = m3piComm.getInst ();
 		m_inst.open ();
-		m_inst.setName ("B");
+		m_inst.setName (robotName);
 		rot = this.transform.rotation;
 		pos = this.transform.position;
 		//Debug.Log (pos);

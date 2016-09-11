@@ -67,70 +67,73 @@ public class m3piComm : SerialCommunication
 		m_command = "";
 	}
 
-	void assignRunTime(){
+	void assignRunTime ()
+	{
 		m_cmdTime = 0;
 		//calculate estimated running time based on command
-		for (int i = 4; i < m_command.Length; i+=3) {
+		for (int i = 4; i < m_command.Length; i += 3) {
 			m_cmdTime += m_command [i] - '0';
 		}
 		m_cmdTime /= 10.0f;
 		Debug.Log ("estimated time:\t" + m_command + "\t" + m_cmdTime);
 	}
 
-	bool verifyCommand(){
+	bool verifyCommand ()
+	{
 		if (m_command.Length % 3 != 0)
 			return false;
 		return true;
 	}
 
-//	public Thread receiveThread;
-//	public void run (float curTime = 0)
-//	{
-//		m_runTime = curTime;
-//		if (stream != null) {
-//			if (stream.getStream().IsOpen) {
-//				//Debug.Log ("time bf:\t" + Time.time);
-//				// verify command
-//				if (verifyCommand ()) {
-//					m_command = m_name + m_command + "E";
-//					assignRunTime ();
-//					stream.getStream ().Write (m_command);
-//					//Debug.Log ("command:\t" + m_command);
-//
-//					// if robot is not power on then it will die
-//					//m_returnMsg = stream.ReadLine ();
-//					//Debug.Log ("time af:\t" + Time.time);
-//					m_bRtn = false;
-//
-//					if (StreamSingleton.getInst().getReceiveThread() != null) {
-////						Debug.Log ("before abort state:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
-//						//					while (receiveThread.ThreadState != ThreadState.Stopped)
-//						//						Thread.Sleep (500);
-//						StreamSingleton.getInst().getReceiveThread().Abort ();
-//					}
-//					StreamSingleton.getInst ().newRcvThread (receive);
-//					StreamSingleton.getInst().getReceiveThread().Name = m_name;
-//					//Debug.Log("after new state :\t" +receiveThread.Name + "\t" + receiveThread.ThreadState);
-//					//if (receiveThread.ThreadState == ThreadState.Stopped
-//					//	|| receiveThread.ThreadState == ThreadState.Unstarted) {
-//					StreamSingleton.getInst().getReceiveThread().Start ();
-//					//Debug.Log("after start state:\t" + receiveThread.ThreadState);
-//					//}
-//				} else {
-//					clear ();
-//				}
-//			}
-//		}
-//	}
+	//	public Thread receiveThread;
+	//	public void run (float curTime = 0)
+	//	{
+	//		m_runTime = curTime;
+	//		if (stream != null) {
+	//			if (stream.getStream().IsOpen) {
+	//				//Debug.Log ("time bf:\t" + Time.time);
+	//				// verify command
+	//				if (verifyCommand ()) {
+	//					m_command = m_name + m_command + "E";
+	//					assignRunTime ();
+	//					stream.getStream ().Write (m_command);
+	//					//Debug.Log ("command:\t" + m_command);
+	//
+	//					// if robot is not power on then it will die
+	//					//m_returnMsg = stream.ReadLine ();
+	//					//Debug.Log ("time af:\t" + Time.time);
+	//					m_bRtn = false;
+	//
+	//					if (StreamSingleton.getInst().getReceiveThread() != null) {
+	////						Debug.Log ("before abort state:\t" + StreamSingleton.getInst().getReceiveThread().ThreadState);
+	//						//					while (receiveThread.ThreadState != ThreadState.Stopped)
+	//						//						Thread.Sleep (500);
+	//						StreamSingleton.getInst().getReceiveThread().Abort ();
+	//					}
+	//					StreamSingleton.getInst ().newRcvThread (receive);
+	//					StreamSingleton.getInst().getReceiveThread().Name = m_name;
+	//					//Debug.Log("after new state :\t" +receiveThread.Name + "\t" + receiveThread.ThreadState);
+	//					//if (receiveThread.ThreadState == ThreadState.Stopped
+	//					//	|| receiveThread.ThreadState == ThreadState.Unstarted) {
+	//					StreamSingleton.getInst().getReceiveThread().Start ();
+	//					//Debug.Log("after start state:\t" + receiveThread.ThreadState);
+	//					//}
+	//				} else {
+	//					clear ();
+	//				}
+	//			}
+	//		}
+	//	}
 
-	bool sameCmd(string cmda, string cmdb){
-		if(cmda.Length == cmdb.Length)
-			if (cmda [0] == cmdb [0]) {
+	bool sameCmd (string cmda, string cmdb)
+	{
+		if (cmda.Length == cmdb.Length)
+		if (cmda [0] == cmdb [0]) {
 			int dis = cmda [1] - cmdb [1];
-				if(dis < 3)
-					if (cmda.Substring (2).Equals (cmdb.Substring (2)))
-						return true;
-			}
+			if (Mathf.Abs (dis) < 5)
+			if (cmda.Substring (2).Equals (cmdb.Substring (2)))
+				return true;
+		}
 		return false;
 	}
 
@@ -140,12 +143,12 @@ public class m3piComm : SerialCommunication
 	{
 		m_runTime = curTime;
 		if (stream != null) {
-			if (stream.getStream().IsOpen) {
+			if (stream.getStream ().IsOpen) {
 //				Debug.Log ("time:\t" + curTime + "\t" +Time.time);
 				// verify command
 				if (verifyCommand ()) {
-					m_command = m_name + Utility.getInst().getMyTimeStamp() + m_command + "E";
-					if (!sameCmd( m_command , m_lastCmd)) {
+					m_command = m_name + Utility.getInst ().getMyTimeStamp () + m_command + "E";
+					if (!sameCmd (m_command, m_lastCmd)) {
 						assignRunTime ();
 						stream.getStream ().Write (m_command);
 						stream.addReceive ();
@@ -153,7 +156,8 @@ public class m3piComm : SerialCommunication
 						m_bRtn = false;
 						m_lastCmd = m_command;
 						//clear ();
-					}
+					} else
+						m_lastCmd = "";
 				} else {
 					clear ();
 				}
@@ -161,20 +165,21 @@ public class m3piComm : SerialCommunication
 		}
 	}
 
-//	public void stopThread() {
-//		receiveThread.Join ();
-//	}
+	//	public void stopThread() {
+	//		receiveThread.Join ();
+	//	}
 
 	//unused
-	bool match(){
+	bool match ()
+	{
 		// check if command is match with the receive msg
 		if (m_command.Length >= 5
-		   && m_returnMsg.Length > 10) {
+		    && m_returnMsg.Length > 10) {
 			//if (m_returnMsg.Substring (2, m_command.Length-1).Equals (m_command.Substring(0,m_command.Length-1))) {
-			if(m_returnMsg[0].Equals(m_command[1])){
+			if (m_returnMsg [0].Equals (m_command [1])) {
 				return true;
 			}
-			Debug.Log("cmd:\t" + m_command + "\trtnMsg:\t" + m_returnMsg);
+			Debug.Log ("cmd:\t" + m_command + "\trtnMsg:\t" + m_returnMsg);
 		}
 		return false;
 	}
@@ -184,19 +189,19 @@ public class m3piComm : SerialCommunication
 	{
 		do {
 			Debug.Log ("in receive");
-			if(m_exStop){
-				Debug.Log("stop external");
+			if (m_exStop) {
+				Debug.Log ("stop external");
 				m_exStop = false;
 				break;
 			}
-			m_returnMsg = stream.getStream().ReadLine ();
+			m_returnMsg = stream.getStream ().ReadLine ();
 			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
-			if(m_returnMsg.Length > 0 && !match()){
-				Debug.Log("when return NOT match:cmd\t" + m_command + "\rret\t" + m_returnMsg);
+			if (m_returnMsg.Length > 0 && !match ()) {
+				Debug.Log ("when return NOT match:cmd\t" + m_command + "\rret\t" + m_returnMsg);
 				// TODO
 				m_returnMsg = "";
 			}
-		} while(!match());
+		} while(!match ());
 		// clear the command
 		clear ();
 		Debug.Log ("after receive");

@@ -46,10 +46,10 @@ public class boardCtrl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		assignChess ();
 
 		receiveAssignment ();
+
+		assignChess ();
 
 	}
 
@@ -71,13 +71,14 @@ public class boardCtrl : MonoBehaviour {
 			}
 		}
 		if (indexselect != -1) {
-			chesses [indexselect].GetComponent<chessCtrl> ().select (username);
-			// select the same in other table
-			if (!isViewer) {
-				// manually select
-				enemyBoard.GetComponent<boardCtrl>().chesses[indexselect].GetComponent<chessCtrl>().select(username);
-				// send msg
-				chessSyncGameObject.GetComponent<chessSync> ().sentMsg = indexselect.ToString() + "-" + username;
+			if (chesses [indexselect].GetComponent<chessCtrl> ().select (username)) {
+				// select the same in other table
+				if (!isViewer) {
+					// manually select
+					enemyBoard.GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username);
+					// send msg
+					chessSyncGameObject.GetComponent<chessSync> ().sentMsg = indexselect.ToString () + "-" + username;
+				}
 			}
 		}
 	}

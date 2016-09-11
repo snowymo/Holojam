@@ -69,13 +69,13 @@ public class chessCtrl : MonoBehaviour {
 	}
 
 	// select the cube
-	public void select(string name){
+	public bool select(string name){
 		// check if already select
 //		if ((circle.gameObject.activeSelf && name.Equals ("circle"))
 //		   || (cross.gameObject.activeSelf && name.Equals ("cross")))
 		if ((circle.gameObject.activeSelf)
 			|| (cross.gameObject.activeSelf))
-			return;
+			return false;
 		
 		Transform[] ts = transform.GetComponentsInChildren<Transform>();
 		foreach (Transform t in ts) {
@@ -89,5 +89,6 @@ public class chessCtrl : MonoBehaviour {
 		} else if (name == "cross") {
 			cross.gameObject.SetActive (true);
 		} 
+		return true;
 	}
 }

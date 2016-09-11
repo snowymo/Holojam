@@ -13,9 +13,11 @@ public class robotCtrl : MonoBehaviour {
 	
 	}
 
-	void setAngleHelp (m3piComm m3piCtrl, ref float angle, float thres, int sp, int wt, bool lft)
+	void setAngleHelp (m3piComm m3piCtrl, ref float angle, float thres, int sp, int wt, ref bool lft, bool abs = false)
 	{
-		while (angle > thres) {
+		//while (angle > thres) {
+		while((!abs && (angle > thres)) || 
+			(abs && (Mathf.Abs(angle - thres) < angle))){
 			m3piCtrl.setSpeed (sp);
 			m3piCtrl.setWaitTime (wt);
 			if (lft)
@@ -23,7 +25,11 @@ public class robotCtrl : MonoBehaviour {
 			else
 				m3piCtrl.right ();
 			angle -= thres;
+			if (angle < 0)
+				lft = !lft;
+			angle = Mathf.Abs (angle);
 		}
+
 	}
 
 	void setAngle (bool lft, float angle, m3piComm m3piCtrl)
@@ -34,15 +40,18 @@ public class robotCtrl : MonoBehaviour {
 
 		for (int i = 0; i < m3piCtrl.angleHelpArray.Length; i++)
 			setAngleHelp (m3piCtrl, ref angle, 
-				m3piCtrl.angleHelpArray [i].angle, m3piCtrl.angleHelpArray [i].sp, m3piCtrl.angleHelpArray [i].wt, lft);
+				m3piCtrl.angleHelpArray [i].angle, m3piCtrl.angleHelpArray [i].sp, m3piCtrl.angleHelpArray [i].wt, 
+				ref lft,i == (m3piCtrl.angleHelpArray.Length-1));
 
 		m3piCtrl.run2 (Time.time);
 
 	}
 
-	void setSpeedWaitHelp (m3piComm m3piCtrl, ref float dis, float thres, int sp, int wt, bool fw)
+	void setSpeedWaitHelp (m3piComm m3piCtrl, ref float dis, float thres, int sp, int wt, ref bool fw, bool abs = false)
 	{
-		while (dis > thres) {
+		while((!abs && (dis > thres)) || 
+			(abs && (Mathf.Abs(dis - thres) < dis))){
+//		while (dis > thres) {
 			m3piCtrl.setSpeed (sp);
 			m3piCtrl.setWaitTime (wt);
 			if (fw)
@@ -50,14 +59,19 @@ public class robotCtrl : MonoBehaviour {
 			else
 				m3piCtrl.backward ();
 			dis -= thres;
+			if (dis < 0)
+				fw = !fw;
+			dis = Mathf.Abs (dis);
 		}
+
 	}
 
 	void setSpeedWait (float dis, bool fw, m3piComm m3piCtrl)
 	{
 		for (int i = 0; i < m3piCtrl.posHelpArray.Length; i++)
 			setSpeedWaitHelp (m3piCtrl, ref dis, 
-				m3piCtrl.posHelpArray [i].dis, m3piCtrl.posHelpArray [i].sp, m3piCtrl.posHelpArray [i].wt, fw);
+				m3piCtrl.posHelpArray [i].dis, m3piCtrl.posHelpArray [i].sp, m3piCtrl.posHelpArray [i].wt, 
+				ref fw, i == (m3piCtrl.posHelpArray.Length-1));
 
 		m3piCtrl.run2 (Time.time);
 	}
@@ -80,7 +94,7 @@ public class robotCtrl : MonoBehaviour {
 		if (angle > 90.0f)
 			angle = angle - 180.0f;
 
-		if (Mathf.Abs (angle) % 180.0f > 8.0f) {
+		if (Mathf.Abs (angle) % 180.0f > Utility.getInst().angleError) {
 			Vector3 vUp = Vector3.Cross (vCur, vFacing);
 //			print ("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString ("F2"));
 			if (vUp.y > 0.00005)
