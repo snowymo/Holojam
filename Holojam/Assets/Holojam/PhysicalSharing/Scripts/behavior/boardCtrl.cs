@@ -17,6 +17,8 @@ public class boardCtrl : MonoBehaviour {
 
 	public GameObject enemyBoard;
 
+	public string remoteAssignFlag;
+
 	// Use this for initialization
 	void Start () {
 		// create sixteen chess at the beginning
@@ -40,7 +42,7 @@ public class boardCtrl : MonoBehaviour {
 		}
 
 		ctrlGo = transform.Find ("controller").gameObject;
-
+		remoteAssignFlag = "";
 		//isViewer = false;
 	}
 	
@@ -71,15 +73,24 @@ public class boardCtrl : MonoBehaviour {
 			}
 		}
 		if (indexselect != -1) {
-			if (chesses [indexselect].GetComponent<chessCtrl> ().select (username)) {
+			if (remoteAssignFlag != "") {
+				string[] msg = remoteAssignFlag.Split (splitChar, 2);
+				if (indexselect == int.Parse (msg [0])) {
+					chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
+					remoteAssignFlag = "";
+				}
+			}
+			else if (GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username)) {
 				// select the same in other table
 				if (!isViewer) {
 					// manually select
-					enemyBoard.GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username);
+					enemyBoard.GetComponent<boardCtrl> ().remoteAssignFlag = indexselect.ToString () + "-" + username;
+					//later
+					//enemyBoard.GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username);
 					// send msg
-					chessSyncGameObject.GetComponent<chessSync> ().sentMsg = indexselect.ToString () + "-" + username;
+					chessSyncGameObject.GetComponent<chessSync> ().sentMsg = remoteAssignFlag;
 				}
-			}
+			} 
 		}
 	}
 
@@ -90,8 +101,9 @@ public class boardCtrl : MonoBehaviour {
 			// use msg 
 			chessSync cs = chessSyncGameObject.GetComponent<chessSync> ();
 			if (cs.text != "" && cs.text != null) {
-				string[] msg = cs.text.Split (splitChar, 2);
-				chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
+				remoteAssignFlag = cs.text;
+				//string[] msg = cs.text.Split (splitChar, 2);
+				//chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
 			}
 		}
 	}

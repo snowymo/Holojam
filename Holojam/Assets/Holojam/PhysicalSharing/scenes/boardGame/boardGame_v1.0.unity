@@ -3811,6 +3811,7 @@ MonoBehaviour:
   chessSyncGameObject: {fileID: 234877105}
   isViewer: 0
   enemyBoard: {fileID: 1963619171}
+  remoteAssignFlag: 
 --- !u!114 &1572074181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4660,6 +4661,7 @@ MonoBehaviour:
   chessSyncGameObject: {fileID: 234877105}
   isViewer: 0
   enemyBoard: {fileID: 1572074176}
+  remoteAssignFlag: 
 --- !u!114 &1963619174
 MonoBehaviour:
   m_ObjectHideFlags: 0
