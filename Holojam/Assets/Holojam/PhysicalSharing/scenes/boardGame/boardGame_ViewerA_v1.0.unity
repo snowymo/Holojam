@@ -3021,6 +3021,7 @@ MonoBehaviour:
   chessSyncGameObject: {fileID: 890185935}
   isViewer: 1
   enemyBoard: {fileID: 1963619171}
+  remoteAssignFlag: 
 --- !u!114 &1572074181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3598,7 +3599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1866696259
 Transform:
   m_ObjectHideFlags: 0
@@ -3877,6 +3878,7 @@ MonoBehaviour:
   chessSyncGameObject: {fileID: 1769323968}
   isViewer: 0
   enemyBoard: {fileID: 1572074176}
+  remoteAssignFlag: 
 --- !u!114 &1963619174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4217,6 +4219,10 @@ Prefab:
       propertyPath: groundPlane
       value: 
       objectReference: {fileID: 1525581321}
+    - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
+      propertyPath: previewMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
   m_IsPrefabParent: 0
