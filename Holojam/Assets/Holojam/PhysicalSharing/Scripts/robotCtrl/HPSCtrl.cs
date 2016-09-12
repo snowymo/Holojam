@@ -62,7 +62,7 @@ public class HPSCtrl : MonoBehaviour
 					return;
 
 			Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
-			Utility.getInst ().drawRays (transform, _destination);
+			//Utility.getInst ().drawRays (transform, _destination);
 			ignoreYPos (gameObject, _destination, ref localPos, ref remotePos);
 
 			if (step > 0) {

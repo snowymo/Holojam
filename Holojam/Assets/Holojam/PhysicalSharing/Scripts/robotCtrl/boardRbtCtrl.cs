@@ -22,6 +22,8 @@ public class boardRbtCtrl : robotCtrl
 
 	public int myTS;
 
+	public bool isViewer;
+
 	void createM3pi ()
 	{
 		m3piCtrls = new m3piComm[2];
@@ -75,6 +77,8 @@ public class boardRbtCtrl : robotCtrl
 
 		initialAttr ();
 	}
+
+
 	
 	// Update is called once per frame
 	void Update ()
@@ -88,7 +92,6 @@ public class boardRbtCtrl : robotCtrl
 		// sync up
 		if (isFirst [0] == 3 && isFirst [1] == 3) {
 			// if previous state is sync up
-//			print("stable count:\t" + stableTime);
 			if (step == 0 && (stableTime >= stableTimeCount)) {
 				float moveOld = Vector3.Distance (lastPos [0], Rbts [0].transform.position);
 				float moveNew = Vector3.Distance (lastPos [1], Rbts [1].transform.position);
@@ -97,37 +100,32 @@ public class boardRbtCtrl : robotCtrl
 				//	Debug.Log ("move \"New\"" + Rbts [1].transform.localPosition + "\t" + Rbts [0].transform.localPosition);
 					step = 1;
 //					sync (Rbts [1], Rbts [0], m3piCtrls[1],ref step,1);
-//					updatePosnIdx(1);
-					sync (Rbts [1], Rbts [0],1);
+					//sync (Rbts [1], Rbts [0],1,true);
+					//
+					Vector3 vec = Quaternion.Inverse(Rbts [0].transform.parent.transform.rotation) * Rbts [1].transform.parent.transform.rotation * 
+						(Rbts [0].transform.position - Rbts [0].transform.parent.transform.position) + Rbts [1].transform.parent.transform.position;
+					sync (Rbts [1], vec,1);
 				} else if (moveNew > (moveOld + Utility.getInst ().disError)) {
 				//	Debug.Log ("move \"Old\"");
 					step = 1;
-					//sync (Rbts [0], Rbts [1], m3piCtrls[0],ref step,0);
 					// update previous location
-					//updatePosnIdx(0);
-					sync (Rbts [0], Rbts [1], 0);
+					//sync (Rbts [0], Rbts [1], 0,true);
+					Vector3 vec = Quaternion.Inverse(Rbts [1].transform.parent.transform.rotation) * Rbts [0].transform.parent.transform.rotation * 
+						(Rbts [1].transform.position - Rbts [1].transform.parent.transform.position) + Rbts [0].transform.parent.transform.position;
+					sync (Rbts [0], vec,0);
 				}
 				stableTime = 0;
 			} else if(step != 0) {
 				// still doing the sync up
-				//sync (Rbts [lastIdx], Rbts [1-lastIdx], m3piCtrls[lastIdx],ref step,lastIdx);
-				// update previous location
-				//updatePosnIdx(lastIdx);
-				sync (Rbts [lastIdx], Rbts [1-lastIdx], lastIdx);
+				//sync (Rbts [lastIdx], Rbts [1-lastIdx], lastIdx);
+				Vector3 vec = Quaternion.Inverse(Rbts [1-lastIdx].transform.parent.transform.rotation) * Rbts [lastIdx].transform.parent.transform.rotation * 
+					(Rbts [1-lastIdx].transform.position - Rbts [1-lastIdx].transform.parent.transform.position) + Rbts [lastIdx].transform.parent.transform.position;
+				sync (Rbts [lastIdx], vec,lastIdx);
 			}
 			if (step == 0)
 				++stableTime;
 		}
 	}
-
-//	void updatePosnIdx(int idx){
-//		// update previous location
-//		lastPos [0] = Rbts [0].transform.position;
-//		lastPos [1] = Rbts [1].transform.position;
-//		lastIdx = idx;
-//		print ("last idx:\t" + lastIdx);
-//	}
-
 
 	 protected void ignoreYPos (GameObject local, GameObject remote, ref Vector3 localPos, ref Vector3 remotePos)
 		{
@@ -138,15 +136,26 @@ public class boardRbtCtrl : robotCtrl
 				localPos.y = 0;
 				remotePos.y = 0;
 			}
-	
-	 protected void sync (GameObject local, GameObject remote, int index)
+
+	protected void ignoreYPos (GameObject local, Vector3 remote, ref Vector3 localPos, ref Vector3 remotePos)
 	{
+		// get local position
+		localPos = local.transform.position;
+		remotePos = remote;
+		// ignore y information
+		localPos.y = 0;
+		remotePos.y = 0;
+	}
+	
+	protected void sync (GameObject local, Vector3 remote, int index, bool isLocal = false)
+	{
+		
 		if (!Utility.getInst ().checkRtnMsg2 (m3piCtrls [index]))
 			return;
 		
 		//		print ("local\t" + local.transform.position + "\t" + local.transform.localPosition);
 		//		print ("remote\t" + remote.transform.position + "\t" + remote.transform.localPosition);
-		Utility.getInst ().drawRays (local.transform, remote.transform, true);
+		Utility.getInst ().drawRays (local.transform, remote, isLocal);
 		
 		Vector3 localPos = new Vector3 (), remotePos = new Vector3 ();
 		ignoreYPos (local, remote, ref localPos, ref remotePos);
@@ -160,26 +169,22 @@ public class boardRbtCtrl : robotCtrl
 		
 		// send command
 		if (step != 0) {
-			//print ("move index:\t" + index + "\tstep:\t" + step);
-//			if (step == 1) {
-//				print ("move index:\t" + index + "\tstep:\t" + step);	
-//			}
 			switch (step) {
 			case 1:
-							// check distance first
+				// check distance first
 				if (Utility.getInst ().checkMatchV2 (localPos, remotePos)) {
 					step = 0;
 				} else {
-					if (turnAround (local, remote, m3piCtrls [index], true)) {
-						//						print ("move index:\t" + index + "\tstep:\t" + step);
-						goStraight (local, remote, m3piCtrls [index], true);
+					if (turnAround (local, remote, m3piCtrls [index], isLocal)) {
+						//print ("move index:\t" + index + "\tstep:\t" + step);
+						goStraight (local, remote, m3piCtrls [index], isLocal);
 						step = 2;
 					}
 				}
 				break;
 			case 2:
-							// moved car with going straight
-				if (goStraight (local, remote, m3piCtrls [index], true)) {
+				// moved car with going straight
+				if (goStraight (local, remote, m3piCtrls [index], isLocal)) {
 					step = 0;
 					//print ("move index:\t" + index + "\tstep:\t" + step);
 				} else {
@@ -191,8 +196,6 @@ public class boardRbtCtrl : robotCtrl
 				break;
 			}
 		}
-
-		//print ("lastidx:\t" + lastIdx);
 	}
 
 

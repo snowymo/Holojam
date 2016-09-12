@@ -841,7 +841,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 234877105}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed55d03a1cc854e068c518a09b747795, type: 3}
   m_Name: 
@@ -849,8 +849,10 @@ MonoBehaviour:
   RbtA: {fileID: 1955692828}
   RbtB: {fileID: 429777015}
   step: 0
+  lastIdx: 0
   stableTime: 0
   myTS: 0
+  isViewer: 0
 --- !u!4 &234877107
 Transform:
   m_ObjectHideFlags: 0
@@ -1291,7 +1293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &429777016
 Transform:
   m_ObjectHideFlags: 0
@@ -2156,7 +2158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1062317501
 Transform:
   m_ObjectHideFlags: 0
@@ -3466,7 +3468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1769323969
 Transform:
   m_ObjectHideFlags: 0
@@ -3844,7 +3846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1963619172
 Transform:
   m_ObjectHideFlags: 0
@@ -3946,11 +3948,11 @@ Prefab:
     - target: {fileID: 11488890, guid: 90433ca7202a343b1a6fa18a88371ded, type: 2}
       propertyPath: currentTable
       value: 
-      objectReference: {fileID: 95329465}
+      objectReference: {fileID: 1963619171}
     - target: {fileID: 11488890, guid: 90433ca7202a343b1a6fa18a88371ded, type: 2}
       propertyPath: referenceTable
       value: 
-      objectReference: {fileID: 1016583098}
+      objectReference: {fileID: 1572074176}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 90433ca7202a343b1a6fa18a88371ded, type: 2}
   m_IsPrefabParent: 0

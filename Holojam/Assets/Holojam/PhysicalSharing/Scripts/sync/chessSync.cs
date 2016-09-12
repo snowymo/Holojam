@@ -12,6 +12,8 @@ public class chessSync : Synchronizable {
 
 	[Space (8)] public string handle = "";
 
+	public string st;
+
 	public string sentMsg = "";
 
 	//const int maxMessages = 8;

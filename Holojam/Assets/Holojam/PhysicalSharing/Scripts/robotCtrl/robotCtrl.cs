@@ -164,6 +164,37 @@ public class robotCtrl : MonoBehaviour {
 			return true;
 		}
 	}
+
+	protected bool turnAround (GameObject local, Vector3 remote, m3piComm m3piCtrl, bool isLocal = false)
+	{
+		Vector3 vFacing, vCur;
+
+			vFacing = remote - local.transform.position;
+			vCur = local.transform.rotation * Vector3.forward;
+
+
+		vCur.y = 0;
+		vFacing.y = 0;
+		float angle = Vector3.Angle (vCur, vFacing);
+
+		if (angle > 90.0f)
+			angle = angle - 180.0f;
+
+		if (Mathf.Abs (angle) % 180.0f > Utility.getInst().angleError) {
+			Vector3 vUp = Vector3.Cross (vCur, vFacing);
+			//			print ("turnAround:\t" + angle + "\tupVector:\t" + vUp.ToString ("F2"));
+			if (vUp.y > 0.00005)
+				setAngle (false, angle, m3piCtrl);
+			else if (vUp.y < -0.00005)
+				setAngle (true, angle, m3piCtrl);
+			else
+				return true;
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	protected bool goStraight (GameObject local, GameObject remote, m3piComm m3piCtrl, bool isLocal = false)
 	{
 		Vector3 localPos, remotePos;
@@ -182,6 +213,36 @@ public class robotCtrl : MonoBehaviour {
 		Vector3 dis = remotePos - localPos;
 //		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
 //			remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
+
+		if (dis.magnitude > Utility.getInst ().disError) {
+			Vector3 vCur = local.transform.rotation * Vector3.forward;
+			//Vector3 vUp = Vector3.Cross (dis, vCur);//print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
+			float angle = Vector3.Angle (vCur, dis);
+			bool isForward = (vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0);
+			if ((angle > 90.0f) || (angle < -90.0f))
+				isForward = false;
+			else
+				isForward = true;
+			setSpeedWait (dis.magnitude, isForward, m3piCtrl);
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	protected bool goStraight (GameObject local, Vector3 remote, m3piComm m3piCtrl, bool isLocal = false)
+	{
+		Vector3 localPos, remotePos;
+			localPos = local.transform.position;
+			remotePos = remote;
+		
+
+		localPos.y = 0;
+		remotePos.y = 0;
+
+		Vector3 dis = remotePos - localPos;
+		//		print ("goStraight\tdis:\t" + dis.magnitude.ToString ("F3") + "\tref:\t" +
+		//			remotePos.ToString ("F3") + "\tcur:\t" + localPos.ToString ("F3"));
 
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;

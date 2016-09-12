@@ -15,7 +15,7 @@ public class chessPlayerCtrl : MonoBehaviour {
 
 	void OnTriggerEnter (Collider collisionInfo)
 	{
-		//print("Detected collision between " + gameObject.name + " and " + collisionInfo.gameObject.name);
+		print("Detected collision between " + gameObject.name + " and " + collisionInfo.gameObject.name);
 		//print("There are " + collisionInfo.contacts.Length + " point(s) of contacts");
 		//print("Their relative velocity is " + collisionInfo.relativeVelocity);
 		if(collisionInfo.gameObject.transform.parent.name.Contains("chess") 
@@ -39,7 +39,7 @@ public class chessPlayerCtrl : MonoBehaviour {
 
 	void OnTriggerExit(Collider collisionInfo)
 	{
-		//print(gameObject.name + " and " + collisionInfo.gameObject.name + " are no longer colliding");
+		print(gameObject.name + " and " + collisionInfo.gameObject.name + " are no longer colliding");
 		if(collisionInfo.gameObject.transform.parent.name.Contains("chess") 
 			&& (collisionInfo.gameObject.transform.parent.parent == transform.parent.transform.parent))
 		{

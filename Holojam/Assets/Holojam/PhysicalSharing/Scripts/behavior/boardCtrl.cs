@@ -88,7 +88,7 @@ public class boardCtrl : MonoBehaviour {
 					//later
 					//enemyBoard.GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username);
 					// send msg
-					chessSyncGameObject.GetComponent<chessSync> ().sentMsg = remoteAssignFlag;
+					chessSyncGameObject.GetComponent<chessSync> ().sentMsg = indexselect.ToString () + "-" + username;
 				}
 			} 
 		}

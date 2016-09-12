@@ -100,6 +100,27 @@ public class Utility {
 		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
 
+	public void drawRays (Transform localTrans, Vector3 remotePos, bool isLocal = false)
+	{
+		Vector3 localpos, remotepos;
+		Quaternion localRot;
+
+
+			localpos = localTrans.position;
+			remotepos = remotePos;
+			localRot = localTrans.rotation;
+
+
+		Quaternion facing = Quaternion.identity;
+		facing.SetFromToRotation (localRot * Vector3.forward, remotepos - localpos);
+		Vector3 vCur = localRot * Vector3.forward;
+
+		// test if these two vectors are correct
+		Debug.DrawRay (localTrans.position, vCur, Color.green);
+		Debug.DrawRay (localTrans.position, remotepos - localpos, Color.magenta);
+		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+	}
+
 	public void drawRays (Transform localTrans, Vector3 remotePos)
 	{
 		Quaternion facing = Quaternion.identity;
