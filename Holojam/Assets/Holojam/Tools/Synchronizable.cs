@@ -7,7 +7,7 @@ using Holojam.Network;
 namespace Holojam.Tools{
    [ExecuteInEditMode, RequireComponent(typeof(HolojamView))]
    public class Synchronizable : MonoBehaviour{
-      public string label = "Label";
+		public string label = "Dragonfly0";
       public bool useMasterPC = false;
       public bool sending = true;
 

@@ -27,7 +27,9 @@ public class fakeSyncB2A : Synchronizable {
 			syncvec = synchronizedVector3;
 			syncst = synchronizedString;
 		} else {
-			transform.position = Vector3.Lerp(transform.position, synchronizedVector3,Time.deltaTime * 10f);
+			if(synchronizedVector3.magnitude > 0.01f)
+				transform.position = Vector3.Lerp(transform.position, synchronizedVector3,Time.deltaTime * 10f);
+			
 			if (synchronizedString == "t") {
 				fakeObj.GetComponent<MeshRenderer> ().enabled = true;
 				realObj.GetComponent<MeshRenderer> ().enabled = false;

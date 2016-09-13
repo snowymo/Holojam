@@ -2961,7 +2961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1276443267
 Transform:
   m_ObjectHideFlags: 0
@@ -3019,9 +3019,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb585beaa2da64fb8868ac8869bd35c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: SyncedCube
+  label: Dragonfly0
   useMasterPC: 1
-  sending: 1
+  sending: 0
 --- !u!114 &1276443271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3033,8 +3033,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: SyncedCube
-  isMine: 1
+  label: Dragonfly0
+  isMine: 0
 --- !u!1001 &1296963628
 Prefab:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ public class boardRbtCtrl : robotCtrl
 
 	public int myTS;
 
-	public bool isViewer;
+	//public bool isViewer;
 
 	void createM3pi ()
 	{

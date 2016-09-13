@@ -35,8 +35,11 @@ public class chessCtrl : MonoBehaviour {
 
 	// highlight
 	public void highLight(){
-		transform.position = new Vector3 (transform.position.x, transform.parent.transform.position.y + 0.02f, transform.position.z);
-		isHighLight = true;
+		// only highlight if it is default
+		if (!circle.gameObject.activeInHierarchy && !cross.gameObject.activeInHierarchy) {
+			transform.position = new Vector3 (transform.position.x, transform.parent.transform.position.y + 0.02f, transform.position.z);
+			isHighLight = true;
+		}
 	}
 
 	public void reset(){

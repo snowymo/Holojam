@@ -39,14 +39,17 @@ public class delayCtrl : MonoBehaviour
 	void Update ()
 	{
 		transform.rotation = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation * opponentCtrl.transform.rotation;
-		if(transform.position.magnitude < 0.01f)
+		if (transform.position.magnitude < 0.01f && opponentCtrl.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
 			transform.position = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation *
-				(opponentCtrl.transform.position - currentTable.transform.position) + referenceTable.transform.position;
+			(opponentCtrl.transform.position - currentTable.transform.position) + referenceTable.transform.position;
 		if (referenceTable.GetComponent<boardCtrl> ().isViewer)
 			return;
 		if (_boardRbtCtrl.GetComponent<boardRbtCtrl> ().step != 0) {
-			if (movements.Count == 0)
+			if (movements.Count == 0) {
 				startTime = Time.time;
+				//
+				transform.position = currentCtrl.transform.position;
+			}
 			// if lastIdx is 1 means new robot is moving, so we need to record the old controller's movement
 //			print(_boardRbtCtrl.GetComponent<boardRbtCtrl>().lastIdx);
 			if (_boardRbtCtrl.GetComponent<boardRbtCtrl> ().lastIdx == fakeIdx) {
@@ -54,29 +57,28 @@ public class delayCtrl : MonoBehaviour
 				// 
 				fakeMr.enabled = true;
 				realMr.enabled = false;
-				transform.position = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation *
-				(movements.Peek () - currentTable.transform.position) + referenceTable.transform.position;
-				transform.position = currentCtrl.transform.position;
+//				transform.position = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation *
+//				(movements.Peek () - currentTable.transform.position) + referenceTable.transform.position;
+//				transform.position = currentCtrl.transform.position;
 			}
 		} else {
-			// two robots are in the same place
+			if (movements.Count > 0) {
+//				//robots arrived first
+				robotArriveFirst ();
+			}
+
 			if (movements.Count == 0) {
 				startTime = Time.time;
-				// don't move
-				fakeMr.enabled = false;
-				realMr.enabled = true;
-				// send (0,0,0,fakeIdx) to them to tell fakeidx is not showing
-			} else {
-				//robots arrived first
-				transform.position = Vector3.Lerp (transform.position, currentCtrl.transform.position, Time.deltaTime * 10f);
-				startTime = Time.time;
-				if (Vector3.Distance (transform.position, currentCtrl.transform.position) < Utility.getInst ().disError) {
+				// lerp to current robot's place
+				if (Vector3.Distance (transform.position, currentCtrl.transform.position) > Utility.getInst ().disError) {
+					transform.position = Vector3.Lerp (transform.position, currentCtrl.transform.position, Time.deltaTime * 8f);
+				} else {
+					// two robots are in the same place
 					fakeMr.enabled = false;
 					realMr.enabled = true;
-					while (movements.Count > 0)
-						movements.Dequeue ();
 				}
-			}
+				// send (0,0,0,fakeIdx) to them to tell fakeidx is not showing
+			} 
 		}
 		if (Time.time - startTime > 2) {
 			if (movements.Count > 0) {
@@ -90,5 +92,26 @@ public class delayCtrl : MonoBehaviour
 			} 
 		} 
 
+	}
+
+	void robotArriveFirst ()
+	{
+		Vector3[] restMovement;
+		restMovement = new Vector3[movements.Count];
+		movements.CopyTo (restMovement, 0);
+		int finalsize = 0;
+		for (int i = movements.Count - 1; i > 0; i--) {
+			Vector3 lastVec = restMovement [i];
+			Vector3 lastVec2 = restMovement [i - 1];
+			float dis = Vector3.Distance (lastVec, lastVec2);
+			if (dis < 0.01f) {
+				++finalsize;
+			} else
+				break;
+		}
+		while (finalsize > 0) {
+			movements.Dequeue ();
+			--finalsize;
+		}
 	}
 }
