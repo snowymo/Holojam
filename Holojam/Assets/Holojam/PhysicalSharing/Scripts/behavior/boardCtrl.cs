@@ -28,8 +28,8 @@ public class boardCtrl : MonoBehaviour {
 			chesses [i].name = "chess" + i.ToString ("00");
 			chesses [i].AddComponent<chessCtrl> ();
 			chesses [i].transform.parent = transform;
-			chesses [i].transform.localPosition = new Vector3 (i % 3 - 1, 0, i / 3 - 1) * 0.12f;
-			chesses [i].transform.localScale = new Vector3 (0.08f, 0.08f, 0.08f);
+			chesses [i].transform.localPosition = new Vector3 (i % 3 - 1, 0, i / 3 - 1) * 0.1f;
+			//chesses [i].transform.localScale = new Vector3 (0.08f, 0.08f, 0.08f);
 		}
 
 		Transform[] ts = transform.GetComponentsInChildren<Transform> ();
