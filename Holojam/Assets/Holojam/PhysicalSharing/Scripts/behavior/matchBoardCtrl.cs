@@ -23,7 +23,7 @@ public class matchBoardCtrl : boardCtrl {
 	// Use this for initialization
 	void Start () {
 		// randomize the texture first
-
+		randomizeMesh();
 		// create sixteen chess at the beginning
 		chesses = new GameObject[16];
 		for (int i = 0; i < chesses.Length; i++) {
@@ -31,7 +31,9 @@ public class matchBoardCtrl : boardCtrl {
 			chesses [i].name = "chess" + i.ToString ("00");
 			chesses [i].AddComponent<chessCtrl> ();
 			chesses [i].transform.parent = transform;
-			chesses [i].transform.localPosition = new Vector3 (i % 4 - 1, 0, i / 4 - 1) * 0.08f;
+			chesses [i].transform.localPosition = new Vector3 (i % 4 - 1, 0, i / 4 - 1) * 0.075f;
+			//chesses [i].GetComponent<Material> () = matchMeshes [i].material;
+			//chesses [i].GetComponent<Renderer>().material = matchMeshes [i].material;
 			//chesses [i].transform.localScale = new Vector3 (0.08f, 0.08f, 0.08f);
 		}
 

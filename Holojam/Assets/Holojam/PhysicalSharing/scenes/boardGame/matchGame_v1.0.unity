@@ -1510,7 +1510,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &315808797
 Transform:
   m_ObjectHideFlags: 0
@@ -4768,9 +4768,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1572074177}
-  - 114: {fileID: 1572074180}
   - 114: {fileID: 1572074181}
   - 114: {fileID: 1572074182}
+  - 114: {fileID: 1572074178}
   m_Layer: 0
   m_Name: boardA
   m_TagString: Untagged
@@ -4794,7 +4794,7 @@ Transform:
   - {fileID: 890185938}
   m_Father: {fileID: 1016583099}
   m_RootOrder: 0
---- !u!114 &1572074180
+--- !u!114 &1572074178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -4802,16 +4802,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1572074176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36570273bcb747f6923a8d6baee53df, type: 3}
+  m_Script: {fileID: 11500000, guid: 24e15c7e6ef064b849ff2e72295c1826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chessModel: {fileID: 153122, guid: fa5094194218c42fb94674469505c471, type: 2}
-  username: circle
+  username: 
   chesses: []
   chessSyncGameObject: {fileID: 234877105}
   isViewer: 0
-  enemyBoard: {fileID: 1963619171}
+  enemyBoard: {fileID: 0}
   remoteAssignFlag: 
+  matchMat:
+  - {fileID: 2100000, guid: d5add3107d1d54ccbaa651d919842e3a, type: 2}
+  - {fileID: 2100000, guid: ba467e19537324221859f503fa2932d9, type: 2}
+  - {fileID: 2100000, guid: d9754a1b53ee149c3a4ba0498740a3de, type: 2}
+  - {fileID: 2100000, guid: cc3fbfd7c49da46f69aff2da0cba4761, type: 2}
+  - {fileID: 2100000, guid: 6c52a340a0883448fbc67e6322be57be, type: 2}
+  - {fileID: 2100000, guid: 3391c384f59a94e3cb1dac0b5f7f585e, type: 2}
+  - {fileID: 2100000, guid: aa2876ec4f6d84f7c92c2f6db05531d5, type: 2}
+  - {fileID: 2100000, guid: 0386d244707594c318e60eb2e7f396c1, type: 2}
 --- !u!114 &1572074181
 MonoBehaviour:
   m_ObjectHideFlags: 0

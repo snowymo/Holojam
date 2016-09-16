@@ -365,7 +365,7 @@ Prefab:
     - target: {fileID: 11414520, guid: 00eab73f3106343c08a3ac44709e850c, type: 2}
       propertyPath: actor
       value: 
-      objectReference: {fileID: 1136225837}
+      objectReference: {fileID: 1994225914}
     - target: {fileID: 114792, guid: 00eab73f3106343c08a3ac44709e850c, type: 2}
       propertyPath: m_IsActive
       value: 1
@@ -630,15 +630,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 234877105}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48f36752dda524351814fbf790d5af9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Rbt: {fileID: 1147169319}
-  gestureHand:
-  - {fileID: 410378241}
-  - {fileID: 1809533505}
+  gestureHand: {fileID: 410378241}
   step: 0
   stableTime: 0
   myTS: 0
@@ -822,6 +820,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 13528810, guid: 75b8af633af364b68aaf2645e3777838, type: 2}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463472, guid: 75b8af633af364b68aaf2645e3777838, type: 2}
+      propertyPath: sending
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463472, guid: 75b8af633af364b68aaf2645e3777838, type: 2}
+      propertyPath: useMasterPC
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -1211,14 +1217,6 @@ Prefab:
     - target: {fileID: 11447778, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
       propertyPath: trackingTag
       value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 11474798, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
-      propertyPath: cooldown
-      value: 2.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11474798, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
-      propertyPath: lerpTime
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
@@ -1891,7 +1889,7 @@ GameObject:
   - 114: {fileID: 1136225839}
   - 114: {fileID: 1136225837}
   m_Layer: 0
-  m_Name: '[1] Blue (Build)'
+  m_Name: '[1] Blue'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2053,14 +2051,6 @@ Prefab:
       propertyPath: robotCtrl
       value: 
       objectReference: {fileID: 234877105}
-    - target: {fileID: 11474798, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
-      propertyPath: cooldown
-      value: 2.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11474798, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
-      propertyPath: lerpTime
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
   m_IsPrefabParent: 0
@@ -2645,10 +2635,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1799864639}
   m_Mesh: {fileID: 4300002, guid: 14ec31b65366e4f5f8b9f8242f66b5ae, type: 3}
---- !u!1 &1809533505 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 117536, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
-  m_PrefabInternal: {fileID: 506308516}
 --- !u!1 &1827844595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2974,7 +2960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd767e85d97074ef2b44d593139bde71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0.09, y: 0, z: -0.1}
 --- !u!1 &1976206134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3077,7 +3063,7 @@ GameObject:
   - 114: {fileID: 1994225916}
   - 114: {fileID: 1994225914}
   m_Layer: 0
-  m_Name: '[2] Green'
+  m_Name: '[2] Green (Build)'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3324,14 +3310,14 @@ Prefab:
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: ba
       value: 
-      objectReference: {fileID: 1136225837}
+      objectReference: {fileID: 1994225914}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: viewer
       value: 
       objectReference: {fileID: 101289329}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: buildTag
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: actors.Array.data[2]

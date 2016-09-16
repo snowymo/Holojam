@@ -6,7 +6,7 @@ public class realBeerCtrl : robotCtrl
 
 	public GameObject Rbt;
 	// rbt[0] in room A
-	public GameObject gestureHand;
+	public GameObject[] gestureHand;
 
 	private m3piComm m3piCtrl;
 	public int step;
@@ -69,9 +69,11 @@ public class realBeerCtrl : robotCtrl
 				sync (Rbt, destination);
 				//stableTime = 0;
 			}
-			if (step == 0)
+			if (step == 0) {
 				//++stableTime;
-				gestureHand.GetComponent<GestureListener>().robotSynced = true;
+				foreach(GameObject gh in gestureHand)
+					gh.GetComponent<GestureListener> ().robotSynced = true;
+			}
 		}
 	}
 
