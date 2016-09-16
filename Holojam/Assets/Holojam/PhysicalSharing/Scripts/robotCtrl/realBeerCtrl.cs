@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class realBeerCtrl : robotCtrl {
+public class realBeerCtrl : robotCtrl
+{
 
-	public GameObject Rbt;	// rbt[0] in room A
+	public GameObject Rbt;
+	// rbt[0] in room A
+	public GameObject gestureHand;
 
 	private m3piComm m3piCtrl;
 	public int step;
@@ -18,53 +21,63 @@ public class realBeerCtrl : robotCtrl {
 
 	void createM3pi ()
 	{
-		m3piCtrl = new m3piComm();
-		m3piCtrl.setName ("A");
+		m3piCtrl = new m3piComm ();
+		m3piCtrl.setName ("B");
 		print ("create ctrl");
 	}
 
 	void initialAttr ()
 	{
-		isFirst= 0;
-		step= 1;
+		isFirst = 0;
+		step = 0;
 		stableTime = 0;
 	}
 
 	// only once
 	void myStart ()
 	{
-		if (isFirst== 2) {
-			isFirst  = 3;
-		} else if (isFirst  < 2)
-			isFirst ++;
+		if (isFirst == 2) {
+			isFirst = 3;
+		} else if (isFirst < 2)
+			isFirst++;
 	}
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		createM3pi ();
 		initialAttr ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
-			if (Rbt.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
-				myStart ();
+		if (Rbt.GetComponent<Holojam.Network.HolojamView> ().IsTracked)
+			myStart ();
 		
 		// sync up
 		if (isFirst == 3) {
-			if ((step == 0 && (stableTime >= stableTimeCount))
-				|| step > 0) {
+			print ("step:\t" + step);
+//			if ((step == 0 && (stableTime >= stableTimeCount))
+//			    || step > 0) {
+			if (step > 0) {
 				// sync rbt in room A with beer in room B
-				step = Mathf.Max(step,1);
+				//step = Mathf.Max (step, 1);
 				//TODO assign destination from outside
 				sync (Rbt, destination);
-				stableTime = 0;
+				//stableTime = 0;
 			}
 			if (step == 0)
-				++stableTime;
+				//++stableTime;
+				gestureHand.GetComponent<GestureListener>().robotSynced = true;
 		}
+	}
+
+	public void setDestination(Vector3 vec){
+		destination = vec;
+		step = 1;
 	}
 
 	protected void ignoreYPos (GameObject local, Vector3 remote, ref Vector3 localPos, ref Vector3 remotePos)

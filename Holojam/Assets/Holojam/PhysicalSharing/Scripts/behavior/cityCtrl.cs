@@ -20,6 +20,10 @@ public class cityCtrl : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetKey (KeyCode.P)) {
+			// unlink everything
+			if (pickedBuilding != null) {
+				pickedBuilding.GetComponent<cityBlockCtrl> ().setLinkIdx (-1);
+			}
 			GetComponent<cityRbtCtrl> ().setDestination (pickedBuilding.transform.position);
 			print ("select the building");
 		}
@@ -29,5 +33,9 @@ public class cityCtrl : MonoBehaviour
 				pickedBuilding.GetComponent<cityBlockCtrl> ().setLinkIdx (i);
 				print ("set link idx:\t" + i);
 			}
+	}
+
+	public void setPickBuilding(GameObject go){
+		pickedBuilding = go;
 	}
 }
