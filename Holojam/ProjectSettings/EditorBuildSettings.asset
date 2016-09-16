@@ -39,3 +39,7 @@ EditorBuildSettings:
     path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGame_ViewerA_v4.0.unity
   - enabled: 0
     path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGame_ViewerB_v4.0.unity
+  - enabled: 0
+    path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGameNrbt_ViewerB_v1.0.unity
+  - enabled: 0
+    path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGameNrbt_ViewerA_v1.0.unity

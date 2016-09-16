@@ -691,6 +691,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTable: {fileID: 0}
   referenceTable: {fileID: 0}
+  originalObj: {fileID: 0}
+  originalHead: {fileID: 0}
 --- !u!135 &13598078
 SphereCollider:
   m_ObjectHideFlags: 1

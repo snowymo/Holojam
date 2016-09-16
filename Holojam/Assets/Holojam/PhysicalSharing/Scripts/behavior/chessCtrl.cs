@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class chessCtrl : MonoBehaviour {
+public class chessCtrl : MonoBehaviour
+{
 
 	private float startCollide;
 	private float endCollide;
@@ -11,15 +12,16 @@ public class chessCtrl : MonoBehaviour {
 	public bool isHighLight;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		endCollide = startCollide = Time.time;
 		// disable other two models
-		Transform[] ts = transform.GetComponentsInChildren<Transform>();
+		Transform[] ts = transform.GetComponentsInChildren<Transform> ();
 		foreach (Transform t in ts) {
-			if (t.gameObject.name == "circle") {
+			if (t.gameObject.name.Contains ("circle")) {
 				circle = t;
 			}
-			if (t.gameObject.name == "cross") {
+			if (t.gameObject.name.Contains ("cross")) {
 				cross = t;
 			}
 		}
@@ -29,12 +31,14 @@ public class chessCtrl : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 
 	// highlight
-	public void highLight(){
+	public void highLight ()
+	{
 		// only highlight if it is default
 		if (!circle.gameObject.activeInHierarchy && !cross.gameObject.activeInHierarchy) {
 			transform.position = new Vector3 (transform.position.x, transform.parent.transform.position.y + 0.02f, transform.position.z);
@@ -42,45 +46,50 @@ public class chessCtrl : MonoBehaviour {
 		}
 	}
 
-	public void reset(){
+	public void reset ()
+	{
 		transform.position = new Vector3 (transform.position.x, transform.parent.transform.position.y, transform.position.z);
 		startCollide = 0;
 		endCollide = 0;
 		isHighLight = false;
 	}
 
-	public void setStartCollide(){
+	public void setStartCollide ()
+	{
 		startCollide = Time.time;
 	}
 
-	public void setEndCollide(){
+	public void setEndCollide ()
+	{
 		endCollide = Time.time;
 	}
 
-	public void hover(){
+	public void hover ()
+	{
 		// set start if no
 		// set end if start
 	}
 
-	public bool isSelect(){
+	public bool isSelect ()
+	{
 		if (endCollide - startCollide > 1.5f) {
 			//print (name + "\tend:\t" + endCollide + "\tstart:\t" + startCollide);
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
 	// select the cube
-	public bool select(string name){
+	public bool select (string name)
+	{
 		// check if already select
 //		if ((circle.gameObject.activeSelf && name.Equals ("circle"))
 //		   || (cross.gameObject.activeSelf && name.Equals ("cross")))
 		if ((circle.gameObject.activeSelf)
-			|| (cross.gameObject.activeSelf))
+		    || (cross.gameObject.activeSelf))
 			return false;
 		
-		Transform[] ts = transform.GetComponentsInChildren<Transform>();
+		Transform[] ts = transform.GetComponentsInChildren<Transform> ();
 		foreach (Transform t in ts) {
 			//print (t.gameObject.name);
 			if (t.gameObject.name == "default") {
