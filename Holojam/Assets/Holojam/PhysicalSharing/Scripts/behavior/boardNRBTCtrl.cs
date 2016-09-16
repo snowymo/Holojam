@@ -1,23 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class boardCtrl : MonoBehaviour {
-
-	public GameObject chessModel;
-
-	public string username;
-	public GameObject[] chesses;
-
-	public GameObject chessSyncGameObject;
-
-	//Transform ctrler;
-	protected GameObject ctrlGo;
-
-	public bool isViewer;
-
-	public GameObject enemyBoard;
-
-	public string remoteAssignFlag;
+public class boardNRBTCtrl : boardCtrl {
 
 	// Use this for initialization
 	void Start () {
@@ -42,17 +26,13 @@ public class boardCtrl : MonoBehaviour {
 		}
 
 		ctrlGo = transform.Find ("controller").gameObject;
-		remoteAssignFlag = "";
-		//isViewer = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		receiveAssignment ();
 
 		assignChess ();
-
 	}
 
 	void assignChess(){
@@ -60,7 +40,6 @@ public class boardCtrl : MonoBehaviour {
 		// if ctrl hits one chess more than two seconds
 		float dis = Vector3.Distance(chesses [0].transform.position,chesses [8].transform.position);
 		int indexselect = -1;
-		//print (ctrlGo.transform.position);
 		// choose one of the highlights to set time
 		for (int i = 0; i < chesses.Length; i++) {
 			if (chesses [i].GetComponent<chessCtrl> ().isSelect()) {
@@ -69,24 +48,15 @@ public class boardCtrl : MonoBehaviour {
 					indexselect = i;
 					dis = d;
 				}
-
 			}
 		}
+
 		if (indexselect != -1) {
-			if (remoteAssignFlag != "") {
-				string[] msg = remoteAssignFlag.Split (splitChar, 2);
-				if (indexselect == int.Parse (msg [0])) {
-					chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
-					remoteAssignFlag = "";
-				}
-			}
-			else if (GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username)) {
+			if (GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username)) {
 				// select the same in other table
 				if (!isViewer) {
 					// manually select
-					enemyBoard.GetComponent<boardCtrl> ().remoteAssignFlag = indexselect.ToString () + "-" + username;
-					//later
-					//enemyBoard.GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username);
+					enemyBoard.GetComponent<boardCtrl> ().chesses [indexselect].GetComponent<chessCtrl> ().select (username);
 					// send msg
 					chessSyncGameObject.GetComponent<chessSync> ().sentMsg = indexselect.ToString () + "-" + username;
 				}
@@ -94,18 +64,16 @@ public class boardCtrl : MonoBehaviour {
 		}
 	}
 
-	protected char[] splitChar = { '-' };
 	void receiveAssignment(){
 		//TODO to be test
 		if (isViewer) {
 			// use msg 
 			chessSync cs = chessSyncGameObject.GetComponent<chessSync> ();
 			if (cs.text != "" && cs.text != null) {
-				remoteAssignFlag = cs.text;
-				//string[] msg = cs.text.Split (splitChar, 2);
-				//chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
+				//remoteAssignFlag = cs.text;
+				string[] msg = cs.text.Split (splitChar, 2);
+				chesses [int.Parse (msg [0])].GetComponent<chessCtrl> ().select (msg [1]);
 			}
 		}
 	}
-
 }
