@@ -207,6 +207,7 @@ MonoBehaviour:
   weight: 0
   mark: 293.56284
   recording: 0
+  robotCtrl: {fileID: 0}
 --- !u!114 &11485782
 MonoBehaviour:
   m_ObjectHideFlags: 1

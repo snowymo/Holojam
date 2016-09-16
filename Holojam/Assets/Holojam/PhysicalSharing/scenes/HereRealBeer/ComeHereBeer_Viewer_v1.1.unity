@@ -636,7 +636,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rbt: {fileID: 1147169319}
-  gestureHand: {fileID: 410378241}
+  gestureHand:
+  - {fileID: 0}
   step: 0
   stableTime: 0
   myTS: 0
@@ -932,10 +933,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 406063216}
   m_Mesh: {fileID: 4300000, guid: 3d960ab3126c84dce8ad98628b351633, type: 3}
---- !u!1 &410378241 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 117536, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
-  m_PrefabInternal: {fileID: 1166328007}
 --- !u!1 &432334006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2960,7 +2957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd767e85d97074ef2b44d593139bde71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0.09, y: 0, z: -0.1}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1976206134
 GameObject:
   m_ObjectHideFlags: 0
