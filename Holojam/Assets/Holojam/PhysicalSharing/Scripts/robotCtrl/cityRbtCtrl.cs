@@ -71,12 +71,14 @@ public class cityRbtCtrl : robotCtrl
 	{
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
-		for (int index = 0; index < 2; index++) {
+		for (int index = 0; index < Rbts.Length; index++) {
 			if (Rbts [index].GetComponent<Holojam.Network.HolojamView> ().IsTracked)
 				myStart (index, Rbts [index]);
 		}
 		// sync up
-		if (isFirst [0] == 3 && isFirst [1] == 3) {
+		if (isFirst [0] == 3 
+		//	&& isFirst [1] == 3
+		) {
 			if (step [executeIndex] > 0) {
 				// sync rbt in room A with beer in room B
 				step [executeIndex] = Mathf.Max (step [executeIndex], 1);
@@ -85,12 +87,23 @@ public class cityRbtCtrl : robotCtrl
 			}
 			//if (step[executeIndex] == 0)
 			//	++stableTime[i];
-			
+			if (step[executeIndex] == 0)
+				foreach(NearestSelector ns in GetComponent<MapControl>().hands)
+					ns.robotSynced = true;
 		}
+	}
+
+	public bool hasArrived(){
+		sync (Rbts [executeIndex], executeDest, executeIndex);
+		if (step [executeIndex] == 0)
+			return true;
+		return false;
 	}
 
 	int getClosestRbt (Vector3 destination)
 	{
+		if (Rbts.Length == 1)
+			return 0;
 		if ((Vector3.Distance (Rbts [0].transform.position, destination)) <
 		    (Vector3.Distance (Rbts [1].transform.position, destination)))
 			return 0;
@@ -105,6 +118,10 @@ public class cityRbtCtrl : robotCtrl
 		// assign the destination to go
 		step [executeIndex] = 1;
 		executeDest = dest;
+	}
+
+	public Transform getExecuteRbt(){
+		return Rbts [executeIndex].transform;
 	}
 
 	protected void ignoreYPos (GameObject local, Vector3 remote, ref Vector3 localPos, ref Vector3 remotePos)

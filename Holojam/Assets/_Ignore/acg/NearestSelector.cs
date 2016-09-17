@@ -11,7 +11,9 @@ public class NearestSelector : MonoBehaviour{
    public float range = 1;
    public TextMesh loadingBuffer;
    public float loadingOffset = 0.1f;
-   public Transform robot;
+   //public Transform robot;
+	public cityRbtCtrl robotCtrl;
+
 
    //Assign these from outside
    [Space(8)]
@@ -61,9 +63,11 @@ public class NearestSelector : MonoBehaviour{
       if(target==null)return;
 
       // here: move the robot to target.position
+		robotCtrl.setDestination(target.transform.position);
+		robotSynced = robotCtrl.hasArrived();
 
       //Process target
-      target.robot = robot;
+		target.robot = robotCtrl.getExecuteRbt();
       target.controllable = robotSynced;
       target.loading = !robotSynced;
       //
