@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: VRCMR
+  label: PS_RBTC
   isMine: 0
 --- !u!114 &15626893
 MonoBehaviour:
@@ -942,7 +942,7 @@ GameObject:
   - 114: {fileID: 214078353}
   - 114: {fileID: 214078351}
   m_Layer: 0
-  m_Name: '[2] Green'
+  m_Name: '[3] Green'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -959,7 +959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c2c2d21c7614b688aced0e3482aed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 1
+  trackingTag: 2
   localSpace: 0
   handle: Green
   motif: {r: 0.45, g: 1, b: 0.45, a: 1}
@@ -991,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: VR2
+  label: VR3
   isMine: 0
 --- !u!1 &234877105
 GameObject:
@@ -1694,7 +1694,7 @@ GameObject:
   - 114: {fileID: 417844446}
   - 114: {fileID: 417844444}
   m_Layer: 0
-  m_Name: '[40] Blue (Build)'
+  m_Name: '[41] Blue (Build)'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1711,7 +1711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c2c2d21c7614b688aced0e3482aed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 39
+  trackingTag: 40
   localSpace: 0
   handle: Blue
   motif: {r: 0, g: 0.5, b: 1, a: 1}
@@ -2342,7 +2342,7 @@ GameObject:
   - 114: {fileID: 631300337}
   - 114: {fileID: 631300335}
   m_Layer: 0
-  m_Name: '[1] Blue'
+  m_Name: '[2] Blue'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2359,7 +2359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c2c2d21c7614b688aced0e3482aed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 0
+  trackingTag: 1
   localSpace: 0
   handle: Blue
   motif: {r: 0, g: 0.5, b: 1, a: 1}
@@ -2391,7 +2391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: VR1
+  label: VR2
   isMine: 0
 --- !u!1 &638147156
 GameObject:
@@ -5932,7 +5932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd767e85d97074ef2b44d593139bde71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0.09, y: 0, z: -0.1}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1967632726
 GameObject:
   m_ObjectHideFlags: 0
@@ -6421,7 +6421,7 @@ Prefab:
       objectReference: {fileID: 101289329}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: buildTag
-      value: 39
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: actors.Array.data[2]
