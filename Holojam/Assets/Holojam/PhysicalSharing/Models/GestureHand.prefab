@@ -207,6 +207,10 @@ MonoBehaviour:
   weight: 0
   mark: 293.56284
   recording: 0
+  initialPoint: {x: 0, y: 0, z: 0}
+  startPosition: {x: 0, y: 0, z: 0}
+  endPosition: {x: 0, y: 0, z: 0}
+  p: {fileID: 0}
   robotCtrl: {fileID: 0}
 --- !u!114 &11485782
 MonoBehaviour:

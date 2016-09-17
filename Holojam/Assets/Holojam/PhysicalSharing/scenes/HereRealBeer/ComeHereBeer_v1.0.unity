@@ -365,7 +365,7 @@ Prefab:
     - target: {fileID: 11414520, guid: 00eab73f3106343c08a3ac44709e850c, type: 2}
       propertyPath: actor
       value: 
-      objectReference: {fileID: 1136225837}
+      objectReference: {fileID: 1994225914}
     - target: {fileID: 114792, guid: 00eab73f3106343c08a3ac44709e850c, type: 2}
       propertyPath: m_IsActive
       value: 1
@@ -1220,6 +1220,10 @@ Prefab:
       propertyPath: lerpTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11485782, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
+      propertyPath: label
+      value: VR3_lefthand
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
   m_IsPrefabParent: 0
@@ -1891,7 +1895,7 @@ GameObject:
   - 114: {fileID: 1136225839}
   - 114: {fileID: 1136225837}
   m_Layer: 0
-  m_Name: '[1] Blue (Build)'
+  m_Name: '[1] Blue'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3077,7 +3081,7 @@ GameObject:
   - 114: {fileID: 1994225916}
   - 114: {fileID: 1994225914}
   m_Layer: 0
-  m_Name: '[2] Green'
+  m_Name: '[2] Green (Build)'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3324,14 +3328,14 @@ Prefab:
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: ba
       value: 
-      objectReference: {fileID: 1136225837}
+      objectReference: {fileID: 1994225914}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: viewer
       value: 
       objectReference: {fileID: 101289329}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: buildTag
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11408398, guid: c9913052dcc5c420bb3eedbe8c266ee0, type: 2}
       propertyPath: actors.Array.data[2]
