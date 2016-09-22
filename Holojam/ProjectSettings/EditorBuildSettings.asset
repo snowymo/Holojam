@@ -45,9 +45,17 @@ EditorBuildSettings:
     path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGameNrbt_ViewerA_v1.0.unity
   - enabled: 0
     path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGameNrbt_ViewerA_v2.0.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Holojam/PhysicalSharing/scenes/boardGame/boardGameNrbt_ViewerB_v2.0.unity
   - enabled: 0
     path: Assets/Holojam/PhysicalSharing/scenes/HereRealBeer/ComeHereBeer_Viewer_v1.0.unity
   - enabled: 0
     path: Assets/Holojam/PhysicalSharing/scenes/HereRealBeer/ComeHereBeer_Viewer_v1.1.unity
+  - enabled: 0
+    path: Assets/Holojam/PhysicalSharing/scenes/Cheers/Cheers-A_v2.0.unity
+  - enabled: 0
+    path: Assets/Holojam/PhysicalSharing/scenes/Cheers/Cheers-B_v2.0.unity
+  - enabled: 0
+    path: Assets/Holojam/PhysicalSharing/scenes/Cheers/Cheers-B_v3.0.unity
+  - enabled: 1
+    path: Assets/Holojam/PhysicalSharing/scenes/Cheers/Cheers-A_v3.0.unity
