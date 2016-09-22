@@ -28,14 +28,14 @@ public class SerialCommunication
 	public SerialCommunication ()
 	{
 		stream = null;
-		angleHelpArray = new AngleData[7];
+		angleHelpArray = new AngleData[6];
 		angleHelpArray[0] = new AngleData(15,2,56.83f);
 		angleHelpArray[1] = new AngleData(10,2,38.1f);
 		angleHelpArray[2] = new AngleData(8,2,31.92f);
 		angleHelpArray[3] = new AngleData(6,2,22.14f);
-		angleHelpArray[4] = new AngleData(5,2,18.7f);
-		angleHelpArray[5] = new AngleData(3,2,12.5f);
-		angleHelpArray[6] = new AngleData(3,1,5.7f);
+		angleHelpArray[4] = new AngleData(5,2,16.7f);
+		angleHelpArray[5] = new AngleData(3,2,11.5f);
+		//angleHelpArray[6] = new AngleData(3,1,5.7f);
 		posHelpArray = new PosData[6];
 		posHelpArray[0] = new PosData(25,3,0.206f);
 		posHelpArray[1] = new PosData(20,3,0.177f);

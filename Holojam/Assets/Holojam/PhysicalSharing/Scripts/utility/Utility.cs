@@ -6,11 +6,15 @@ public class Utility {
 	static Utility m_instance;
 
 	//TODO 0.05 for normal using
-	public float disError = 0.05f;
+	public float disError = 0.025f;
 
 	public float rotateError = 0.02f;
 
+	public float angleError = 6f;
+
 	public float yError = 0.01f;
+
+	int timestamp;
 
 	public static Utility getInst (){
 		if(m_instance == null)
@@ -19,6 +23,17 @@ public class Utility {
 	}
 
 	public Utility(){
+		timestamp = 0;
+	}
+
+	public string getMyTimeStamp(){
+		timestamp %= 26;
+		string st = char.ToString((char)('a' + (char)timestamp++));
+		return st;
+	}
+
+	public int getMyTS(){
+		return timestamp;
 	}
 
 	// do not care about the rotation
@@ -60,10 +75,56 @@ public class Utility {
 			return false;
 	}
 
-	public void drawRays (Transform localTrans, Transform remoteTrans)
+	public void drawRays (Transform localTrans, Transform remoteTrans, bool isLocal = false)
+	{
+		Vector3 localpos, remotepos;
+		Quaternion localRot;
+
+		if (isLocal) {
+			localpos = localTrans.localPosition;
+			remotepos = remoteTrans.localPosition;
+			localRot = localTrans.localRotation;
+		} else {
+			localpos = localTrans.position;
+			remotepos = remoteTrans.position;
+			localRot = localTrans.rotation;
+		}
+
+		Quaternion facing = Quaternion.identity;
+		facing.SetFromToRotation (localRot * Vector3.forward, remotepos - localpos);
+		Vector3 vCur = localRot * Vector3.forward;
+
+		// test if these two vectors are correct
+		Debug.DrawRay (localTrans.position, vCur, Color.green);
+		Debug.DrawRay (localTrans.position, remotepos - localpos, Color.magenta);
+		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+	}
+
+	public void drawRays (Transform localTrans, Vector3 remotePos, bool isLocal = false)
+	{
+		Vector3 localpos, remotepos;
+		Quaternion localRot;
+
+
+			localpos = localTrans.position;
+			remotepos = remotePos;
+			localRot = localTrans.rotation;
+
+
+		Quaternion facing = Quaternion.identity;
+		facing.SetFromToRotation (localRot * Vector3.forward, remotepos - localpos);
+		Vector3 vCur = localRot * Vector3.forward;
+
+		// test if these two vectors are correct
+		Debug.DrawRay (localTrans.position, vCur, Color.green);
+		Debug.DrawRay (localTrans.position, remotepos - localpos, Color.magenta);
+		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+	}
+
+	public void drawRays (Transform localTrans, Vector3 remotePos)
 	{
 		Quaternion facing = Quaternion.identity;
-		facing.SetFromToRotation (localTrans.rotation * Vector3.forward, remoteTrans.position - localTrans.position);
+		facing.SetFromToRotation (localTrans.rotation * Vector3.forward, remotePos - localTrans.position);
 		//Vector3 vFacing = facing * Vector3.forward;
 
 		Vector3 vCur = localTrans.rotation * Vector3.forward;
@@ -71,7 +132,7 @@ public class Utility {
 		// test if these two vectors are correct
 		Debug.DrawRay (localTrans.position, vCur, Color.green);
 
-		Debug.DrawRay (localTrans.position, remoteTrans.position - localTrans.position, Color.magenta);
+		Debug.DrawRay (localTrans.position, remotePos - localTrans.position, Color.magenta);
 
 		//Debug.DrawRay(this.transform.position,vFacing,Color.red);
 
@@ -83,7 +144,7 @@ public class Utility {
 		if (!ctrl.m_bRtn) {
 			float executeTime = Time.time - ctrl.m_runTime;
 			// check if it is already too long then return and sync up them again
-			if(executeTime < (ctrl.m_cmdTime + 0.8f))
+			if(executeTime < (ctrl.m_cmdTime + 0.5f))
 				return false;
 			Debug.Log ("exe:\t" + executeTime + "\test:\t" + ctrl.m_cmdTime);
 			Debug.Log ("wait too long:\t" + executeTime);
@@ -105,7 +166,8 @@ public class Utility {
 
 	// new version for sharing thread
 	public bool checkRtnMsg2(m3piComm ctrl){
-		if (ctrl.m_runTime < 0.1f || ctrl.m_bRtn)
+		//if (ctrl.m_runTime < 0.1f || ctrl.m_bRtn)
+		if ( ctrl.m_bRtn)
 			return true;	// just started
 		// check if the command is matched with one of the received msg and will discard unused msg
 		int matchResult = StreamSingleton.getInst().match(ctrl.m_command);
@@ -115,20 +177,22 @@ public class Utility {
 			ctrl.m_bRtn = true;
 			return true;
 		}
-		// then check if it is not too long
-		if(matchResult == 2){
+		// then check if it waits not too long
+		else//(matchResult == 2)
+		{
 			float executeTime = Time.time - ctrl.m_runTime;
 			if (executeTime < (ctrl.m_cmdTime + 0.8f))
 				return false;
 			else {
 				// too long then stop one, if it is 0 for link count, kill the thread
-				Debug.Log ("wait too long:\t" + executeTime);
-				StreamSingleton.getInst ().setExstop (true);
+				Debug.Log ("wait too long:\t" + ctrl.m_cmdTime + "\t" + executeTime);
+				//StreamSingleton.getInst ().setExstop (true);
 				StreamSingleton.getInst ().minusThread ();
+				ctrl.m_bRtn = true;		// do not need to wait for next return msg
 				return true;
 			}
 		}
-		return false;
+		//return false;
 	}
 
 //

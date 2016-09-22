@@ -1,4 +1,4 @@
-﻿//Viewer.cs
+//Viewer.cs
 //Created by Aaron C Gaudette on 07.07.16
 //Rewrite of TrackedHeadset.cs, completed on 02.07.16
 

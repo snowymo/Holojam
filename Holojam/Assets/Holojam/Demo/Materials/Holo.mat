@@ -197,7 +197,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.9117647, g: 0.58326125, b: 0.8891093, a: 0.397}
+        second: {r: 0.49873236, g: 0.19301468, b: 0.875, a: 0.397}
       data:
         first:
           name: _EmisColor

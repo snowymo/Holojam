@@ -10,6 +10,7 @@ public class StreamSingleton
 	SerialPort m_stream;
 
 	Thread m_rcvThread;
+	bool thread_running;
 
 	Object m_rcvMsgLock;
 	//lock
@@ -47,22 +48,62 @@ public class StreamSingleton
 	public void addReceive ()
 	{
 		//if link is 0 so that i need to start a new one, otherwise i just continue
-		Debug.Log ("addReceive:\t" + m_linkCnt);
+//		Debug.Log ("addReceive:\t" + m_linkCnt);
 		if (m_linkCnt == 0) {
 			m_rcvThread = new Thread (receiveRobots);
 			m_rcvThread.Start ();
+			thread_running = true;
 		}
 		++m_linkCnt;
 	}
 
-	public void minusThread ()
+	public void minusThread (bool stop = false)
 	{
-		Debug.Log ("minusThread:\t" + m_linkCnt);
+		if (m_rcvThread == null)
+			return;
+//		Debug.Log ("minusThread:\t" + m_linkCnt);
 		if (m_linkCnt > 0) {
 			--m_linkCnt;
-			if (m_linkCnt == 0)
-				m_rcvThread.Abort ();
 		}
+		if (m_linkCnt == 0) {
+			//thread_running = false;
+			//m_exStop = true;
+			Debug.Log (m_rcvThread.ThreadState);
+		}
+		if (stop) {
+			Debug.Log ("Before join: " + m_rcvThread.ThreadState);
+
+			m_rcvThread.Join ();
+			Debug.Log ("After join");
+			Debug.Log (m_rcvThread.ThreadState);
+		}
+	}
+
+	bool validateRtn(string cmd, string rtnMsg){
+//		if (rtnMsg.Length > cmd.Length) {
+//			if (rtnMsg.StartsWith ("t:")) {
+//				if (rtnMsg [2] == 'A' ||
+//				   rtnMsg [2] == 'B') {
+//					return true;
+//				}
+//			}
+//		} 
+		if (rtnMsg.Length == 1) {
+			if (rtnMsg [0] <= 'z'
+			   && rtnMsg [0] >= 'a')
+				return true;
+		}
+		return false;
+	}
+
+	bool validateCmd(string cmd){
+		if (cmd != null && cmd.Length >= 6) {
+				if (cmd [0] == 'A' ||
+					cmd [0] == 'B') {
+					return true;
+				}
+		} 
+		return false;
 	}
 
 	public int match (string cmd)
@@ -73,50 +114,57 @@ public class StreamSingleton
 		for (int i = 0; i < m_rcvMsgs.Count; i++) {
 			string curMsg = m_rcvMsgs [i];
 			// check if command is match with the receive msg
-			if (cmd.Length >= 5
-			     && curMsg.Length > 10) {
-				if (curMsg.Substring (2, cmd.Length - 1).Equals (cmd.Substring (0, cmd.Length - 1))) {
-					Debug.Log ("matched:\t" + cmd + "\t" + curMsg);
-					removeList.Add (i);
-					ret = 0;
-					break;
-				} 
-				// external stop leads to later receive msg
-				else if (cmd [0] == curMsg [2]) {
+			if (validateCmd(cmd)) {
+				if (validateRtn (cmd, curMsg)) {
+					if (curMsg[0] == cmd[1]) {
+						Debug.Log ("matched:\t" + cmd + "\t" + curMsg);
+						removeList.Add (i);
+						ret = 0;
+						break;
+					} 
+					// external stop leads to later receive msg
+					else// if (cmd [0] == curMsg [2]) 
+					{
+						Debug.Log ("discard:\t" + cmd + "\t" + curMsg);
+						removeList.Add (i);
+						ret = 1;
+					}
+				} else {
 					Debug.Log ("discard:\t" + cmd + "\t" + curMsg);
 					removeList.Add (i);
 					ret = 1;
 				}
 			}
 		}
-		foreach (int i in removeList)
-			m_rcvMsgs.RemoveAt (i);
+		removeList.Sort ();
+		for (int i = removeList.Count - 1; i >= 0; i--)
+			m_rcvMsgs.RemoveAt (removeList[i]);
 		return ret;
 		//}
 	}
 
 	void receiveRobots ()
 	{
-		do {
-			Debug.Log ("in receive:" + m_linkCnt);
+//		if (!thread_running)
+//			return;
+//		if (m_exStop) {
+//			Debug.Log ("stop external:\t" + m_linkCnt);
+//			--m_linkCnt;
+//			Debug.Log ("link cnt:\t" + m_linkCnt);
+//			m_exStop = false;
+//		}
+		while(m_linkCnt > 0){
+//			Debug.Log ("in receive:" + m_linkCnt);
 			//lock (m_rcvMsgLock) {
 			string returnMsg = m_stream.ReadLine ();
 			// if it returns too slow, it has already got stop externally, so that the return msg is not match to the current command
 			if (returnMsg.Length > 0) {
+				--m_linkCnt;
 				Debug.Log ("add msg\t" + returnMsg);
 				m_rcvMsgs.Add (returnMsg);
 			}
-			if (m_exStop) {
-				Debug.Log ("stop external:\t" + m_linkCnt);
-				--m_linkCnt;
-				m_exStop = false;
-				
-			}
-			//}
-		} while(m_linkCnt > 0);
-		// clear the command
-		//clear ();
-		Debug.Log ("after receive");
+		}
+//		Debug.Log ("after receive");
 		//m_bRtn = true;
 		return;
 	}

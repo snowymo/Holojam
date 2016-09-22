@@ -14,7 +14,7 @@ public class Offset {
 	}
 
 	public Offset(){
-		offsetPos = new Vector3 (1.4f, -0.12f, 0);
+		offsetPos = new Vector3 (1.4f, 0f, 0);
 	}
 
 	public Vector3 getOffset(){
