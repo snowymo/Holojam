@@ -1046,7 +1046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: PS_RBTB
+  label: PS_RBT1
   isMine: 0
 --- !u!1 &479536140
 GameObject:
@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: PS_RBTB
+  label: PS_RBT1
   isMine: 0
 --- !u!1001 &1166328007
 Prefab:
@@ -2064,6 +2064,14 @@ Prefab:
     - target: {fileID: 11474798, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
       propertyPath: lerpTime
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11447778, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
+      propertyPath: trackingTag
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485782, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}
+      propertyPath: label
+      value: VR1_righthand
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01d11568e694f4bc3b8c89b7ececec80, type: 2}

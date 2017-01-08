@@ -831,6 +831,10 @@ Prefab:
       propertyPath: useMasterPC
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11460888, guid: 75b8af633af364b68aaf2645e3777838, type: 2}
+      propertyPath: isMine
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3311910, guid: 75b8af633af364b68aaf2645e3777838, type: 2}
     - {fileID: 2379436, guid: 75b8af633af364b68aaf2645e3777838, type: 2}
@@ -1886,7 +1890,7 @@ GameObject:
   - 114: {fileID: 1136225839}
   - 114: {fileID: 1136225837}
   m_Layer: 0
-  m_Name: '[1] Blue'
+  m_Name: '[3] Blue'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1903,7 +1907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c2c2d21c7614b688aced0e3482aed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingTag: 0
+  trackingTag: 2
   localSpace: 0
   handle: Blue
   motif: {r: 0, g: 0.5, b: 1, a: 1}
@@ -1935,7 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07c8d0dae549d14e8fe873ea4fff0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: VR1
+  label: VR3
   isMine: 0
 --- !u!1 &1147169319
 GameObject:
