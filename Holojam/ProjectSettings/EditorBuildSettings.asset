@@ -6,6 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
+<<<<<<< HEAD
     path: Assets/Holojam/PhysicalSharing/scenes/HereCoke/HereCoke-C.unity
   - enabled: 0
     path: Assets/Holojam/PhysicalSharing/scenes/HereBeer/HereBeer-A.unity
@@ -59,3 +60,10 @@ EditorBuildSettings:
     path: Assets/Holojam/PhysicalSharing/scenes/Cheers/Cheers-B_v3.0.unity
   - enabled: 1
     path: Assets/Holojam/PhysicalSharing/scenes/Cheers/Cheers-A_v3.0.unity
+=======
+    path: Assets/Holojam/Demo/Scenes/Demo.unity
+  - enabled: 1
+    path: Assets/_Ignore/Temp/Force/force.unity
+  - enabled: 0
+    path: Assets/_Ignore/Temp/sync.unity
+>>>>>>> futurerealitylab/master
