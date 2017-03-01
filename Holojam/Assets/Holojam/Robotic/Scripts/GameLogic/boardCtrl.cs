@@ -41,7 +41,7 @@ public class boardCtrl : MonoBehaviour {
 			}
 		}
 
-		ctrlGo = transform.Find ("controller").gameObject;
+//		ctrlGo = this.transform.Find ("controller").gameObject;
 		remoteAssignFlag = "";
 		//isViewer = false;
 	}

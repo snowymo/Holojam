@@ -40,9 +40,12 @@ public class chessCtrl : MonoBehaviour
 	public void highLight ()
 	{
 		// only highlight if it is default
-		if (!circle.gameObject.activeInHierarchy && !cross.gameObject.activeInHierarchy) {
-			transform.position = new Vector3 (transform.position.x, transform.parent.transform.position.y + 0.02f, transform.position.z);
-			isHighLight = true;
+		if (circle != null && cross != null) {
+			
+			if (!circle.gameObject.activeInHierarchy && !cross.gameObject.activeInHierarchy) {
+				transform.position = new Vector3 (transform.position.x, transform.parent.transform.position.y + 0.02f, transform.position.z);
+				isHighLight = true;
+			}
 		}
 	}
 

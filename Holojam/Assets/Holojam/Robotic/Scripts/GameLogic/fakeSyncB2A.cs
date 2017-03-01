@@ -4,17 +4,24 @@ using Holojam.Tools;
 
 public class fakeSyncB2A : Synchronizable {
 
+	//[SerializeField] string label = "fakeBtoA";
+	//[SerializeField] string scope = "";
+
+	// Position, rotation, scale
+	public override int tripleCount{get{return 1;}}
+	//public override int QuadCount{get{return 1;}}
+	public override bool hasText{get{return true;}}
+
+	public override string labelField { get { return label; } }
+	public override string scopeField { get { return scope; } }
+
+
 	public GameObject fakeObj;
 	public GameObject realObj;
 
 	public Vector3 syncvec;
 	public string syncst;
 
-	void Reset ()
-	{
-		label = "fakeBtoA";		//robot A is moving
-		useMasterClient = false;
-	}
 	//TODO: check with Aaron
 	protected override void Sync ()
 	{
