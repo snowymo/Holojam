@@ -15,24 +15,25 @@ namespace Holojam.Tools{
       public override int tripleCount{get{return 1;}}
       public override int quadCount{get{return 1;}}
       //Proxies
-	  //Hack for OPTITRACK
-      public Vector3 rawPosition{
+		//Proxies
+		//Hack for OPTITRACK
+		public Vector3 rawPosition{
 			get{if(BuildManager.DEVICE == BuildManager.Device.GEARVR)
 				return new Vector3(-(float)GetTriple(0).x, (float)GetTriple(0).y, (float)GetTriple(0).z);
-				else
+			else
 				return GetTriple(0);}
-         set{SetTriple(0,value);}
-      }
-      public Quaternion rawRotation{
+			set{SetTriple(0,value);}
+		}
+		public Quaternion rawRotation{
 			get{if(BuildManager.DEVICE == BuildManager.Device.GEARVR)
 				return new Quaternion(-(float)GetQuad(0).x,
 					(float)GetQuad(0).y, 
 					(float)GetQuad(0).z, 
 					-(float)GetQuad(0).w);
-				else
+			else
 				return GetQuad(0);}
-         set{SetQuad(0,value);}
-      }
+			set{SetQuad(0,value);}
+		}
 
       //Accessors in case modification needs to be made to the raw data (like smoothing)
       public Vector3 trackedPosition{get{

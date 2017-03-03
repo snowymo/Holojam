@@ -1,31 +1,21 @@
 ﻿//Viewer.cs
 //Created by Aaron C Gaudette on 07.07.16
-//Adapted by Wenbo Lan for OPTITRACK on 12.02.17
 
 using UnityEngine;
 
-namespace Holojam.Tools
-{
-	[ExecuteInEditMode]
-	public class Viewer : MonoBehaviour
-	{
-		public enum TrackingType
-		{
-			DIRECT,
-			ACTOR}
+namespace Holojam.Tools{
+   [ExecuteInEditMode]
+   public class Viewer : MonoBehaviour{
+      public enum TrackingType{DIRECT,ACTOR};
+      public TrackingType trackingType = TrackingType.ACTOR;
 
-		;
+      public Converter converter;
 
-		public TrackingType trackingType = TrackingType.ACTOR;
-
-		public Converter converter;
-
-		//Get tracking data from actor (recommended coupling), or from the view?
-		public Actor actor = null;
-		[HideInInspector] public Network.View view = null;
-		public int index = 0;
-		public bool localSpace = false;
-
+      //Get tracking data from actor (recommended coupling), or from the view?
+      public Actor actor = null;
+      [HideInInspector] public Network.View view = null;
+      public int index = 0;
+      public bool localSpace = false;
 
 
 		//OPTITRACK
@@ -42,51 +32,48 @@ namespace Holojam.Tools
 		Quaternion lastRotation = Quaternion.identity;
 		//OPTITRACK
 
-		//Update late to catch local space updates
-		void LateUpdate ()
-		{
-			if (converter == null) {
-				Debug.LogWarning ("Viewer: Converter is null!");
-				return;
-			}
-
-			if (BuildManager.DEVICE == BuildManager.Device.VIVE)
-				return;
-
-			//Flush extra components if necessary
-			Network.View[] views = GetComponents<Network.View> ();
-			if ((view == null && views.Length > 0) || (view != null && (views.Length > 1 || views.Length == 0))) {
-				foreach (Network.View v in views)
-					DestroyImmediate (v);
-				view = null; //In case the view has been set to a prefab value
-			}
-
-			//Automatically add a View component if not using a reference actor
-			if (actor == view) {
-				view = gameObject.AddComponent<Network.View> () as Network.View;
-				view.triples = new Vector3[1];
-				view.quads = new Quaternion[1];
-			} else if (actor != null && view != null)
-				DestroyImmediate (view);
-
-			if (view != null) {
-				view.label = Network.Canon.IndexToLabel (index);
-				view.scope = Network.Client.SEND_SCOPE;
-			}
-			if (!Application.isPlaying)
-				return;
-
-			Vector3 sourcePosition = GetPosition ();
-			Quaternion sourceRotation = GetRotation ();
-			bool sourceTracked = GetTracked ();
 
 
+      //Update late to catch local space updates
+      void LateUpdate(){
+         if(converter==null){
+            Debug.LogWarning("Viewer: Converter is null!");
+            return;
+         }
+
+         if(BuildManager.DEVICE==BuildManager.Device.VIVE)
+            return;
+
+         //Flush extra components if necessary
+         Network.View[] views = GetComponents<Network.View>();
+         if((view==null && views.Length>0) || (view!=null && (views.Length>1 || views.Length==0))){
+            foreach(Network.View v in views)DestroyImmediate(v);
+            view=null; //In case the view has been set to a prefab value
+         }
+
+         //Automatically add a View component if not using a reference actor
+         if(actor==view){
+            view = gameObject.AddComponent<Network.View>() as Network.View;
+            view.triples = new Vector3[1];
+            view.quads = new Quaternion[1];
+         }
+         else if(actor!=null && view!=null)DestroyImmediate(view);
+
+         if(view!=null){
+            view.label = Network.Canon.IndexToLabel(index);
+            view.scope = Network.Client.SEND_SCOPE;
+         }
+         if(!Application.isPlaying)return;
+
+         Vector3 sourcePosition = GetPosition();
+         Quaternion sourceRotation = GetRotation();
+         bool sourceTracked = GetTracked();
 			//OPTITRACK
 			//Don't use Camera.main (reference to Oculus' instantiated camera at runtime)
 			//in the editor or standalone, reference the child camera instead
 			if (BuildManager.DEVICE == BuildManager.Device.GEARVR) {
 				Vector3 cameraPosition = BuildManager.IsMasterClient () ?
-		 GetComponentInChildren<Camera> ().transform.position : Camera.main.transform.position;
+					GetComponentInChildren<Camera> ().transform.position : Camera.main.transform.position;
 				//Ne gate Oculus' automatic head offset (variable reliant on orientation) independent of recenters
 				transform.position += sourcePosition - cameraPosition;
 			}
@@ -149,7 +136,7 @@ namespace Holojam.Tools
 					}
 				}
 			} else if (BuildManager.IsMasterClient () || BuildManager.DEVICE == BuildManager.Device.GEARVR) //Fall back to IMU
-            transform.rotation = sourceRotation;
+				transform.rotation = sourceRotation;
 
 			//Apply local rotation if necessary
 			if (actor != null && actor.localSpace && actor.transform.parent != null)
@@ -169,8 +156,8 @@ namespace Holojam.Tools
 				return converter.outputPosition;
 			else {
 				return actor != null ? actor.center :
-            localSpace && transform.parent != null ?
-               transform.parent.TransformPoint (view.triples [0]) : view.triples [0];
+					localSpace && transform.parent != null ?
+					transform.parent.TransformPoint (view.triples [0]) : view.triples [0];
 			}
 		}
 

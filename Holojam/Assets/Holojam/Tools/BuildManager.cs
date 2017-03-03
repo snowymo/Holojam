@@ -12,7 +12,7 @@ namespace Holojam.Tools{
       public Viewer viewer;
 
       public enum Device{
-         CARDBOARD,DAYDREAM,VIVE,GEARVR
+			CARDBOARD,DAYDREAM,VIVE,GEARVR
       };
       public const Device DEVICE_DEFAULT = Device.DAYDREAM;
       public Device device = DEVICE_DEFAULT;

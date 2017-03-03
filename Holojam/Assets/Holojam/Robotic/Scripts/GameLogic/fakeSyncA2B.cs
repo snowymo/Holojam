@@ -10,7 +10,7 @@ public class fakeSyncA2B : Synchronizable
 
 	// Position, rotation, scale
 	public override int tripleCount{get{return 1;}}
-	//public override int QuadCount{get{return 1;}}
+	//public override int quadCount{get{return 1;}}
 	public override bool hasText{get{return true;}}
 
 	public override string labelField { get { return label; } }
