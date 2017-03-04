@@ -22,8 +22,12 @@ public class TelekinesisBeerCtrl : robotCtrl
 	void createM3pi ()
 	{
 		m3piCtrl = new m3piComm ();
-		m3piCtrl.setName ("B");
+		m3piCtrl.setName ("C");
 		print ("create ctrl");
+		//
+		//m3piCtrl.left();
+		m3piCtrl.testCmd();
+		m3piCtrl.run2 (Time.time);
 	}
 
 	void initialAttr ()
@@ -59,7 +63,7 @@ public class TelekinesisBeerCtrl : robotCtrl
 		
 		// sync up
 		if (isFirst == 3) {
-			print ("step:\t" + step);
+			//print ("step:\t" + step);
 //			if ((step == 0 && (stableTime >= stableTimeCount))
 //			    || step > 0) {
 			if (step > 0) {

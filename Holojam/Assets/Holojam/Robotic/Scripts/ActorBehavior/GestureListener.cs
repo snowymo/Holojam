@@ -8,7 +8,7 @@ using System.Collections;
 
 //sprint code
 
-//[RequireComponent (typeof(Holojam.Tools.Pairable))]
+[RequireComponent (typeof(Holojam.Tools.Trackable))]
 public class GestureListener : MonoBehaviour
 {
 	public float range = 9, speed = 0.45f;
@@ -52,7 +52,8 @@ public class GestureListener : MonoBehaviour
 
 	void Update ()
 	{
-		if (!recording && Physics.Raycast (center(), -transform.up, out hit, range)) {
+		if (!recording && Physics.Raycast (transform.position, -transform.up, out hit)) {
+			print ("hit " + hit.collider);
 			GestureTarget gt = hit.transform.GetComponent<GestureTarget> ();
 			if (gt != null && !gt.locked && !gt.controlled) {
 				if (target != null)
@@ -88,7 +89,7 @@ public class GestureListener : MonoBehaviour
 		}
 
 		//Debug
-		Debug.DrawRay (center(), -transform.up * range, Color.yellow);
+		Debug.DrawRay (transform.position, -transform.up * range, Color.yellow);
 	}
 
 	void ProcessGesture ()

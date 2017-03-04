@@ -155,6 +155,7 @@ public class m3piComm : SerialCommunication
 						// if robot is not power on then it will die
 						m_bRtn = false;
 						m_lastCmd = m_command;
+						Debug.Log ("m_command:" + m_command);
 						//clear ();
 					} else
 						m_lastCmd = "";
@@ -215,6 +216,11 @@ public class m3piComm : SerialCommunication
 		if (stream != null) {
 			m_command += "b" + (m_speed).ToString () + (m_waitTime).ToString ();
 		}
+	}
+
+	public void testCmd(){
+		open ();
+		m_command = "lf3";
 	}
 
 	public override void left ()
