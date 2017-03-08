@@ -19,10 +19,12 @@ public class TelekinesisBeerCtrl : robotCtrl
 
 	public Vector3 destination;
 
+	public string rbtName = "C";
+
 	void createM3pi ()
 	{
 		m3piCtrl = new m3piComm ();
-		m3piCtrl.setName ("C");
+		m3piCtrl.setName (rbtName);
 		print ("create ctrl");
 		//
 		//m3piCtrl.left();
@@ -58,7 +60,7 @@ public class TelekinesisBeerCtrl : robotCtrl
 	{
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
-		if (Rbt.GetComponent<Holojam.Network.View> ().tracked)
+		if (Rbt.GetComponent<Holojam.Network.Controller> ().Tracked)
 			myStart ();
 		
 		// sync up

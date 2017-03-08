@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Holojam.Tools;
 
-public class chessSync : Synchronizable {
+
+public class chessSync : Holojam.Tools.Synchronizable {
+	[SerializeField] string label = "chess";
+	[SerializeField] string scope = "";
+
+	[SerializeField] bool host = true;
+	[SerializeField] bool autoHost = false;
+
+	public override string Label { get { return label; } set{ label = value; }}
+	public override string Scope { get { return scope; } }
+
+	public override bool Host { get { return host; } }
+	public override bool AutoHost { get { return autoHost; } }
+
+	public override void ResetData() {
+		data = new Holojam.Network.Flake(0,0,0,0,0,true);
+	}
+
 
 	// Position, rotation, scale
 	//public override int tripleCount{get{return 1;}}
 	//public override int QuadCount{get{return 1;}}
-	public override bool hasText{get{return true;}}
-
-	public override string labelField { get { return label; } }
-	public override string scopeField { get { return scope; } }
-
-//
-//	void Reset ()
-//	{
-//		label = "chess";
-//		useMasterClient = false;
-//	}
-//
-//	[Space (8)] public string handle = "";
+	//public override bool hasText{get{return true;}}
 
 	public string st;
 
@@ -29,13 +33,18 @@ public class chessSync : Synchronizable {
 
 	public string text = "";
 
-	// TODO: need to sync with Aaron
-	protected override void Sync ()
-	{
-		if (sending) {
-			view.text = sentMsg;
-		} else
-			text = view.text;
+	protected override void Sync() {
+		//base.Sync();
+
+		if (Host) {
+			data.text = sentMsg;
+		} else {
+			text = data.text;
+		}
 	}
 
+	protected override void Update() {
+		if (autoHost) host = Sending; // Lock host flag
+		base.Update();
+	}
 }

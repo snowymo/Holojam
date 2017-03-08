@@ -86,7 +86,7 @@ public class boardRbtCtrl : robotCtrl
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
 		for (int index = 0; index < 2; index++) {
-			if (Rbts [index].GetComponent<Holojam.Network.View> ().tracked)
+			if (Rbts [index].GetComponent<Holojam.Network.Controller> ().Tracked)
 				myStart (index, Rbts [index]);
 		}
 		// sync up

@@ -99,8 +99,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2173076}
-  - component: {fileID: 2173078}
-  - component: {fileID: 2173077}
+  - component: {fileID: 2173079}
   m_Layer: 0
   m_Name: BoardBTracked
   m_TagString: Untagged
@@ -124,7 +123,7 @@ Transform:
   m_Father: {fileID: 1506299310}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2173077
+--- !u!114 &2173079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -132,36 +131,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2173075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: VRTBL
-  scope: 
   localSpace: 0
---- !u!114 &2173078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2173075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
+  smooth: 0
   label: VRTBL
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
+  scope: 
 --- !u!1 &27339432
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,8 +150,8 @@ GameObject:
   - component: {fileID: 27339438}
   - component: {fileID: 27339437}
   - component: {fileID: 27339436}
-  - component: {fileID: 27339435}
   - component: {fileID: 27339434}
+  - component: {fileID: 27339435}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -213,13 +189,12 @@ CapsuleCollider:
 --- !u!114 &27339435
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11410848, guid: b21ae2d81e823496698f2bb7f7ca850c,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 27339432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: ea67d559f66ad436cad6ae25b44255f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &27339436
@@ -292,7 +267,7 @@ MeshFilter:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 27339432}
-  m_Mesh: {fileID: 4300002, guid: a7c84d5a045ca4d0cb22fa05a1bbfff7, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 6092ac910a620459cb1de3644845d487, type: 3}
 --- !u!1 &30788661
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +347,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 74894602}
-  - component: {fileID: 74894604}
   - component: {fileID: 74894603}
   m_Layer: 0
   m_Name: chessDealer
@@ -403,36 +377,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 74894601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: RBTB
-  scope: 
   localSpace: 0
---- !u!114 &74894604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 74894601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
+  smooth: 0
   label: RBTB
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
+  scope: 
 --- !u!4 &92765131 stripped
 Transform:
   m_PrefabParentObject: {fileID: 437874, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
@@ -633,7 +584,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 165324946}
-  - component: {fileID: 165324948}
   - component: {fileID: 165324947}
   m_Layer: 0
   m_Name: fakeController
@@ -663,36 +613,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 165324945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: RBTA
   scope: 
-  localSpace: 0
---- !u!114 &165324948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 165324945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
-  label: RBTB
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
 --- !u!1 &168502159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,8 +1042,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 210031260}
-  - component: {fileID: 210031262}
-  - component: {fileID: 210031261}
+  - component: {fileID: 210031263}
   m_Layer: 0
   m_Name: MaskB
   m_TagString: Untagged
@@ -1138,7 +1064,7 @@ Transform:
   m_Father: {fileID: 256274114}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &210031261
+--- !u!114 &210031263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1146,34 +1072,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 210031259}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: M4
   scope: 
-  localSpace: 0
---- !u!114 &210031262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 210031259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
-  label: 
-  triples: []
-  quads: []
-  floats: []
-  ints: 
-  chars: 
-  text: 
 --- !u!1 &216382058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,7 +1597,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 254969950}
-  - component: {fileID: 254969952}
   - component: {fileID: 254969951}
   m_Layer: 0
   m_Name: MaskA
@@ -1723,36 +1627,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 254969949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: M3
-  scope: 
   localSpace: 0
---- !u!114 &254969952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 254969949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
+  smooth: 0
   label: M3
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
+  scope: 
 --- !u!1 &256274113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1948,7 +1829,6 @@ GameObject:
   m_Component:
   - component: {fileID: 311571583}
   - component: {fileID: 311571584}
-  - component: {fileID: 311571586}
   - component: {fileID: 311571585}
   m_Layer: 0
   m_Name: GameCtrl
@@ -1998,34 +1878,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7ff40bbe3934ce1aeb5c5fb3af1427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: chess
   scope: 
-  sending: 1
-  useMasterClient: 0
+  host: 1
+  autoHost: 0
   st: 
   sentMsg: 
-  text: 
---- !u!114 &311571586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 311571582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 1
-  ignoreTracking: 0
-  label: chess
-  triples: []
-  quads: []
-  floats: []
-  ints: 
-  chars: 
   text: 
 --- !u!1 &312220695
 GameObject:
@@ -2039,8 +1899,8 @@ GameObject:
   - component: {fileID: 312220701}
   - component: {fileID: 312220700}
   - component: {fileID: 312220699}
-  - component: {fileID: 312220698}
   - component: {fileID: 312220697}
+  - component: {fileID: 312220698}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -2078,13 +1938,12 @@ CapsuleCollider:
 --- !u!114 &312220698
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11410848, guid: b21ae2d81e823496698f2bb7f7ca850c,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 312220695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: ea67d559f66ad436cad6ae25b44255f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &312220699
@@ -2157,7 +2016,7 @@ MeshFilter:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 312220695}
-  m_Mesh: {fileID: 4300002, guid: a7c84d5a045ca4d0cb22fa05a1bbfff7, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 794d6e807ad6e41b587b2f41e88f80a7, type: 3}
 --- !u!1 &426903650
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,7 +2025,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 426903651}
-  - component: {fileID: 426903653}
   - component: {fileID: 426903652}
   m_Layer: 0
   m_Name: chessSync
@@ -2199,41 +2057,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7ff40bbe3934ce1aeb5c5fb3af1427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: chess
   scope: 
-  sending: 1
-  useMasterClient: 0
+  host: 1
+  autoHost: 0
   st: 
   sentMsg: 
-  text: 
---- !u!114 &426903653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 426903650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 1
-  ignoreTracking: 0
-  label: chess
-  triples: []
-  quads: []
-  floats: []
-  ints: 
-  chars: 
   text: 
 --- !u!114 &435792132 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11412888, guid: 22e08f06fa7a14fb8b9709b8dda83228,
     type: 2}
   m_PrefabInternal: {fileID: 686427670}
-  m_Script: {fileID: 11500000, guid: e8c2c2d21c7614b688aced0e3482aed0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d710e024fb284015a76b96f2139ab53, type: 3}
 --- !u!1 &477454488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,7 +2168,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 482110215}
-  - component: {fileID: 482110217}
   - component: {fileID: 482110216}
   m_Layer: 0
   m_Name: chessDealer
@@ -2361,36 +2198,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 482110214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: RBTA
-  scope: 
   localSpace: 0
---- !u!114 &482110217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 482110214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
+  smooth: 0
   label: RBTA
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
+  scope: 
 --- !u!1 &504498376 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 186756, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
@@ -2527,7 +2341,7 @@ Prefab:
       objectReference: {fileID: 435792132}
     - target: {fileID: 11459870, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: device
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 104154, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: m_IsActive
@@ -2539,7 +2353,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11472184, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: serverAddress
-      value: 192.168.1.38
+      value: 192.168.1.65
       objectReference: {fileID: 0}
     - target: {fileID: 11459870, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: previewIndex
@@ -3695,7 +3509,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1332756307}
   - component: {fileID: 1332756310}
-  - component: {fileID: 1332756309}
   - component: {fileID: 1332756308}
   m_Layer: 0
   m_Name: delayCtrl
@@ -3729,37 +3542,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0189169493141418eebb28098575ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: fakeAtoB
   scope: 
-  sending: 1
-  useMasterClient: 0
+  host: 1
+  autoHost: 0
   fakeObj: {fileID: 312220695}
   realObj: {fileID: 1244852658}
   syncvec: {x: 0, y: 0, z: 0}
   syncst: 
---- !u!114 &1332756309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1332756306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 1
-  ignoreTracking: 0
-  label: fakeAtoB
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads: []
-  floats: []
-  ints: 
-  chars: 
-  text: 
 --- !u!114 &1332756310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4088,7 +3880,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1488220983}
-  - component: {fileID: 1488220985}
   - component: {fileID: 1488220984}
   m_Layer: 0
   m_Name: chessSync
@@ -4121,34 +3912,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7ff40bbe3934ce1aeb5c5fb3af1427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: chess
   scope: 
-  sending: 1
-  useMasterClient: 0
+  host: 1
+  autoHost: 0
   st: 
   sentMsg: 
-  text: 
---- !u!114 &1488220985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1488220982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 1
-  ignoreTracking: 0
-  label: chess
-  triples: []
-  quads: []
-  floats: []
-  ints: 
-  chars: 
   text: 
 --- !u!4 &1494181727 stripped
 Transform:
@@ -4224,7 +3995,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1547953232}
   - component: {fileID: 1547953235}
-  - component: {fileID: 1547953234}
   - component: {fileID: 1547953233}
   m_Layer: 0
   m_Name: delayCtrl
@@ -4258,37 +4028,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391b3a3cb5f344756975def0ef74a59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: fakeBtoA
   scope: 
-  sending: 1
-  useMasterClient: 0
+  host: 1
+  autoHost: 0
   fakeObj: {fileID: 27339432}
   realObj: {fileID: 1696698699}
   syncvec: {x: 0, y: 0, z: 0}
   syncst: 
---- !u!114 &1547953234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1547953231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 1
-  ignoreTracking: 0
-  label: fakeBtoA
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads: []
-  floats: []
-  ints: 
-  chars: 
-  text: 
 --- !u!114 &1547953235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4927,7 +4676,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1861182540}
-  - component: {fileID: 1861182542}
   - component: {fileID: 1861182541}
   m_Layer: 0
   m_Name: fakeController
@@ -4957,36 +4705,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1861182539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: RBTB
-  scope: 
   localSpace: 0
---- !u!114 &1861182542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1861182539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
+  smooth: 0
   label: RBTB
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
+  scope: 
 --- !u!1 &1883636099
 GameObject:
   m_ObjectHideFlags: 0
@@ -5555,8 +5280,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1966898339}
-  - component: {fileID: 1966898341}
-  - component: {fileID: 1966898340}
+  - component: {fileID: 1966898342}
   m_Layer: 0
   m_Name: BoardATracked
   m_TagString: Untagged
@@ -5578,7 +5302,7 @@ Transform:
   m_Father: {fileID: 190818433}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1966898340
+--- !u!114 &1966898342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -5586,36 +5310,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1966898338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: VRTBL
-  scope: 
   localSpace: 0
---- !u!114 &1966898341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1966898338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
+  smooth: 0
   label: VRTBL
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 
-  chars: 
-  text: 
+  scope: 
 --- !u!114 &2026492582 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11401556, guid: 352f6cee29b934f8dbb5c1ea87ac1ca0,

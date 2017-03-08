@@ -39,7 +39,7 @@ public class delayCtrl : MonoBehaviour
 	void Update ()
 	{
 		transform.rotation = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation * opponentCtrl.transform.rotation;
-		if (transform.position.magnitude < 0.01f && opponentCtrl.GetComponent<Holojam.Network.View> ().tracked)
+		if (transform.position.magnitude < 0.01f && opponentCtrl.GetComponent<Holojam.Network.Controller> ().Tracked)
 			transform.position = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation *
 			(opponentCtrl.transform.position - currentTable.transform.position) + referenceTable.transform.position;
 		if (referenceTable.GetComponent<boardCtrl> ().isViewer)
