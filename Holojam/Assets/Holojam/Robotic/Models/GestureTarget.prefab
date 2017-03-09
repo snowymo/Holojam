@@ -85,11 +85,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4444363422935406}
   - component: {fileID: 114095159405636796}
-  - component: {fileID: 114082088206810630}
   - component: {fileID: 135215286452232908}
   - component: {fileID: 135580250774439676}
   - component: {fileID: 135004220576168546}
   - component: {fileID: 135864191141038936}
+  - component: {fileID: 114647555641084548}
   m_Layer: 0
   m_Name: GestureTarget
   m_TagString: Untagged
@@ -394,30 +394,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114082088206810630
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1599592092622094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
-  label: GT0
-  triples:
-  - {x: 0, y: 0, z: 0}
-  quads:
-  - {x: 0, y: 0, z: 0, w: 0}
-  floats: []
-  ints: 00000000
-  chars: 
-  text: 
 --- !u!114 &114095159405636796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -429,10 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeca30be52efe40b2b9da639d90e8b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
   label: GT0
   scope: 
-  sending: 1
-  useMasterClient: 1
+  host: 1
+  autoHost: 0
   locked: 0
   highlight: 0
   loading: 0
@@ -443,6 +421,21 @@ MonoBehaviour:
   table: {fileID: 0}
   glow: {fileID: 1280962033540758}
   buffering: {fileID: 102940022384726616}
+--- !u!114 &114647555641084548
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599592092622094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
+  label: RBTC
+  scope: 
 --- !u!122 &122552022757467320
 Halo:
   m_ObjectHideFlags: 1

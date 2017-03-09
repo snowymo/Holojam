@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 114327677566443318}
   - component: {fileID: 135333551259604386}
   - component: {fileID: 114407004355476786}
+  - component: {fileID: 114984907023701444}
   m_Layer: 0
   m_Name: GestureHand
   m_TagString: Untagged
@@ -248,6 +249,23 @@ MonoBehaviour:
   ints: 00000000
   chars: 
   text: 
+--- !u!114 &114984907023701444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1363092623866052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20dadd32506244c0b89dc495e4a9cb8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
+  label: Synchronizable
+  scope: 
+  host: 1
+  autoHost: 0
 --- !u!135 &135333551259604386
 SphereCollider:
   m_ObjectHideFlags: 1
