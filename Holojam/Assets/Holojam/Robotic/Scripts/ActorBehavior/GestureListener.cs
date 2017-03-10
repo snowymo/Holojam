@@ -53,7 +53,7 @@ public class GestureListener : MonoBehaviour
 	void Update ()
 	{
 		if (!recording && Physics.Raycast (transform.position, -transform.up, out hit)) {
-			//print ("hit " + hit.collider);
+			print ("hit " + hit.collider);
 			GestureTarget gt = hit.transform.GetComponent<GestureTarget> ();
 			if (gt != null && !gt.locked && !gt.controlled) {
 				if (target != null)

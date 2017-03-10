@@ -37,7 +37,8 @@ public class GestureTarget : Holojam.Tools.SynchronizableTrackable
 			//Scale = transform.localScale;
 			if (controllable) {
 				float h = robot.position.y - table.position.y;
-				//print (h); //
+//				print ("h" + h); //
+//				print ("tableOffset" + tableOffset); //
 				controlled = h > tableOffset;
 			} else
 				controlled = false;
