@@ -1861,11 +1861,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11472184, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: serverAddress
-      value: 192.168.1.19
+      value: 192.168.1.38
       objectReference: {fileID: 0}
     - target: {fileID: 11459870, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: previewIndex
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11472184, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: sendScope
@@ -1961,7 +1961,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 186756, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
@@ -2583,6 +2583,10 @@ Prefab:
     - target: {fileID: 11412888, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
       propertyPath: smooth
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 186756, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}

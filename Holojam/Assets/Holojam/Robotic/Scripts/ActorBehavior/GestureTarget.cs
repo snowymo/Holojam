@@ -13,7 +13,7 @@ public class GestureTarget : Holojam.Tools.SynchronizableTrackable
 	[SerializeField] bool host = true;
 	[SerializeField] bool autoHost = false;
 
-	public override string Label { get { return label; } set{ }}
+	public override string Label { get { return label; } set{ label = value;}}
 	public override string Scope { get { return scope; } }
 
 	public override bool Host { get { return host; } }
