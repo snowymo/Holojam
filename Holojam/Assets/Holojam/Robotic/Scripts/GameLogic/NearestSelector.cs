@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(Holojam.Tools.Trackable))]
 public class NearestSelector : MonoBehaviour{
-   public float range = 1;
+   public float range;
    public TextMesh loadingBuffer;
    public float loadingOffset = 0.1f;
    //public Transform robot;
@@ -58,7 +58,7 @@ public class NearestSelector : MonoBehaviour{
       }
       if(minDist>-1){
          ResetTarget();
-         target = swap.GetComponent<GestureTarget>();
+			target = swap.GetComponentInChildren<GestureTarget>();
          target.locked = true;
          //Debug
 			Debug.DrawLine(target.transform.position,center(),Color.yellow);
@@ -67,20 +67,23 @@ public class NearestSelector : MonoBehaviour{
       if(target==null)return;
 
       // here: move the robot to target.position
-		robotCtrl.setDestination(target.transform.position);
-		robotSynced = robotCtrl.hasArrived();
+		//TODO for debug right now
+		//robotCtrl.setDestination(target.transform.position);
+		//robotSynced = robotCtrl.hasArrived();
+		robotSynced = false;
 
       //Process target
 		target.robot = robotCtrl.getExecuteRbt();
       target.controllable = robotSynced;
       target.loading = !robotSynced;
       //
-      if(target.loading){
-         loadingBuffer.transform.position = target.transform.position + Vector3.up*loadingOffset;
-         //copy
-         float div = Time.time % 3;
-         loadingBuffer.text = div < 1 ? ".  " : div >= 2 ? "..." : ".. ";
-      }
+//      if(target.loading){
+//			//TODO add loading buffer to building manually
+//         loadingBuffer.transform.position = target.transform.position + Vector3.up*loadingOffset;
+//         //copy
+//         float div = Time.time % 3;
+//         loadingBuffer.text = div < 1 ? ".  " : div >= 2 ? "..." : ".. ";
+//      }
    }
 
    void ResetTarget(){

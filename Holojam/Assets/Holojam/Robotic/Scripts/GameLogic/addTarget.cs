@@ -5,6 +5,10 @@ using UnityEngine;
 public class addTarget :MonoBehaviour
 {
 
+	public Transform tableTrans;
+
+	public GameObject forceCube;
+
 	// add GestureTarget to all buildings for children
 	void Start ()
 	{
@@ -12,8 +16,16 @@ public class addTarget :MonoBehaviour
 		foreach (Transform child in transform) {
 			foreach (Transform grandChild in child) {
 				if (grandChild.gameObject.name.Contains ("Building")) {
-					GestureTarget gt = child.gameObject.AddComponent <GestureTarget> ();
+					GameObject gragrandChild = GameObject.Instantiate (forceCube);
+					gragrandChild.transform.parent = grandChild.transform;
+					gragrandChild.transform.localPosition = new Vector3 ();
+
+					GestureTarget gt = gragrandChild.GetComponent <GestureTarget> ();
 					gt.Label = "GT" + i.ToString ();
+					gt.table = tableTrans;
+
+//					TextMesh tm = gragrandChild.gameObject. .GetComponent <TextMesh> ();
+//					tm.text = "";
 					i++;
 					break;
 				}

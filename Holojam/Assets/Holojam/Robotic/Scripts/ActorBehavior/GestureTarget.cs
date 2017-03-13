@@ -19,6 +19,8 @@ public class GestureTarget : Holojam.Tools.SynchronizableTrackable
 	public override bool Host { get { return host; } }
 	public override bool AutoHost { get { return autoHost; } }
 
+	//public TextMesh loadingBuffer;
+
 	// Proxy
 //	public Vector3 Scale{
 //		get { return data.vector3s[1]; }

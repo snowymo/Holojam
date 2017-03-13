@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class MapControl : MonoBehaviour{
    public Transform table;
-   public float tableSize = 0.2f;
+   public float tableSize = 0.45f;
 
    public Transform buildingRoot;
    public NearestSelector[] hands;
@@ -19,8 +19,8 @@ public class MapControl : MonoBehaviour{
       buildings = new Transform[buildingRoot.childCount];
       int i = 0;
       foreach(Transform child in buildingRoot){
-         buildings[i]=child;
-         buildings[i++].GetComponent<Holojam.Tools.Synchronizable>().Label = "Building-"+(i-1);
+         buildings[i++]=child;
+         //buildings[i++].GetComponent<Holojam.Tools.Synchronizable>().Label = "Building-"+(i-1);
       }
    }
 
@@ -33,7 +33,8 @@ public class MapControl : MonoBehaviour{
          bool oob = testPosition.x > tableSize || testPosition.x < -tableSize
             || testPosition.z > tableSize || testPosition.z < -tableSize;
 
-         oob = oob && b.GetComponent<GestureTarget>().controlled == false;
+
+			oob = oob && b.GetComponentInChildren<GestureTarget>().controlled == false;
 
          b.GetChild(0).GetComponent<Renderer>().enabled = !oob;
          if(!oob)activeCache.Add(b);

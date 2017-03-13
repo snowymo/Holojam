@@ -31,6 +31,8 @@ public class GestureDetect : MonoBehaviour {
 
 	public GameObject robotCtrl;
 
+	public GameObject testobj;
+
 	void Awake ()
 	{
 		p = GetComponent<Holojam.Tools.Trackable> ();
@@ -46,6 +48,7 @@ public class GestureDetect : MonoBehaviour {
 	{
 		if (!recording && Physics.Raycast (transform.position, -transform.up, out hit)) {
 			print ("hit " + hit.collider);
+			//GameObject.Instantiate (testobj, hit.transform);
 			GestureTarget gt = hit.transform.GetComponent<GestureTarget> ();
 			if (gt != null && !gt.locked && !gt.controlled) {
 				if (target != null)
@@ -75,7 +78,8 @@ public class GestureDetect : MonoBehaviour {
 				target.highlight = true;
 			} else if (Time.time > mark + recordTime) {
 				endPosition = center();
-				ProcessGesture ();
+				//ProcessGesture ();
+				//robotCtrl.GetComponent<TelekinesisBeerCtrl>().setDestination(exitPoint);
 				recording = false;
 			}
 		}
