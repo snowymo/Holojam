@@ -1,11 +1,17 @@
-*.zip
+Videos/
+*.mp4
+*.mov
+*.MOV
 
+Holojam/ProjectSettings/ProjectSettings.asset
+Holojam/ProjectSettings/*.asset
+stepper_oneRevolution/
+
+/ProjectSettings/ProjectSettings.asset
+/ProjectSettings/*
 Temp/
 Library/
 Library.meta
-tmp/
-tmp.meta
-Builds/
 
 ExportedObj/
 obj/
@@ -22,7 +28,6 @@ obj/
 *.csproj
 *.unitypackage
 *.apk
-*.swp
 
 *.pidb.meta
 .#*
@@ -36,3 +41,4 @@ sysinfo.txt
 ehthumbs.db
 Thumbs.db
 
+Holojam/Assets/Holojam/Server/NetworkUtils.cs
