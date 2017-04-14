@@ -1469,7 +1469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &477454489
 Transform:
   m_ObjectHideFlags: 0
@@ -1594,18 +1594,15 @@ Prefab:
       propertyPath: label
       value: M3LH
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: table
       value: 
       objectReference: {fileID: 644892777}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: robotCtrl
       value: 
       objectReference: {fileID: 311571582}
-    - target: {fileID: 114455707293999344, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: label
       value: M3LH
       objectReference: {fileID: 0}
@@ -1621,38 +1618,31 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: mark
       value: 239.5628
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: speed
       value: 1.8
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: shakeForce
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: cooldown
       value: 2.1
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: lerpTime
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: magnitudeRange.x
       value: 0.06
       objectReference: {fileID: 0}
-    - target: {fileID: 114310962823064442, guid: 3676857b8695c406fbd4b14ab30b7525,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: resultScale
       value: 0.7
       objectReference: {fileID: 0}
@@ -1662,8 +1652,9 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 114455707293999344, guid: 3676857b8695c406fbd4b14ab30b7525, type: 2}
+    - {fileID: 0}
     - {fileID: 114657047135953624, guid: 3676857b8695c406fbd4b14ab30b7525, type: 2}
+    - {fileID: 114573714727403296, guid: 3676857b8695c406fbd4b14ab30b7525, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3676857b8695c406fbd4b14ab30b7525, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &477641905 stripped
@@ -1871,6 +1862,10 @@ Prefab:
       propertyPath: sendScope
       value: server
       objectReference: {fileID: 0}
+    - target: {fileID: 11459870, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
+      propertyPath: spectator
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
   m_IsPrefabParent: 0
@@ -1962,6 +1957,10 @@ Prefab:
     - target: {fileID: 186756, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412888, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}
+      propertyPath: scope
+      value: motive
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 22e08f06fa7a14fb8b9709b8dda83228, type: 2}

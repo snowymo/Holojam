@@ -36,10 +36,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4238614143580144}
-  - component: {fileID: 114455707293999344}
-  - component: {fileID: 114310962823064442}
   - component: {fileID: 135314647200345460}
   - component: {fileID: 114657047135953624}
+  - component: {fileID: 114573714727403296}
   m_Layer: 0
   m_Name: GestureHand
   m_TagString: Untagged
@@ -182,7 +181,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1173042897945612}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114310962823064442
+--- !u!114 &114573714727403296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1384416682169756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456956a0dc983409fafe747d02d50324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localSpace: 0
+  smooth: 0
+  label: Trackable
+  scope: 
+--- !u!114 &114657047135953624
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -210,42 +224,6 @@ MonoBehaviour:
   mark: 0
   recording: 0
   robotCtrl: {fileID: 0}
---- !u!114 &114455707293999344
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1384416682169756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8304f294cd3d4cbfb00491751e3e7c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  label: M1LH
-  scope: 
-  localSpace: 0
---- !u!114 &114657047135953624
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1384416682169756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb380fb2ff0754e459bf9c7822a6b2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scope: 
-  source: 
-  sending: 0
-  ignoreTracking: 0
-  label: 
-  triples: []
-  quads: []
-  floats: []
-  ints: 
-  chars: 
-  text: 
 --- !u!135 &135314647200345460
 SphereCollider:
   m_ObjectHideFlags: 1

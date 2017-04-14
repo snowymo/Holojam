@@ -1878,8 +1878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7ff40bbe3934ce1aeb5c5fb3af1427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localSpace: 0
-  smooth: 0
   label: chess
   scope: 
   host: 1
@@ -2057,8 +2055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7ff40bbe3934ce1aeb5c5fb3af1427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localSpace: 0
-  smooth: 0
   label: chess
   scope: 
   host: 1
@@ -2353,7 +2349,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11472184, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: serverAddress
-      value: 192.168.1.65
+      value: 192.168.1.38
       objectReference: {fileID: 0}
     - target: {fileID: 11459870, guid: 957a810931a9c4b9a8423081101befd7, type: 2}
       propertyPath: previewIndex
@@ -3542,8 +3538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0189169493141418eebb28098575ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localSpace: 0
-  smooth: 0
   label: fakeAtoB
   scope: 
   host: 1
@@ -3912,8 +3906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7ff40bbe3934ce1aeb5c5fb3af1427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localSpace: 0
-  smooth: 0
   label: chess
   scope: 
   host: 1
@@ -4028,8 +4020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391b3a3cb5f344756975def0ef74a59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localSpace: 0
-  smooth: 0
   label: fakeBtoA
   scope: 
   host: 1
