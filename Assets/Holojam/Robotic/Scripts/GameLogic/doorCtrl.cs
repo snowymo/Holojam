@@ -11,9 +11,11 @@ public class doorCtrl : MonoBehaviour {
 	Vector3 lastPos;
 	Quaternion lastRot;
 
+  Vector3 offset;
+
 	// Use this for initialization
 	void Start () {
-		
+    offset = -0.15f;
 	}
 	
 	// Update is called once per frame
@@ -25,7 +27,19 @@ public class doorCtrl : MonoBehaviour {
 				//transform.Translate (trackedRoomba - lastPos);
 				//transform.rotation = transform.rotation * (Quaternion.FromToRotation (lastRot, trackedRoomba.rotation));
 			}
-			lastPos = trackedRoomba.position;
+
+      float angle = Vector3.Angle (Vector3.forward, trackedRoomba.rotation * Vector3.forward);
+      //        print ("sync wall angle:" + angle + " trackedRoomba:" + trackedRoomba);
+      //        print ("position:" + transform.position);
+      if (angle < 25) {
+        lastPos = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z) + offset;
+      } else if (angle > 155) {
+        lastPos = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z) - offset;
+      } else {
+        lastPos = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z);
+      }
+
+			//lastPos = trackedRoomba.position;
 			lastRot = trackedRoomba.rotation;
 		} 
 	}

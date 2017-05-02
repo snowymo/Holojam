@@ -16,8 +16,8 @@ public class envSwitchCtrl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		doit = false;
-		maskColor = new Color (0,0,0,0);
-		mask.GetComponent<Renderer> ().material.SetColor ("_Color",maskColor);
+		maskColor = new Color (0,0,0,0.0f);
+    mask.GetComponent<Renderer>().material.color = maskColor;
 		foreach (GameObject d in displayed) {
 			changeVisibility (d,false);
 		}
@@ -28,7 +28,8 @@ public class envSwitchCtrl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			SwitchEnv ();
+      doit = true;
+			//SwitchEnv ();
 		}
 		if (doit)
 			SwitchEnv ();
@@ -46,8 +47,11 @@ public class envSwitchCtrl : MonoBehaviour {
 	void SwitchEnv(){
 		if (maskColor.a < 1f && faded[0].GetComponent<Renderer> ().enabled) {
 			// create a mask to cover the camera
-			maskColor.a += Time.deltaTime;
-			mask.GetComponent<Renderer> ().material.SetColor ("_Color",maskColor);
+			maskColor.a += Time.deltaTime/10;
+      //maskColor.r += Time.deltaTime/10;
+      print("mask color " + maskColor);
+			mask.GetComponent<Renderer> ().material.color = maskColor;
+      print("mat color " + mask.GetComponent<Renderer> ().material.GetColor("_Color"));
 			// disable faded and enable display
 			if(maskColor.a >= 0.9995f){
 				foreach (GameObject d in faded) {
@@ -62,7 +66,7 @@ public class envSwitchCtrl : MonoBehaviour {
 			}
 		}
 		else if(maskColor.a >= 0.05f && win) {
-			maskColor.a -= Time.deltaTime;
+			maskColor.a -= Time.deltaTime/5;
 			mask.GetComponent<Renderer> ().material.SetColor ("_Color",maskColor);
 		}
 		// then disappear the camera
