@@ -26,11 +26,11 @@ public class WallAndDoorCtrl : MonoBehaviour
 //				print ("sync wall angle:" + angle + " trackedRoomba:" + trackedRoomba);
 //				print ("position:" + transform.position);
 				if (angle < 25) {
-					transform.position = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z) + offset;
+          transform.position = new Vector3 (transform.position.x, transform.position.y, trackedRoomba.position.z) + offset;
 				} else if (angle > 155) {
-					transform.position = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z) - offset;
+          transform.position = new Vector3 (transform.position.x, transform.position.y, trackedRoomba.position.z) - offset;
 				} else {
-					transform.position = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z);
+          transform.position = new Vector3 (transform.position.x, transform.position.y, trackedRoomba.position.z);
 				}
 //				transform.position = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z);
 			}

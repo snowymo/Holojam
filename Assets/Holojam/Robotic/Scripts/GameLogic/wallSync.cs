@@ -183,7 +183,7 @@ public class wallSync : MonoBehaviour
 			if (roomba.gameObject.GetComponent<TrackableComponent> ().Tracked && player.gameObject.GetComponent<ActorAvatar> ().Tracked) {
 				if (moveDoor == 0) {
 					// move with player
-					Vector3 des = new Vector3 (roomba.position.x, roomba.position.y, player.position.z);
+          Vector3 des = new Vector3 (player.position.x, roomba.position.y, roomba.position.z);
 					Utility.getInst ().drawRays (roomba.transform, des);
 					float dis = Vector3.Distance (roomba.position, des);
 //					print ("dis between player " + dis);
@@ -191,7 +191,7 @@ public class wallSync : MonoBehaviour
           float angle = Quaternion.Angle(Quaternion.identity,roomba.rotation);
 //          print("current angle " + angle);
           if (checkWallAngle(angle)) {
-            if (player.position.x < roomba.position.x) {
+            if (player.position.z < roomba.position.z) {
               angle -= 180f;
             }
             //turnBack(angle < 0);

@@ -15,7 +15,7 @@ public class doorCtrl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-    offset = -0.15f;
+    //offset = new Vector3(-0.15f,0,0);
 	}
 	
 	// Update is called once per frame
