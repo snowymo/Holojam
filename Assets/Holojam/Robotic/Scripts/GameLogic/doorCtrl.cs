@@ -22,8 +22,16 @@ public class doorCtrl : MonoBehaviour {
 	void Update () {
 		if (syncWallInfo.moveDoor > 0) {
 			if (lastPos != new Vector3 ()) {
-				transform.position = Vector3.Lerp (lastPos, trackedRoomba.position, Time.deltaTime);
-				transform.rotation = Quaternion.Lerp (lastRot, trackedRoomba.rotation, Time.deltaTime);
+        Vector3 roombaPos = trackedRoomba.position;
+        roombaPos.y = 0;
+        //print("lastPos:" + lastPos);
+        //print("roombaPos:" + roombaPos);
+        transform.position = Vector3.Lerp (lastPos, roombaPos, Time.deltaTime);
+        Vector3 tmp = transform.localPosition;
+        tmp.y = 0;
+        transform.localPosition = tmp;
+        transform.rotation = Quaternion.Lerp (lastRot, trackedRoomba.rotation, Time.deltaTime);
+        //print("transform.rotation:" + transform.rotation);
 				//transform.Translate (trackedRoomba - lastPos);
 				//transform.rotation = transform.rotation * (Quaternion.FromToRotation (lastRot, trackedRoomba.rotation));
 			}
@@ -32,11 +40,11 @@ public class doorCtrl : MonoBehaviour {
       //        print ("sync wall angle:" + angle + " trackedRoomba:" + trackedRoomba);
       //        print ("position:" + transform.position);
       if (angle < 25) {
-        lastPos = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z) + offset;
+        lastPos = new Vector3 (trackedRoomba.position.x, 0, transform.position.z) + offset;
       } else if (angle > 155) {
-        lastPos = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z) - offset;
+        lastPos = new Vector3 (trackedRoomba.position.x, 0, transform.position.z) - offset;
       } else {
-        lastPos = new Vector3 (trackedRoomba.position.x, transform.position.y, transform.position.z);
+        lastPos = new Vector3 (trackedRoomba.position.x, 0, transform.position.z);
       }
 
 			//lastPos = trackedRoomba.position;

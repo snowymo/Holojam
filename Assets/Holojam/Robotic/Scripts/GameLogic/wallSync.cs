@@ -134,16 +134,16 @@ public class wallSync : MonoBehaviour
 
 	IEnumerator moveTheDoor(){
 		Quaternion startRotate = roomba.rotation;
-		Quaternion endRotate = roomba.rotation * Quaternion.Euler (0, 110, 0);
+		Quaternion endRotate = roomba.rotation * Quaternion.Euler (0, -110, 0);
 		while (true) {
 			float angle = Quaternion.Angle (roomba.rotation, endRotate);
 			print ("move the door:" + angle);
-			if (angle < 20)
+      if ((angle < 20 ))
 				break;
-			communicator.setTurn (100);
-			yield return new WaitForSeconds (0.3f);
-			communicator.setStraight (30);
-			yield return new WaitForSeconds (0.05f);
+			communicator.setTurn (-120);
+			yield return new WaitForSeconds (0.2f);
+			//communicator.setStraight (200);
+			//yield return new WaitForSeconds (0.1f);
 		}
 		communicator.setTurn (0);
 		communicator.setStraight (0);
@@ -160,7 +160,7 @@ public class wallSync : MonoBehaviour
     if (player.position.x > roomba.position.x) {
       angle -= 180f;
     }
-    print("check wall angle:" + angle);
+    //print("check wall angle:" + angle);
     angle = Mathf.Abs(angle);
     if (angle > Utility.getInst().angleRoombaError) {
       return true;
@@ -199,7 +199,7 @@ public class wallSync : MonoBehaviour
 					 if (dis > Utility.getInst ().disRoombaError) {
 						goStraight (roomba, des);
 					} else {
-            print("stop");
+            //print("stop");
 						communicator.setStraight (0);
 					}
 				}else{

@@ -25,14 +25,14 @@ public class TangoSwitch : MonoBehaviour {
       viveModule.SetActive(true);
       cameraRig.SetActive(true);
       env.SetActive(true);
-      syncrmb.gameObject.SetActive(false);
+      syncrmb.gameObject.SetActive(true);
     } else {
       TangoDemo.SetActive(true);
 
       viveModule.SetActive(false);
       cameraRig.SetActive(false);
       env.SetActive(false);
-      syncrmb.gameObject.SetActive(true);
+      syncrmb.gameObject.SetActive(false);
     }
 
     switchtex1.isPhone = isPhone;
