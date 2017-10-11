@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //AlphaBlendedColorHard.shader (Updated from AlphaBlendedColor on 21.08.14)
 //Created by Aaron C Gaudette on 11.07.14
 //A transparent alpha-blended shader
@@ -31,7 +33,7 @@ Shader "Custom/Transparent/Alpha Blended Color Hard"{
 				
 				VertexOutput vert(VertexInput input){
 					VertexOutput output;
-					output.pos = mul(UNITY_MATRIX_MVP,input.vertex);
+					output.pos = UnityObjectToClipPos(input.vertex);
 					return output;
 				}
 				fixed4 frag(VertexOutput output) : COLOR{
