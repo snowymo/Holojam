@@ -54,12 +54,12 @@ public class realBeerCtrl : robotCtrl
 	{
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
-		if (Rbt.GetComponent<Holojam.Network.Controller> ().Tracked)
+		if (Rbt.GetComponent<SteamVR_TrackedObject> ().isValid)
 			myStart ();
 		
 		// sync up
 		if (isFirst == 3) {
-			print ("step:\t" + step);
+			//print ("step:\t" + step);
 //			if ((step == 0 && (stableTime >= stableTimeCount))
 //			    || step > 0) {
 			if (step > 0) {

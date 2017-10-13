@@ -48,7 +48,8 @@ public class GestureListener : MonoBehaviour
 
 	void Update ()
 	{
-		if (!recording && Physics.Raycast (p.TrackedPosition, -transform.up, out hit, range)) {
+        Debug.DrawRay(transform.position, -transform.forward, Color.red);
+		if (!recording && Physics.Raycast (transform.position, -transform.forward, out hit, range)) {
 			GestureTarget gt = hit.transform.GetComponent<GestureTarget> ();
 			if (gt != null && !gt.locked && !gt.controlled) {
 				if (target != null)

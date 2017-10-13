@@ -57,7 +57,7 @@ public class GestureTarget : SynchronizableTrackable {
 			if (controllable) {
 				float h = robot.position.y - table.position.y;
 				//print (h); //
-				controlled = h > tableOffset;
+				//controlled = h >= tableOffset;
 			} else
 				controlled = false;
 			if (controllable){
