@@ -74,19 +74,19 @@ public class GestureListener : MonoBehaviour
 			} else if (!recording) {
 				target.transform.position = initialPoint;
 				mark = Time.time;
-				startPosition = p.TrackedPosition;
+                startPosition = transform.position;// p.TrackedPosition;
 				recording = true;
 				target.highlight = true;
 			} else if (Time.time > mark + recordTime) {
-				endPosition = p.TrackedPosition;
-				ProcessGesture ();
+				endPosition = transform.position;//;p.TrackedPosition;
+                ProcessGesture ();
 				recording = false;
 			}
 		}
 
 		//Debug
-		Debug.DrawRay (p.TrackedPosition, -transform.up * range, Color.yellow);
-	}
+		Debug.DrawRay (/*p.TrackedPosition*/transform.position, -transform.up * range, Color.yellow);
+    }
 
 	void ProcessGesture ()
 	{
@@ -101,12 +101,12 @@ public class GestureListener : MonoBehaviour
 		direction = new Vector3 (direction.x, 0, direction.z);
 		if (direction.magnitude < magnitudeRange.x) {
 			Debug.Log ("No gesture detected.");
-			targetRef.GetComponent<GestureTarget> ().controllable = true; //uneeded
+			targetRef.GetComponent<GestureTarget> ().controllable = true; //unneeded
 			return;
 		}
 		float strength = direction.magnitude / (magnitudeRange.y - magnitudeRange.x) + magnitudeRange.x; //broken
 		strength = Mathf.Min (strength, 1) * resultScale;
-		//print(direction.magnitude);
+		print(direction.magnitude);
 
 		direction = Vector3.Normalize (direction) * strength;
 
@@ -120,8 +120,9 @@ public class GestureListener : MonoBehaviour
 
 		exitPoint = new Vector3 (x, exitPoint.y, z);
 		exitPoint = table.TransformPoint (exitPoint);
+        print("exit point:" + exitPoint);
 
-		robotSynced = false;
+        robotSynced = false;
 		//tell robot to do something with exitPoint <-- position
 		//make sure you set that to true when you're done
 		robotCtrl.GetComponent<realBeerCtrl>().setDestination(exitPoint);

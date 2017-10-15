@@ -33,8 +33,9 @@ public class StreamSingleton
 
 	public StreamSingleton ()
 	{
-		m_stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ", 57600);
-		m_rcvMsgs = new List<string> ();
+        //m_stream = new SerialPort ("/dev/cu.usbserial-AH01KCPQ", 57600);
+        m_stream = new SerialPort("COM6", 57600);
+        m_rcvMsgs = new List<string> ();
 		m_rcvMsgLock = new Object ();
 		m_linkCnt = 0;
 		//m_rcvThread = new Thread ();
