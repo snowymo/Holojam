@@ -53,26 +53,26 @@ public class GVRViveHeadset : Trackable
     protected override void Awake()
     {
         base.Awake();
-        config = FindObjectOfType<HolojamConfig>();
+        //config = FindObjectOfType<HolojamConfig>();
     }
 
     protected override void Update()
     {
-        if (configNames.ContainsKey(label))
-        {
-            string name = configNames[label];
-            Vector3 getPos;
-            Vector3 getRot;
-            if (config.TryGetValue(name + "Pos", out getPos) && config.TryGetValue(name + "Rot", out getRot))
-            {
-                if (!getPos.Equals(Vector3.zero))
-                {
-                    offset = getPos;
-                    offsetRot = getRot;
-                    //Debug.Log("Setting " + label + "values to: " + getPos + "\t" + getRot);
-                }
-            }
-        }
+        //if (configNames.ContainsKey(label))
+        //{
+        //    string name = configNames[label];
+        //    Vector3 getPos;
+        //    Vector3 getRot;
+        //    if (config.TryGetValue(name + "Pos", out getPos) && config.TryGetValue(name + "Rot", out getRot))
+        //    {
+        //        if (!getPos.Equals(Vector3.zero))
+        //        {
+        //            offset = getPos;
+        //            offsetRot = getRot;
+        //            //Debug.Log("Setting " + label + "values to: " + getPos + "\t" + getRot);
+        //        }
+        //    }
+        //}
 
         base.Update();
     }

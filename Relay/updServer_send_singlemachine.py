@@ -60,7 +60,7 @@ if interval:
             new_data['qx'] = data_[4]
             new_data['qy'] = data_[5]
             new_data['qz'] = data_[6]
-            print("sending:", new_data)
+            #print("sending:", new_data)
             data[device_key] = new_data
 
         data['time'] = time.time()
