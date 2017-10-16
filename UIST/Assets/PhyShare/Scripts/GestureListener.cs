@@ -34,6 +34,7 @@ public class GestureListener : MonoBehaviour
 	Vector3 initialPoint, startPosition, endPosition;
 
 	Holojam.Tools.Trackable p;
+    public Transform rigHand;
 
 	public GameObject robotCtrl;
 

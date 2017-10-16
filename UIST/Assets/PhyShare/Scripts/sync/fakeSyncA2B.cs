@@ -40,7 +40,7 @@ public class fakeSyncA2B : SynchronizableTrackable {
 
   // Override Sync() to include the scale vector
   protected override void Sync() {
-    base.Sync();
+    //base.Sync();
 
     if (Sending) {
       data.vector3s[0] = transform.position;

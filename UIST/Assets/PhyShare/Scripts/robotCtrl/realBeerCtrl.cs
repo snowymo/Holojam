@@ -54,7 +54,7 @@ public class realBeerCtrl : robotCtrl
 	{
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
-		if (Rbt.GetComponent<SteamVR_TrackedObject> ().isValid)
+		if (Rbt.GetComponent<TrackableComponent> ().Tracked)
 			myStart ();
 		
 		// sync up

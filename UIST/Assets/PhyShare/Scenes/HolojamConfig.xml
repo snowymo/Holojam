@@ -1,0 +1,19 @@
+<HolojamConfig>
+
+  <!-- This is a sample config file for use with the Configuration component. -->
+  <!-- You can specify or omit any or all of these options. -->
+  <!-- Don't add any extra whitespace between tags! -->
+  <!-- Victoria 1.1 -->
+  <!-- Will 1 -->
+  <!-- Lisa 0.95 -->
+  <!-- Kate 1.05 -->
+  <!-- BrianB 1  -->
+  <!-- BrianA 1.05 -->
+  <!-- Lulu 1.05 -->
+  <!-- Juliet 0.75 -->
+  <!-- IP address of the Holojam relay. -->
+  <P1HMDPos>0.045,-0.1113,-0.095</P1HMDPos>
+  <P1HMDRot>-90,-180,0</P1HMDRot>
+  <P2HMDPos>0.045,-0.1113,-0.095</P2HMDPos>
+  <P2HMDRot>-90,-180,0</P2HMDRot>
+</HolojamConfig>

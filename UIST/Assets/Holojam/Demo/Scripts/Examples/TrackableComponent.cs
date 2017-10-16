@@ -23,6 +23,9 @@ public class TrackableComponent : Holojam.Tools.Trackable {
   public override string Label { get { return label; } }
   public override string Scope { get { return scope; } }
 
+    [SerializeField]
+    private bool istracked;
+
   void OnDrawGizmos() {
     DrawGizmoGhost();
   }
@@ -54,4 +57,24 @@ public class TrackableComponent : Holojam.Tools.Trackable {
     );
     Gizmos.DrawLine(RawPosition - 0.03f * Vector3.up, RawPosition + 0.03f * Vector3.up);
   }
+
+    private Vector3 lastTrackedPosition;
+    private Quaternion lastTrackedRotation;
+
+    protected override void UpdateTracking()
+    {
+        istracked = Tracked;
+        if (Tracked)
+        {
+            transform.position = TrackedPosition;
+            transform.rotation = TrackedRotation;
+            lastTrackedPosition = transform.position;
+            lastTrackedRotation = transform.rotation;
+        }
+        else
+        {
+            transform.position = lastTrackedPosition;
+            transform.rotation = lastTrackedRotation;
+        }
+    }
 }
