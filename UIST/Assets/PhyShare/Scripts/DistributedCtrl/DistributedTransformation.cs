@@ -34,7 +34,7 @@ public class DistributedTransformation : MonoBehaviour
         for(int i = 0; i < remoteObjs.Length; i++)
         {
             localPos = (remoteObjs[i].position - currentTable.position);
-            print(gameObject.name + " local pos:" + localPos);
+            //print(gameObject.name + " local pos:" + localPos);
             //		Vector3 nextPos = Quaternion.Inverse (currentTable.transform.rotation) * referenceTable.transform.rotation * localPos
             //		                  + referenceTable.transform.position;
             localObjs[i].position = Quaternion.Inverse(currentTable.rotation) * referenceTable.rotation * localPos
