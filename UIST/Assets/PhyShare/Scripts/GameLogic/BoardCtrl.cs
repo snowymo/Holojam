@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿// hehe: receive sync chess msg if it is viewer
+// hehe: send sync chess msg if it is master
+// hehe: select (show cross or circle) based on sync chess msg
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,16 +19,19 @@ public class BoardCtrl : MonoBehaviour
     //Transform ctrler;
     protected GameObject ctrlGo;
 
-    public bool isViewer;
+    public ViewCtrl viewCtrl;
 
     public GameObject enemyBoard;
 
     public string remoteAssignFlag;
 
+    public boardRbtCtrl boardrbtctrl;
+    private int roomNum;
+
     // Use this for initialization
     void Start()
     {
-        // create sixteen chess at the beginning
+        // create nine chess at the beginning
         chesses = new GameObject[9];
         for (int i = 0; i < chesses.Length; i++)
         {
@@ -36,6 +43,7 @@ public class BoardCtrl : MonoBehaviour
             //chesses [i].transform.localScale = new Vector3 (0.08f, 0.08f, 0.08f);
         }
 
+        // assign control gameobject
         Transform[] ts = transform.GetComponentsInChildren<Transform>();
         foreach (Transform t in ts)
         {
@@ -46,10 +54,15 @@ public class BoardCtrl : MonoBehaviour
                 break;
             }
         }
-        if(transform.Find("ChessControllerA") != null)
+        if(transform.Find("ChessControllerA") != null) {
+            roomNum = 0;
             ctrlGo = transform.Find("ChessControllerA").gameObject;
+        }
         else
+        {
+            roomNum = 1;
             ctrlGo = transform.Find("ChessControllerB").gameObject;
+        }            
         remoteAssignFlag = "";
         //isViewer = false;
     }
@@ -57,16 +70,12 @@ public class BoardCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         receiveAssignment();
-
         assignChess();
-
     }
 
     void assignChess()
     {
-
         // if ctrl hits one chess more than two seconds
         float dis = Vector3.Distance(chesses[0].transform.position, chesses[8].transform.position);
         int indexselect = -1;
@@ -93,13 +102,28 @@ public class BoardCtrl : MonoBehaviour
                 if (indexselect == int.Parse(msg[0]))
                 {
                     chesses[int.Parse(msg[0])].GetComponent<ChessCtrl>().select(msg[1]);
+                    if(msg[1] == "cross")
+                    {
+                        boardrbtctrl.whoseturn = 1;
+                    }else
+                    {
+                        boardrbtctrl.whoseturn = 0;
+                    }
                     remoteAssignFlag = "";
                 }
             }
-            else if (GetComponent<BoardCtrl>().chesses[indexselect].GetComponent<ChessCtrl>().select(username))
+            else if ((boardrbtctrl.whoseturn == 2 || boardrbtctrl.whoseturn == roomNum) &&  GetComponent<BoardCtrl>().chesses[indexselect].GetComponent<ChessCtrl>().select(username))
             {
+                if (username == "cross")
+                {
+                    boardrbtctrl.whoseturn = 1;
+                }
+                else
+                {
+                    boardrbtctrl.whoseturn = 0;
+                }
                 // select the same in other table
-                if (!isViewer)
+                if (viewCtrl.viewType == ViewCtrl.VIEWTYPE.master)
                 {
                     // manually select
                     enemyBoard.GetComponent<BoardCtrl>().remoteAssignFlag = indexselect.ToString() + "-" + username;
@@ -115,8 +139,7 @@ public class BoardCtrl : MonoBehaviour
     protected char[] splitChar = { '-' };
     void receiveAssignment()
     {
-        //TODO to be test
-        if (isViewer)
+        if (viewCtrl.viewType != ViewCtrl.VIEWTYPE.master)
         {
             // use msg 
             chessSync cs = chessSyncGameObject.GetComponent<chessSync>();

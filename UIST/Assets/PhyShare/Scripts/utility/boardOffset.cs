@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿ // hehe: add offset to put the table in the correct place based on where the tracker is
+
+using UnityEngine;
 using System.Collections;
 
 public class boardOffset : MonoBehaviour {

@@ -13,7 +13,7 @@ public class ChessCtrl : MonoBehaviour
     public bool isHighLight;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         endCollide = startCollide = Time.time;
         // disable other two models

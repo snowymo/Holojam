@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//hehe: control fake animation
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +29,8 @@ public class DelayCtrl : MonoBehaviour
 
     public int fakeIdx;
 
+    public ViewCtrl viewCtrl;
+
     // Use this for initialization
     void Start()
     {
@@ -43,7 +47,8 @@ public class DelayCtrl : MonoBehaviour
         if (transform.position.magnitude < 0.01f && opponentCtrl.GetComponent<TrackableComponent>().Tracked)
             transform.position = Quaternion.Inverse(currentTable.transform.rotation) * referenceTable.transform.rotation *
             (opponentCtrl.transform.position - currentTable.transform.position) + referenceTable.transform.position;
-        if (referenceTable.GetComponent<BoardCtrl>().isViewer)
+        //if (referenceTable.GetComponent<BoardCtrl>().isViewer)
+        if ((referenceTable.transform.parent.name.Substring(transform.parent.name.Length - 1)[0] - 'A') != (int)(viewCtrl.viewRoom))
             return;
         if (_boardRbtCtrl.GetComponent<boardRbtCtrl>().step != 0)
         {

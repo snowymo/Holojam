@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// hehe: transform remote avatar to local position+rotation based on remote table
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

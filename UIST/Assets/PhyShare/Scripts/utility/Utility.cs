@@ -6,7 +6,7 @@ public class Utility {
 	static Utility m_instance;
 
 	//TODO 0.05 for normal using
-	public float disError = 0.025f;
+	public float disError = 0.045f;
 
 	public float rotateError = 0.02f;
 
@@ -40,7 +40,7 @@ public class Utility {
 	public bool checkMatchV2(Vector3 pos, Vector3 refPos){
 		Vector3 thisXOZ = new Vector3(pos.x,0,pos.z);
 		Vector3 carXOZ = new Vector3(refPos.x,0,refPos.z);
-		//Debug.Log("checkMatchV2:\tdis:" + (thisXOZ-carXOZ).magnitude);
+		Debug.Log("checkMatchV2:\tdis:" + (thisXOZ-carXOZ).magnitude);
 
 		//Debug.Log("checkMatchV2:\ty:" + (pos.y-refPos.y));
 		// 

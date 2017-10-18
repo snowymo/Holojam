@@ -62,6 +62,12 @@ public class m3piComm : SerialCommunication
 		}
 	}
 
+    public bool isOpen()
+    {
+        stream = StreamSingleton.getInst();
+        return stream.getStream().IsOpen;
+    }
+
 	public void clear ()
 	{
 		m_command = "";
@@ -151,7 +157,7 @@ public class m3piComm : SerialCommunication
 					if (!sameCmd (m_command, m_lastCmd)) {
 						assignRunTime ();
 						stream.getStream ().Write (m_command);
-						stream.addReceive ();
+						//stream.addReceive ();
 						// if robot is not power on then it will die
 						m_bRtn = false;
 						m_lastCmd = m_command;

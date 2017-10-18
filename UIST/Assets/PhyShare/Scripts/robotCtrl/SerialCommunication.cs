@@ -55,16 +55,37 @@ public class SerialCommunication
 		return m_Instance;
 	}
 
+    bool cannoOpen = false;
 	public void open ()
 	{
 		if (stream == null)
 			stream = StreamSingleton.getInst ();
 		if (stream != null) {
-			if (!stream.getStream().IsOpen) {
-				stream.getStream().Open ();
+			if (!stream.getStream().IsOpen && !cannoOpen) {
+                try{
+                    stream.getStream().Open();
+                }
+                catch
+                {
+                    if (!stream.getStream().IsOpen)
+                        cannoOpen = true;
+                }
 			}
 		}
 	}
+
+    public void close()
+    {
+        if (stream == null)
+            stream = StreamSingleton.getInst();
+        if (stream != null)
+        {
+            if (stream.getStream().IsOpen)
+            {
+                stream.getStream().Close();
+            }
+        }
+    }
 
 	public void forward (float dis)
 	{
