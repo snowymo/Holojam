@@ -15,6 +15,8 @@ public class ViewCtrl : MonoBehaviour {
     public GameObject[] tobeDisabledRoomB;
     public BoardCtrl tobeDisableCtrlB;
 
+    public Camera[] cameras; // 0 for vive and 1 for gvr
+
     // Use this for initialization
     void Start () {
         if(viewType == VIEWTYPE.viewer &&  viewRoom == VIEWROOM.roomb)
@@ -33,7 +35,10 @@ public class ViewCtrl : MonoBehaviour {
             }
             tobeDisableCtrlB.enabled = false;
         }
-
+        if(viewType == VIEWTYPE.master)
+            cameras[1].enabled = false;
+        else
+            cameras[1].enabled = false;
     }
 	
 	// Update is called once per frame
