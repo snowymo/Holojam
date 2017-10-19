@@ -48,7 +48,7 @@ public class DelayCtrl : MonoBehaviour
             transform.position = Quaternion.Inverse(currentTable.transform.rotation) * referenceTable.transform.rotation *
             (opponentCtrl.transform.position - currentTable.transform.position) + referenceTable.transform.position;
         //if (referenceTable.GetComponent<BoardCtrl>().isViewer)
-        if ((referenceTable.transform.parent.name.Substring(transform.parent.name.Length - 1)[0] - 'A') != (int)(viewCtrl.viewRoom))
+        if ((referenceTable.name.Substring(referenceTable.name.Length - 1)[0] - 'A') != (int)(viewCtrl.viewRoom))
             return;
         if (_boardRbtCtrl.GetComponent<boardRbtCtrl>().step != 0)
         {
