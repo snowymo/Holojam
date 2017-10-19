@@ -15,5 +15,7 @@ public class boardOffset : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.position = transform.parent.transform.position + offset;
+        // the table should have no rotation x and z axis
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 	}
 }
