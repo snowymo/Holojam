@@ -44,7 +44,7 @@ public class DelayCtrl : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.Inverse(currentTable.transform.rotation) * referenceTable.transform.rotation * opponentCtrl.transform.rotation;
-        if (transform.position.magnitude < 0.01f && opponentCtrl.GetComponent<TrackableComponent>().Tracked)
+        if (transform.position.magnitude < 0.01f && opponentCtrl.GetComponentInParent<TrackableComponent>().Tracked)
             transform.position = Quaternion.Inverse(currentTable.transform.rotation) * referenceTable.transform.rotation *
             (opponentCtrl.transform.position - currentTable.transform.position) + referenceTable.transform.position;
         //if (referenceTable.GetComponent<BoardCtrl>().isViewer)
@@ -60,7 +60,7 @@ public class DelayCtrl : MonoBehaviour
             }
             // if lastIdx is 1 means new robot is moving, so we need to record the old controller's movement
             //			print(_boardRbtCtrl.GetComponent<boardRbtCtrl>().lastIdx);
-            if (_boardRbtCtrl.GetComponent<boardRbtCtrl>().lastIdx == fakeIdx)
+            if ((_boardRbtCtrl.GetComponent<boardRbtCtrl>().readystart) && (_boardRbtCtrl.GetComponent<boardRbtCtrl>().lastIdx == fakeIdx))
             {
                 movements.Enqueue(opponentCtrl.transform.position);
                 // 

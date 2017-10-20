@@ -11,6 +11,7 @@ public class boardRbtCtrl : robotCtrl
 	public GameObject RbtA;
 	public GameObject RbtB;
 	private GameObject[] Rbts;
+    public Transform[] tables;
 
 	private m3piComm[] m3piCtrls;
 	public int step;
@@ -27,6 +28,8 @@ public class boardRbtCtrl : robotCtrl
 	public int myTS;
 
     public int whoseturn;
+
+    public bool readystart;
 
 	//public bool isViewer;
 
@@ -63,7 +66,7 @@ public class boardRbtCtrl : robotCtrl
 		stableTime = 0;
 
         whoseturn = 2;// index of whose turn, 2 means any one
-
+        readystart = false;
     }
 
 	// wait until two robots are tracked for more than 2 frames
@@ -97,7 +100,7 @@ public class boardRbtCtrl : robotCtrl
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
 		for (int index = 0; index < 2; index++) {
-			if (Rbts [index].GetComponent<Holojam.Network.Controller> ().Tracked)
+			if (Rbts [index].GetComponentInParent<Holojam.Network.Controller> ().Tracked)
 				myStart (index, Rbts [index]);
 		}
 		// sync up two robots, based on which one move larger in previous frame
@@ -116,8 +119,8 @@ public class boardRbtCtrl : robotCtrl
                         //					sync (Rbts [1], Rbts [0], m3piCtrls[1],ref step,1);
                         //sync (Rbts [1], Rbts [0],1,true);
                         //
-                        Vector3 vec = Quaternion.Inverse(Rbts[0].transform.parent.transform.rotation) * Rbts[1].transform.parent.transform.rotation *
-                            (Rbts[0].transform.position - Rbts[0].transform.parent.transform.position) + Rbts[1].transform.parent.transform.position;
+                        Vector3 vec = Quaternion.Inverse(tables[0].rotation) * tables[1].rotation *
+                            (Rbts[0].transform.position - tables[0].position) + tables[1].position;
                         sync(Rbts[1], vec, 1);
                         //if(step == 0)
                            // whoseturn = 1;
@@ -128,8 +131,8 @@ public class boardRbtCtrl : robotCtrl
                         step = 1;
                         // update previous location
                         //sync (Rbts [0], Rbts [1], 0,true);
-                        Vector3 vec = Quaternion.Inverse(Rbts[1].transform.parent.transform.rotation) * Rbts[0].transform.parent.transform.rotation *
-                            (Rbts[1].transform.position - Rbts[1].transform.parent.transform.position) + Rbts[0].transform.parent.transform.position;
+                        Vector3 vec = Quaternion.Inverse(tables[1].rotation) * tables[0].rotation *
+                            (Rbts[1].transform.position - tables[1].position) + tables[0].position;
                         sync(Rbts[0], vec, 0);
                         //if(step == 0)
                             //whoseturn = 0;
@@ -141,8 +144,8 @@ public class boardRbtCtrl : robotCtrl
                     //					sync (Rbts [1], Rbts [0], m3piCtrls[1],ref step,1);
                     //sync (Rbts [1], Rbts [0],1,true);
                     //
-                    Vector3 vec = Quaternion.Inverse(Rbts[whoseturn].transform.parent.transform.rotation) * Rbts[1- whoseturn].transform.parent.transform.rotation *
-                        (Rbts[whoseturn].transform.position - Rbts[whoseturn].transform.parent.transform.position) + Rbts[1- whoseturn].transform.parent.transform.position;
+                    Vector3 vec = Quaternion.Inverse(tables[whoseturn].rotation) * tables[1- whoseturn].rotation *
+                        (Rbts[whoseturn].transform.position - tables[whoseturn].position) + tables[1 - whoseturn].position;
                     sync(Rbts[1 - whoseturn], vec, 1 - whoseturn);
                     //if (step == 0)
                         //whoseturn = 1-whoseturn;
@@ -151,12 +154,16 @@ public class boardRbtCtrl : robotCtrl
 			} else if(step != 0) {
 				// still doing the sync up, including the first state
 				//sync (Rbts [lastIdx], Rbts [1-lastIdx], lastIdx);
-				Vector3 vec = Quaternion.Inverse(Rbts [1-lastIdx].transform.parent.transform.rotation) * Rbts [lastIdx].transform.parent.transform.rotation * 
-					(Rbts [1-lastIdx].transform.position - Rbts [1-lastIdx].transform.parent.transform.position) + Rbts [lastIdx].transform.parent.transform.position;
+				Vector3 vec = Quaternion.Inverse(tables[1-lastIdx].rotation) * tables[lastIdx].rotation * 
+					(Rbts [1-lastIdx].transform.position - tables[1-lastIdx].position) + tables[lastIdx].position;
 				sync (Rbts [lastIdx], vec,lastIdx);
 			}
 			if (step == 0)
-				++stableTime;
+            {
+                readystart = true;
+                ++stableTime;
+            }
+				
 		}
 	}
 
