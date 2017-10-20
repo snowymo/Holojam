@@ -28,22 +28,28 @@ public class SerialCommunication
 	public SerialCommunication ()
 	{
 		stream = null;
-		angleHelpArray = new AngleData[6];
-		angleHelpArray[0] = new AngleData(15,2,56.83f);
-		angleHelpArray[1] = new AngleData(10,2,38.1f);
-		angleHelpArray[2] = new AngleData(8,2,31.92f);
-		angleHelpArray[3] = new AngleData(6,2,22.14f);
-		angleHelpArray[4] = new AngleData(5,2,16.7f);
-		angleHelpArray[5] = new AngleData(3,2,11.5f);
+		angleHelpArray = new AngleData[5];
+		angleHelpArray[0] = new AngleData(16,4,84f);
+		angleHelpArray[1] = new AngleData(12,4,50f);
+		angleHelpArray[2] = new AngleData(12,3,40f);
+		angleHelpArray[3] = new AngleData(11,3,30f);
+		angleHelpArray[4] = new AngleData(10,2,19f);
+		//angleHelpArray[5] = new AngleData(3,2,11.5f);
 		//angleHelpArray[6] = new AngleData(3,1,5.7f);
 		posHelpArray = new PosData[6];
-		posHelpArray[0] = new PosData(25,3,0.206f);
-		posHelpArray[1] = new PosData(20,3,0.177f);
-		posHelpArray[2] = new PosData(15,3,0.138f);
-		posHelpArray[3] = new PosData(10,3,0.0975f);
-		posHelpArray[4] = new PosData(6,3,0.064f);
-		posHelpArray[5] = new PosData(3,3,0.039f);
-	}
+        //posHelpArray[0] = new PosData(25,3,0.206f);
+        //posHelpArray[1] = new PosData(20,3,0.177f);
+        //posHelpArray[2] = new PosData(15,3,0.138f);
+        //posHelpArray[3] = new PosData(10,3,0.0975f);
+        //posHelpArray[4] = new PosData(6,3,0.064f);
+        //posHelpArray[5] = new PosData(3,3,0.039f);
+        posHelpArray[0] = new PosData(18, 4, 0.18f);
+        posHelpArray[1] = new PosData(16, 4, 0.12f);
+        posHelpArray[2] = new PosData(15, 4, 0.1f);
+        posHelpArray[3] = new PosData(10, 4, 0.08f);
+        posHelpArray[4] = new PosData(10, 3, 0.061f);
+        posHelpArray[5] = new PosData(8, 3, 0.038f);
+    }
 
 	static SerialCommunication m_Instance = null;
 

@@ -11,15 +11,15 @@ using System.Collections;
 [RequireComponent (typeof(TrackableComponent))]
 public class GestureListener : MonoBehaviour
 {
-	public float range = 9, speed = 0.45f;
+	public float range = 9, speed = 0.25f;
 	public float shakeAmount = 0.05f, shakeForce = 7;
 	public float recordTime = 0.9f;
 	public float cooldown = 1;
 	public float lerpTime = 0.8f;
 
 	[Space (8)]
-	public Vector2 magnitudeRange = new Vector2 (0.1f, 0.45f);
-	public float resultScale = 1;
+	public Vector2 magnitudeRange = new Vector2 (0.05f, 0.45f);
+	public float resultScale = 0.4f;
 
 	[Space (8)]
 	public Transform table;
@@ -35,6 +35,7 @@ public class GestureListener : MonoBehaviour
 
 	Holojam.Tools.Trackable p;
     public Transform rigHand;
+    public Transform rigHead;
 
 	public GameObject robotCtrl;
 
@@ -47,10 +48,14 @@ public class GestureListener : MonoBehaviour
 
 	RaycastHit hit;
 
+    public Vector3 testq;
+
 	void Update ()
 	{
-        Debug.DrawRay(transform.position, -transform.forward, Color.red);
-		if (!recording && Physics.Raycast (transform.position, -transform.forward, out hit, range)) {
+        //Debug.DrawRay(rigHand.position, Quaternion.Euler(testq) * transform.forward, Color.red);
+        Debug.DrawRay(rigHand.position, -transform.forward, Color.blue);
+        //Debug.DrawRay(rigHand.position, -rigHand.forward, Color.yellow);
+        if (!recording && Physics.Raycast (rigHand.position, -transform.forward, out hit, range)) {
 			GestureTarget gt = hit.transform.GetComponent<GestureTarget> ();
 			if (gt != null && !gt.locked && !gt.controlled) {
 				if (target != null)
@@ -86,7 +91,7 @@ public class GestureListener : MonoBehaviour
 		}
 
 		//Debug
-		Debug.DrawRay (/*p.TrackedPosition*/transform.position, -transform.up * range, Color.yellow);
+		//Debug.DrawRay (/*p.TrackedPosition*/transform.position, -transform.up * range, Color.yellow);
     }
 
 	void ProcessGesture ()

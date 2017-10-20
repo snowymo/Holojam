@@ -133,13 +133,13 @@ public class m3piComm : SerialCommunication
 
 	bool sameCmd (string cmda, string cmdb)
 	{
-		if (cmda.Length == cmdb.Length)
-		if (cmda [0] == cmdb [0]) {
-			int dis = cmda [1] - cmdb [1];
-			if (Mathf.Abs (dis) < 5)
-			if (cmda.Substring (2).Equals (cmdb.Substring (2)))
-				return true;
-		}
+		//if (cmda.Length == cmdb.Length)
+		//if (cmda [0] == cmdb [0]) {
+		//	int dis = cmda [1] - cmdb [1];
+		//	if (Mathf.Abs (dis) < 5)
+		//	if (cmda.Substring (2).Equals (cmdb.Substring (2)))
+		//		return true;
+		//}
 		return false;
 	}
 

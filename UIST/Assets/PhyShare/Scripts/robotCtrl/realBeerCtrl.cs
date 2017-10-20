@@ -17,12 +17,14 @@ public class realBeerCtrl : robotCtrl
 
 	public int myTS;
 
+    public string rbtname;
+
 	public Vector3 destination;
 
 	void createM3pi ()
 	{
 		m3piCtrl = new m3piComm ();
-		m3piCtrl.setName ("B");
+		m3piCtrl.setName (rbtname);
 		print ("create ctrl");
 	}
 
@@ -54,7 +56,7 @@ public class realBeerCtrl : robotCtrl
 	{
 		myTS = Utility.getInst ().getMyTS ();
 		// check if tracked
-		if (Rbt.GetComponent<TrackableComponent> ().Tracked)
+		if (Rbt.transform.parent.GetComponent<TrackableComponent> ().Tracked)
 			myStart ();
 		
 		// sync up

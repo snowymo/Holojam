@@ -246,6 +246,7 @@ public class robotCtrl : MonoBehaviour {
 
 		if (dis.magnitude > Utility.getInst ().disError) {
 			Vector3 vCur = local.transform.rotation * Vector3.forward;
+            Debug.DrawRay(local.transform.position, vCur.normalized * 10,Color.yellow);
 			//Vector3 vUp = Vector3.Cross (dis, vCur);//print ("goStraight\tvCur:\t" + vCur.ToString ("F2") + "\tvUp:\t" + vUp.ToString ("F2"));
 			float angle = Vector3.Angle (vCur, dis);
 			bool isForward = (vCur.x * dis.x >= 0) || (vCur.z * dis.z >= 0);

@@ -6,11 +6,11 @@ public class Utility {
 	static Utility m_instance;
 
 	//TODO 0.05 for normal using
-	public float disError = 0.045f;
+	public float disError = 0.03f;
 
 	public float rotateError = 0.02f;
 
-	public float angleError = 6f;
+	public float angleError = 12f;
 
 	public float yError = 0.01f;
 
@@ -95,9 +95,9 @@ public class Utility {
 		Vector3 vCur = localRot * Vector3.forward;
 
 		// test if these two vectors are correct
-		Debug.DrawRay (localTrans.position, vCur, Color.green);
+		//Debug.DrawRay (localTrans.position, vCur, Color.green);
 		Debug.DrawRay (localTrans.position, remotepos - localpos, Color.magenta);
-		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+		//Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
 
 	public void drawRays (Transform localTrans, Vector3 remotePos, bool isLocal = false)
@@ -118,7 +118,7 @@ public class Utility {
 		// test if these two vectors are correct
 		Debug.DrawRay (localTrans.position, vCur, Color.green);
 		Debug.DrawRay (localTrans.position, remotepos - localpos, Color.magenta);
-		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+		//Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
 
 	public void drawRays (Transform localTrans, Vector3 remotePos)
@@ -130,13 +130,13 @@ public class Utility {
 		Vector3 vCur = localTrans.rotation * Vector3.forward;
 
 		// test if these two vectors are correct
-		Debug.DrawRay (localTrans.position, vCur, Color.green);
+		//Debug.DrawRay (localTrans.position, vCur, Color.green);
 
 		Debug.DrawRay (localTrans.position, remotePos - localTrans.position, Color.magenta);
 
 		//Debug.DrawRay(this.transform.position,vFacing,Color.red);
 
-		Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
+		//Debug.DrawRay (localTrans.position, facing * new Vector3 (0, 0, -1), Color.cyan);
 	}
 
 	public bool checkRtnMsg(m3piComm ctrl){

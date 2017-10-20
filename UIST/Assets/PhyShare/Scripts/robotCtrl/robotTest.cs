@@ -24,7 +24,8 @@ public class robotTest : MonoBehaviour {
 
     private void OnDestroy()
     {
-        ctrl.close();
+        if(ctrl != null)
+            ctrl.close();
     }
 
     private void FixedUpdate()

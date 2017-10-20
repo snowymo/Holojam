@@ -25,7 +25,8 @@ public class ViewCtrl : MonoBehaviour {
             {
                 go.SetActive(false);
             }
-            tobeDisableCtrlA.enabled = false;
+            if(tobeDisableCtrlA != null)
+                tobeDisableCtrlA.enabled = false;
         }
         if (viewType == VIEWTYPE.viewer && viewRoom == VIEWROOM.rooma)
         {
@@ -33,7 +34,8 @@ public class ViewCtrl : MonoBehaviour {
             {
                 go.SetActive(false);
             }
-            tobeDisableCtrlB.enabled = false;
+            if (tobeDisableCtrlB != null)
+                tobeDisableCtrlB.enabled = false;
         }
         if(viewType == VIEWTYPE.master)
             cameras[1].enabled = false;
