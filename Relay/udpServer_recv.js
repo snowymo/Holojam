@@ -1,5 +1,5 @@
 var udp = require('dgram');
-const holojam = require('holojam-node')(['relay'],'192.168.1.80');
+const holojam = require('holojam-node')(['relay'],'192.168.1.11');
 // --------------------creating a udp server --------------------
 
 // creating a udp server
@@ -12,12 +12,12 @@ server.on('error',function(error){
 });
 
 valid_trackers = {
-	"LHR-1ADE44F5" : "RBTB",
+	"LHR-1ADE44F5" : "RBTA",
 	"LHR-08DE8B86" : "P1RH",
 	"LHR-18DD003E" : "TBL",
 	"LHR-D5E02F77" : "P1HMD",
 	
-	"LHR-0DC35B0C" : "RBTA",
+	"LHR-0DC35B0C" : "RBTB",
 	"LHR-08DFFC5D" : "TBL2",
 	"LHR-0ADD38C6" : "P2RH",
 	"LHR-08C154A6" : "P2HMD"
