@@ -53,9 +53,10 @@ public class GestureListener : MonoBehaviour
 	void Update ()
 	{
         //Debug.DrawRay(rigHand.position, Quaternion.Euler(testq) * transform.forward, Color.red);
-        Debug.DrawRay(rigHand.position, -transform.forward, Color.blue);
+        //Debug.DrawRay(rigHand.position, -transform.forward, Color.blue);
+        Debug.DrawRay(rigHand.position, (rigHand.position-rigHead.position).normalized*10, Color.blue);
         //Debug.DrawRay(rigHand.position, -rigHand.forward, Color.yellow);
-        if (!recording && Physics.Raycast (rigHand.position, -transform.forward, out hit, range)) {
+        if (!recording && Physics.Raycast (rigHand.position, (rigHand.position - rigHead.position).normalized, out hit, range)) {
 			GestureTarget gt = hit.transform.GetComponent<GestureTarget> ();
 			if (gt != null && !gt.locked && !gt.controlled) {
 				if (target != null)
